@@ -7,6 +7,7 @@ import { CinematicAnimation } from "@/components/cinematic-animation"
 import { MatrixRain } from "@/components/matrix-rain"
 import { OperatorPanel } from "@/components/operator-panel"
 import { PreparationPhase } from "@/components/preparation-phase"
+import { LiveDrawStage } from "@/components/live-draw-stage"
 import { WinnerRevealModal } from "@/components/winner-reveal-modal"
 import { LiveBackground } from "@/components/live-background"
 import { Button } from "@/components/ui/button"
@@ -52,6 +53,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [winnerCount, setWinnerCount] = useState(1)
   const [calculatedWinners, setCalculatedWinners] = useState<Array<{ index: number; row: string[]; rank: number }>>([])
   const [showWinnerModal, setShowWinnerModal] = useState(false)
+  const [isLiveDrawMode, setIsLiveDrawMode] = useState(false)
+  const [liveDrawWinners, setLiveDrawWinners] = useState<number[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const [dragOver, setDragOver] = useState(false)
@@ -178,6 +181,29 @@ export function Dashboard({ onLogout }: DashboardProps) {
     }
   }, [calculatedWinners])
 
+  const handleLiveDrawComplete = useCallback(
+    (winnerIndices: number[]) => {
+      // Convert indices to winner objects with data
+      const winners: Array<{ index: number; row: string[]; rank: number }> = winnerIndices.map((idx, rank) => ({
+        index: idx,
+        row: data[idx],
+        rank: rank + 1,
+      }))
+
+      setLiveDrawWinners(winnerIndices)
+      setCalculatedWinners(winners)
+      setIsLiveDrawMode(false)
+      
+      // Show the winner reveal modal
+      setTimeout(() => {
+        setShowWinnerModal(true)
+      }, 500)
+
+      console.log(`[v0] Live draw complete. Winners: ${winnerIndices.join(', ')}`)
+    },
+    [data]
+  )
+
   const handleDedup = useCallback(() => {
     if (dedupColumn < 0 || data.length === 0) return
     const seen = new Set<string>()
@@ -208,32 +234,47 @@ export function Dashboard({ onLogout }: DashboardProps) {
   }, [data])
 
   const handleExportExcel = useCallback(async () => {
-    if (!winner) return
+    if (calculatedWinners.length === 0) return
     const XLSX = await import("xlsx")
-    const wsData = [
-      Array.from({ length: columnCount }, (_, i) => `${t("dashboard.table.column")} ${i + 1}`),
-      winner.row,
-    ]
+    
+    // Create header row
+    const headerRow = Array.from({ length: columnCount }, (_, i) => `${t("dashboard.table.column")} ${i + 1}`)
+    headerRow.unshift("RANK")
+    
+    // Create data rows with rank
+    const wsData: string[][] = [headerRow]
+    calculatedWinners.forEach((w) => {
+      const row = [String(w.rank), ...w.row]
+      wsData.push(row)
+    })
+
     const ws = XLSX.utils.aoa_to_sheet(wsData)
     const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, "Winner")
+    XLSX.utils.book_append_sheet(wb, ws, "Winners")
     const buf = XLSX.write(wb, { bookType: "xlsx", type: "array" })
     const blob = new Blob([buf], { type: "application/octet-stream" })
     const { saveAs } = await import("file-saver")
-    saveAs(blob, "winner.xlsx")
-  }, [winner, columnCount, t])
+    saveAs(blob, "winners.xlsx")
+  }, [calculatedWinners, columnCount, t])
 
   const handleExportJSON = useCallback(async () => {
-    if (!winner) return
-    const obj: Record<string, string> = {}
-    winner.row.forEach((val, i) => {
-      obj[`column_${i + 1}`] = val
+    if (calculatedWinners.length === 0) return
+    const winners = calculatedWinners.map((w) => {
+      const obj: Record<string, string> = {}
+      w.row.forEach((val, i) => {
+        obj[`column_${i + 1}`] = val
+      })
+      return {
+        rank: w.rank,
+        participantIndex: w.index + 1,
+        data: obj,
+      }
     })
-    const jsonStr = JSON.stringify({ winnerIndex: winner.index + 1, data: obj }, null, 2)
+    const jsonStr = JSON.stringify({ winners, totalWinners: calculatedWinners.length }, null, 2)
     const blob = new Blob([jsonStr], { type: "application/json" })
     const { saveAs } = await import("file-saver")
-    saveAs(blob, "winner.json")
-  }, [winner])
+    saveAs(blob, "winners.json")
+  }, [calculatedWinners])
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
@@ -351,24 +392,36 @@ export function Dashboard({ onLogout }: DashboardProps) {
         {/* Live Mode Controls - Show when session is locked */}
         {sessionLocked && isLiveMode && (
           <div className="relative z-10 space-y-6">
-            {/* System Status */}
-            <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 rounded-2xl p-6 text-center space-y-2">
-              <p className="text-xs text-gray-500 font-mono">SYSTEM_STATUS</p>
-              <p className="text-2xl font-bold text-cyan-300">Ready for Live Broadcast</p>
-              <p className="text-sm text-gray-400">
-                {data.length.toLocaleString()} participants • {winnerCount} winner{winnerCount > 1 ? 's' : ''} to select
-              </p>
-            </div>
+            {/* Show Live Draw Stage if draw mode active, otherwise show system status */}
+            {isLiveDrawMode ? (
+              <LiveDrawStage
+                participantCount={data.length}
+                winnerCount={winnerCount}
+                onComplete={handleLiveDrawComplete}
+                disabled={false}
+              />
+            ) : (
+              <>
+                {/* System Status */}
+                <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 rounded-2xl p-6 text-center space-y-2">
+                  <p className="text-xs text-gray-500 font-mono">SYSTEM_STATUS</p>
+                  <p className="text-2xl font-bold text-cyan-300">Ready for Live Broadcast</p>
+                  <p className="text-sm text-gray-400">
+                    {data.length.toLocaleString()} participants • {winnerCount} winner{winnerCount > 1 ? 's' : ''} to select
+                  </p>
+                </div>
 
-            {/* Live Selection Button */}
-            <div className="flex justify-center">
-              <Button
-                onClick={handleSelectWinners}
-                className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-8 px-12 text-2xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
-              >
-                Select Winners
-              </Button>
-            </div>
+                {/* Live Selection Button - Opens Draw Stage */}
+                <div className="flex justify-center">
+                  <Button
+                    onClick={() => setIsLiveDrawMode(true)}
+                    className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-8 px-12 text-2xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
+                  >
+                    Start Live Draw
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         )}
 
