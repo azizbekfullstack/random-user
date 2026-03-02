@@ -210,6 +210,9 @@
     "randomizationProgress": "RANDOMIZATION_PROGRESS",
     "selectedWinners": "SELECTED_WINNERS",
     "drawConfiguration": "Draw Configuration",
-    "timerLabel": "/ 60 sec"
+    "timerLabel": "/ 60 sec",
+    "spinningMessage": "Spinning...",
+    "doneButton": "Done",
+    "spinButton": "SPIN"
   }
 }

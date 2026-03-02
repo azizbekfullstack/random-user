@@ -123,7 +123,7 @@
       "subtitle": "Введите ежедневный динамический код доступа для продолжения",
       "placeholder": "adminДДММГГГГ",
       "submit": "Проверить код",
-      "error": "Нев����рный код доступа. Формат: adminДДММГГГГ",
+      "error": "Нев������рный код доступа. Формат: adminДДММГГГГ",
       "hint": "Формат: admin + сегодняшняя дата (ДДММГГГГ)"
     },
     "telegram": {
@@ -210,6 +210,9 @@
     "randomizationProgress": "ПРОГРЕСС_РАНДОМИЗАЦИИ",
     "selectedWinners": "ВЫБРАННЫЕ_ПОБЕДИТЕЛИ",
     "drawConfiguration": "Конфигурация отбора",
-    "timerLabel": "/ 60 сек"
+    "timerLabel": "/ 60 сек",
+    "spinningMessage": "Вращается...",
+    "doneButton": "Готово",
+    "spinButton": "ВРАЩАТЬ"
   }
 }

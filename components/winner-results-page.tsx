@@ -56,9 +56,9 @@ export function WinnerResultsPage({
       <div className="text-center space-y-4 pt-12">
         <div className="text-6xl animate-bounce">🎊</div>
         <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-300 to-pink-300">
-          WINNERS SELECTED!
+          {t('animation.victoryMessage')}
         </h1>
-        <p className="text-gray-300 text-lg">{winners.length} random winner{winners.length > 1 ? 's' : ''} chosen</p>
+        <p className="text-gray-300 text-lg">{winners.length} {t('animation.selectedWinner')}{winners.length > 1 ? 's' : ''}</p>
       </div>
 
       {/* Podium Section */}
@@ -119,7 +119,7 @@ export function WinnerResultsPage({
       {winners.length > 3 && (
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-400/30 rounded-2xl p-6 space-y-4">
-            <h3 className="text-xl font-bold text-white">Complete Rankings</h3>
+            <h3 className="text-xl font-bold text-white">{t('dashboard.table.title')}</h3>
             <div className="space-y-2">
               {winners.map((winner, idx) => (
                 <div
@@ -144,26 +144,26 @@ export function WinnerResultsPage({
       {/* Export Section */}
       <div className="container mx-auto px-4 max-w-2xl">
         <div className="bg-gradient-to-br from-cyan-900/50 to-blue-900/50 border border-cyan-400/30 rounded-2xl p-6 space-y-4">
-          <h3 className="text-xl font-bold text-white">Export Results</h3>
+          <h3 className="text-xl font-bold text-white">{t('dashboard.export.title')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <Button
               onClick={() => handleExport('excel')}
               className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 shadow-lg"
             >
               <Download className="h-5 w-5" />
-              Export to Excel
+              {t('dashboard.export.excel')}
             </Button>
             <Button
               onClick={() => handleExport('json')}
               className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 shadow-lg"
             >
               <Download className="h-5 w-5" />
-              Export to JSON
+              {t('dashboard.export.json')}
             </Button>
           </div>
           {exported && (
             <p className="text-green-300 text-sm font-semibold text-center animate-pulse">
-              ✓ Exported successfully!
+              ✓ {t('animation.winner')}
             </p>
           )}
         </div>
@@ -176,7 +176,7 @@ export function WinnerResultsPage({
           className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-6 px-8 text-lg rounded-lg flex items-center gap-2 shadow-lg"
         >
           <RotateCcw className="h-5 w-5" />
-          Start New Draw
+          {t('cta.startBtn')}
         </Button>
       </div>
     </div>

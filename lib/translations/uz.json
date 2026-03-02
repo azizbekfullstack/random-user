@@ -210,6 +210,9 @@
     "randomizationProgress": "RANDOMIZATSIYA_PROGRESSI",
     "selectedWinners": "TANLANGAN_G'OLIBLAR",
     "drawConfiguration": "Tanlash konfiguratsiyasi",
-    "timerLabel": "/ 60 sek"
+    "timerLabel": "/ 60 sek",
+    "spinningMessage": "Aylanmoqda...",
+    "doneButton": "Tayyor",
+    "spinButton": "AYLANTIR"
   }
 }

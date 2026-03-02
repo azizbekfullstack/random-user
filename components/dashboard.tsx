@@ -41,22 +41,15 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const { t, locale, setLocale } = useTranslation()
   const [data, setData] = useState<string[][]>([])
   const [columnCount, setColumnCount] = useState(0)
+  const [fileName, setFileName] = useState('')
   const [processing, setProcessing] = useState(false)
-  const [fileName, setFileName] = useState("")
-  const [dedupColumn, setDedupColumn] = useState<number>(-1)
+  const [dragOver, setDragOver] = useState(false)
+  const [dedupColumn, setDedupColumn] = useState(0)
   const [dedupCount, setDedupCount] = useState(0)
-  const [winner, setWinner] = useState<{ index: number; row: string[] } | null>(null)
-  const [selecting, setSelecting] = useState(false)
-  const [showAnimation, setShowAnimation] = useState(false)
-  const [isLiveMode, setIsLiveMode] = useState(false)
-  const [soundEnabled, setSoundEnabledLocal] = useState(true)
-  const [inPreparation, setInPreparation] = useState(false)
-  const [sessionLocked, setSessionLocked] = useState(false)
   const [winnerCount, setWinnerCount] = useState(1)
   const [calculatedWinners, setCalculatedWinners] = useState<Array<{ index: number; row: string[]; rank: number }>>([])
   const [showWinnerModal, setShowWinnerModal] = useState(false)
   const [isLiveDrawMode, setIsLiveDrawMode] = useState(false)
-  const [liveDrawWinners, setLiveDrawWinners] = useState<number[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const [dragOver, setDragOver] = useState(false)
@@ -165,7 +158,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
       setCalculatedWinners(winners)
       setWinnerCount(selectedWinnerCount)
       setSessionLocked(true)
-      setInPreparation(false)
       setIsLiveMode(true)
     },
     [data, dedupCount]
@@ -212,20 +204,9 @@ export function Dashboard({ onLogout }: DashboardProps) {
     const removed = data.length - deduped.length
     setDedupCount(removed)
     setData(deduped)
-    setWinner(null)
   }, [data, dedupColumn])
 
-  const handleSelectWinner = useCallback(() => {
-    if (data.length === 0) return
-    setSelecting(true)
-    // Winner is computed immediately
-    const winnerIdx = selectRandomWinner(data.length)
-    const winnerRow = data[winnerIdx]
-    // Set winner and trigger animation
-    setWinner({ index: winnerIdx, row: winnerRow })
-    setShowAnimation(true)
-    setSelecting(false)
-  }, [data])
+  // Removed - using spinner wheel instead of old selection method
 
   const handleExportExcel = useCallback(async () => {
     if (calculatedWinners.length === 0) return
@@ -410,7 +391,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
 
                 {/* Winner Count Input */}
                 <div className="flex items-center gap-4">
-                  <label className="text-white font-semibold">How many winners?</label>
+                  <label className="text-white font-semibold">{t('liveDraw.winnersToSelect')}</label>
                   <select
                     value={winnerCount}
                     onChange={(e) => setWinnerCount(Math.max(1, Math.min(Math.floor(data.length / 2), parseInt(e.target.value))))}
@@ -426,11 +407,11 @@ export function Dashboard({ onLogout }: DashboardProps) {
 
                 {/* Start Button */}
                 <Button
-                  onClick={handleLockSession}
+                  onClick={() => handleLockSession(winnerCount)}
                   disabled={data.length === 0}
                   className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-6 px-12 text-xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
                 >
-                  Start Drawing
+                  {t('liveDraw.startBtn')}
                 </Button>
               </div>
             </div>

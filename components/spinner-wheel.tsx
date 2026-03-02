@@ -60,12 +60,12 @@ export function SpinnerWheel({ participants, winnerCount, onComplete }: SpinnerW
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="text-center space-y-2">
         <h2 className="text-4xl font-bold text-white">{t('liveDraw.title')}</h2>
-        <p className="text-gray-300">
-          {selectedWinners.length}/{winnerCount} {t('liveDraw.winnersToSelect')}
+        <p className="text-gray-300 text-lg">
+          {selectedWinners.length}/{winnerCount} {t('liveDraw.selectedWinners')}
         </p>
       </div>
 
@@ -172,16 +172,16 @@ export function SpinnerWheel({ participants, winnerCount, onComplete }: SpinnerW
           {isSpinning ? (
             <>
               <Square className="mr-2 h-5 w-5 animate-spin" />
-              Spinning...
+              {t('liveDraw.spinningMessage')}
             </>
           ) : selectedWinners.length >= winnerCount ? (
             <>
-              ✓ Done
+              ✓ {t('liveDraw.doneButton')}
             </>
           ) : (
             <>
               <Play className="mr-2 h-5 w-5" />
-              SPIN
+              {t('liveDraw.spinButton')}
             </>
           )}
         </Button>
