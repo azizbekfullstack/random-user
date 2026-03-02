@@ -70,9 +70,9 @@ export function LiveDrawStage({
         <div className="flex items-start gap-4">
           <Zap className="h-8 w-8 text-cyan-400 mt-1 flex-shrink-0 animate-pulse" />
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-white mb-1">Live Draw Stage</h2>
+            <h2 className="text-2xl font-bold text-white mb-1">{t("liveDraw.title")}</h2>
             <p className="text-gray-400 text-sm">
-              60-second cryptographic winner selection - Winners determined during broadcast
+              {t("liveDraw.subtitle")}
             </p>
           </div>
         </div>
@@ -81,11 +81,11 @@ export function LiveDrawStage({
       {/* Draw Configuration Display */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-          <p className="text-xs text-gray-500 font-mono mb-1">TOTAL_PARTICIPANTS</p>
+          <p className="text-xs text-gray-500 font-mono mb-1">{t("liveDraw.drawConfiguration")}</p>
           <p className="text-2xl font-bold text-cyan-400">{participantCount.toLocaleString()}</p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-          <p className="text-xs text-gray-500 font-mono mb-1">WINNERS_TO_SELECT</p>
+          <p className="text-xs text-gray-500 font-mono mb-1">{t("liveDraw.winnersToSelect")}</p>
           <p className="text-2xl font-bold text-purple-400">{winnerCount}</p>
         </div>
       </div>
@@ -179,7 +179,7 @@ export function LiveDrawStage({
           className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-4 text-lg shadow-lg shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
         >
           <Play className="mr-2 h-5 w-5" />
-          Start 60-Second Draw
+          {t("liveDraw.startBtn")}
         </Button>
 
         {isAnimating && (
@@ -188,6 +188,7 @@ export function LiveDrawStage({
             className="px-6 bg-red-600/50 hover:bg-red-600 border border-red-400/50 text-white font-bold shadow-lg shadow-red-600/30"
           >
             <Square className="h-5 w-5" />
+            {t("liveDraw.stopBtn")}
           </Button>
         )}
       </div>

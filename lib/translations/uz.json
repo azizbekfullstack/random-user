@@ -161,7 +161,10 @@
       "noData": "Ma'lumot yuklanmagan. Boshlash uchun fayl yuklang.",
       "showing": "Ko'rsatilmoqda",
       "of": "dan",
-      "total": "jami qatorlar"
+      "total": "jami qatorlar",
+      "file": "Fayl",
+      "rows": "Qatorlar",
+      "columns": "Ustunlar"
     },
     "dedup": {
       "title": "Dublikatlarni olib tashlash",
@@ -169,6 +172,10 @@
       "removeBtn": "Dublikatlarni olib tashlash",
       "removed": "dublikat olib tashlandi",
       "remaining": "qator qoldi"
+    },
+    "preparation": {
+      "title": "Sessiyani tayyorlash",
+      "subtitle": "Tranzaksiya boshlanishidan oldin live tanlash parametrlarini o'rnating"
     },
     "winner": {
       "title": "G'olib tanlash",

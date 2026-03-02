@@ -161,7 +161,10 @@
       "noData": "No data loaded. Upload a file to begin.",
       "showing": "Showing",
       "of": "of",
-      "total": "total rows"
+      "total": "total rows",
+      "file": "File",
+      "rows": "Rows",
+      "columns": "Columns"
     },
     "dedup": {
       "title": "Deduplication",
@@ -170,13 +173,17 @@
       "removed": "duplicates removed",
       "remaining": "rows remaining"
     },
+    "preparation": {
+      "title": "Session Preparation",
+      "subtitle": "Configure your live selection parameters before broadcast"
+    },
     "winner": {
       "title": "Winner Selection",
       "selectBtn": "Select Winner",
       "selecting": "Selecting...",
       "result": "Winner",
       "row": "Row",
-      "noData": "Upload data first to select a winner"
+      "noData": "Load data first to select a winner"
     },
     "export": {
       "title": "Export",

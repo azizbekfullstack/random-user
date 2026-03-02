@@ -330,122 +330,150 @@ export function Dashboard({ onLogout }: DashboardProps) {
       )}
 
       <main className={`container mx-auto px-4 pb-12 space-y-6 ${isLiveMode ? "pt-8" : "pt-24"}`}>
-        {/* File Upload Zone */}
-        <div
-          ref={dropZoneRef}
-          onDragOver={(e) => {
-            e.preventDefault()
-            setDragOver(true)
-          }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          className={`relative cursor-pointer border-2 border-dashed rounded-3xl p-12 transition-all flex flex-col items-center justify-center text-center ${
-            dragOver
-              ? "border-cyan-400 bg-cyan-500/15 shadow-lg shadow-cyan-500/30"
-              : "border-white/20 bg-gradient-to-br from-white/[0.03] to-white/[0.01] hover:border-cyan-400/50 hover:bg-cyan-500/5 hover:shadow-lg hover:shadow-cyan-500/20"
-          }`}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".xlsx,.csv,.xls"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
-          {processing ? (
-            <div className="flex flex-col items-center gap-3">
-              <Loader2 className="h-12 w-12 text-cyan-400 animate-spin" />
-              <p className="text-gray-300">{t("dashboard.upload.processing")}</p>
-            </div>
-          ) : (
-            <>
-              <Upload className="h-12 w-12 text-cyan-400 mb-4" />
-              <h3 className="text-2xl font-bold text-white">{t("dashboard.upload.title")}</h3>
-              <p className="text-gray-400 text-sm mt-2">{t("dashboard.upload.subtitle")}</p>
-              <p className="text-cyan-500/70 text-xs mt-3 font-mono">{t("dashboard.upload.formats")}</p>
-            </>
-          )}
-        </div>
-
-        {/* Live Background */}
-        <LiveBackground visible={isLiveMode && sessionLocked} participantCount={data.length} />
-
-        {/* Preparation Phase - Show when data loaded but not in live mode */}
-        {data.length > 0 && !sessionLocked && (
-          <PreparationPhase
-            participantCount={data.length}
-            dedupCount={dedupCount}
-            onLockSession={handleLockSession}
-            disabled={data.length === 0}
-          />
-        )}
-
-        {/* Live Mode Controls - Show when session is locked */}
-        {sessionLocked && isLiveMode && (
-          <div className="relative z-10 space-y-6">
-            {/* Show Live Draw Stage if draw mode active, otherwise show system status */}
-            {isLiveDrawMode ? (
-              <LiveDrawStage
-                participantCount={data.length}
-                winnerCount={winnerCount}
-                onComplete={handleLiveDrawComplete}
-                disabled={false}
-              />
+        {/* STEP 1: File Upload Zone - Only show when no data loaded */}
+        {data.length === 0 && (
+          <div
+            ref={dropZoneRef}
+            onDragOver={(e) => {
+              e.preventDefault()
+              setDragOver(true)
+            }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            className={`relative cursor-pointer border-2 border-dashed rounded-3xl p-12 transition-all flex flex-col items-center justify-center text-center ${
+              dragOver
+                ? "border-cyan-400 bg-cyan-500/15 shadow-lg shadow-cyan-500/30"
+                : "border-white/20 bg-gradient-to-br from-white/[0.03] to-white/[0.01] hover:border-cyan-400/50 hover:bg-cyan-500/5 hover:shadow-lg hover:shadow-cyan-500/20"
+            }`}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".xlsx,.csv,.xls"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            {processing ? (
+              <div className="flex flex-col items-center gap-3">
+                <Loader2 className="h-12 w-12 text-cyan-400 animate-spin" />
+                <p className="text-gray-300">{t("dashboard.upload.processing")}</p>
+              </div>
             ) : (
               <>
-                {/* System Status */}
-                <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 rounded-2xl p-6 text-center space-y-2">
-                  <p className="text-xs text-gray-500 font-mono">SYSTEM_STATUS</p>
-                  <p className="text-2xl font-bold text-cyan-300">Ready for Live Broadcast</p>
-                  <p className="text-sm text-gray-400">
-                    {data.length.toLocaleString()} participants • {winnerCount} winner{winnerCount > 1 ? 's' : ''} to select
-                  </p>
-                </div>
-
-                {/* Live Selection Button - Opens Draw Stage */}
-                <div className="flex justify-center">
-                  <Button
-                    onClick={() => setIsLiveDrawMode(true)}
-                    className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-8 px-12 text-2xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
-                  >
-                    Start Live Draw
-                  </Button>
-                </div>
+                <Upload className="h-12 w-12 text-cyan-400 mb-4" />
+                <h3 className="text-2xl font-bold text-white">{t("dashboard.upload.title")}</h3>
+                <p className="text-gray-400 text-sm mt-2">{t("dashboard.upload.subtitle")}</p>
+                <p className="text-cyan-500/70 text-xs mt-3 font-mono">{t("dashboard.upload.formats")}</p>
               </>
             )}
           </div>
         )}
 
-        {/* Data Stats - Hidden in live mode */}
-        {data.length > 0 && !sessionLocked && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center gap-3 bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
-              <FileSpreadsheet className="h-5 w-5 text-blue-400" />
-              <div>
-                <p className="text-xs text-gray-500">File</p>
-                <p className="text-sm font-semibold text-blue-300">{fileName}</p>
+        {/* STEP 2: Preparation Phase - Show when data loaded but not locked */}
+        {data.length > 0 && !sessionLocked && !isLiveMode && (
+          <>
+            {/* Show File Info when transitioning from upload */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex items-center gap-3 bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
+                <FileSpreadsheet className="h-5 w-5 text-blue-400" />
+                <div>
+                  <p className="text-xs text-gray-500">{t("dashboard.table.file")}</p>
+                  <p className="text-sm font-semibold text-blue-300">{fileName}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
+                <Database className="h-5 w-5 text-purple-400" />
+                <div>
+                  <p className="text-xs text-gray-500">{t("dashboard.table.rows")}</p>
+                  <p className="text-sm font-semibold text-purple-300">{data.length.toLocaleString()}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
+                <Filter className="h-5 w-5 text-orange-400" />
+                <div>
+                  <p className="text-xs text-gray-500">{t("dashboard.table.columns")}</p>
+                  <p className="text-sm font-semibold text-orange-300">{columnCount}</p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-3 bg-gradient-to-br from-green-500/10 to-transparent border border-green-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
-              <Database className="h-5 w-5 text-green-400" />
-              <div>
-                <p className="text-xs text-gray-500">Rows</p>
-                <p className="text-sm font-semibold text-green-300">{data.length.toLocaleString()}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
-              <Filter className="h-5 w-5 text-cyan-400" />
-              <div>
-                <p className="text-xs text-gray-500">Columns</p>
-                <p className="text-sm font-semibold text-cyan-300">{columnCount}</p>
-              </div>
-            </div>
-          </div>
+
+            <PreparationPhase
+              participantCount={data.length}
+              dedupCount={dedupCount}
+              onLockSession={handleLockSession}
+              disabled={data.length === 0}
+            />
+          </>
         )}
 
-        {/* Data Table - Hidden in live mode */}
-        {data.length > 0 && !isLiveMode && (
+        {/* STEP 3: Live Draw Stage - Show only when locked and in live mode */}
+        {sessionLocked && isLiveMode && !showWinnerModal && (
+          <>
+            <LiveBackground visible={true} participantCount={data.length} />
+            <div className="relative z-10 space-y-6">
+              {isLiveDrawMode ? (
+                <LiveDrawStage
+                  participantCount={data.length}
+                  winnerCount={winnerCount}
+                  onComplete={handleLiveDrawComplete}
+                  disabled={false}
+                />
+              ) : (
+                <>
+                  {/* Pre-Draw Status */}
+                  <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 rounded-2xl p-6 text-center space-y-2">
+                    <p className="text-xs text-gray-500 font-mono">SYSTEM_STATUS</p>
+                    <p className="text-2xl font-bold text-cyan-300">{t("liveDraw.subtitle")}</p>
+                    <p className="text-sm text-gray-400">
+                      {data.length.toLocaleString()} {t("liveDraw.totalParticipants")} • {winnerCount} {t("liveDraw.winnersToSelect")}
+                    </p>
+                  </div>
+
+                  {/* Start Live Draw Button */}
+                  <div className="flex justify-center">
+                    <Button
+                      onClick={() => setIsLiveDrawMode(true)}
+                      className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-8 px-12 text-2xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
+                    >
+                      {t("liveDraw.startBtn")}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* STEP 4: Winner Reveal Modal - Show only at the end */}
+        {showWinnerModal && sessionLocked && isLiveMode && (
+          <WinnerRevealModal
+            winners={calculatedWinners}
+            onClose={() => {
+              setShowWinnerModal(false)
+              setIsLiveDrawMode(false)
+              setIsLiveMode(false)
+              setSessionLocked(false)
+              setData([])
+              setCalculatedWinners([])
+              setWinnerCount(1)
+            }}
+            onExportExcel={handleExportExcel}
+            onExportJSON={handleExportJSON}
+            onNewDraw={() => {
+              setShowWinnerModal(false)
+              setIsLiveDrawMode(false)
+              setIsLiveMode(false)
+              setSessionLocked(false)
+              setData([])
+              setCalculatedWinners([])
+              setWinnerCount(1)
+            }}
+          />
+        )}
+
+        {/* Data Table - Show only in STEP 2 (Preparation) */}
+        {data.length > 0 && !sessionLocked && !isLiveMode && (
           <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
             <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
               <h3 className="text-sm font-semibold text-white">{t("dashboard.table.title")}</h3>
@@ -504,8 +532,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
           </div>
         )}
 
-        {/* Controls: Dedup + Winner Selection */}
-        {data.length > 0 && (
+        {/* Controls: Dedup + Winner Selection - Show only in STEP 2 */}
+        {data.length > 0 && !sessionLocked && !isLiveMode && (
           <div className="grid md:grid-cols-2 gap-6">
             {/* Dedup */}
             <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-4">
