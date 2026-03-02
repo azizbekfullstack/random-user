@@ -8,6 +8,8 @@ import { MatrixRain } from "@/components/matrix-rain"
 import { OperatorPanel } from "@/components/operator-panel"
 import { PreparationPhase } from "@/components/preparation-phase"
 import { LiveDrawStage } from "@/components/live-draw-stage"
+import { SpinnerWheel } from "@/components/spinner-wheel"
+import { WinnerResultsPage } from "@/components/winner-results-page"
 import { WinnerRevealModal } from "@/components/winner-reveal-modal"
 import { LiveBackground } from "@/components/live-background"
 import { Button } from "@/components/ui/button"
@@ -370,10 +372,10 @@ export function Dashboard({ onLogout }: DashboardProps) {
           </div>
         )}
 
-        {/* STEP 2: Preparation Phase - Show when data loaded but not locked */}
+        {/* STEP 2: Simple Winner Count Selection - Show when data loaded but not locked */}
         {data.length > 0 && !sessionLocked && !isLiveMode && (
           <>
-            {/* Show File Info when transitioning from upload */}
+            {/* Show File Info */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex items-center gap-3 bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-400/30 rounded-xl px-4 py-3 backdrop-blur-sm">
                 <FileSpreadsheet className="h-5 w-5 text-blue-400" />
@@ -398,78 +400,78 @@ export function Dashboard({ onLogout }: DashboardProps) {
               </div>
             </div>
 
-            <PreparationPhase
-              participantCount={data.length}
-              dedupCount={dedupCount}
-              onLockSession={handleLockSession}
-              disabled={data.length === 0}
-            />
-          </>
-        )}
+            {/* Winner Count Selection - Simple UI */}
+            <div className="bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-400/30 rounded-2xl p-8">
+              <div className="flex flex-col items-center gap-6">
+                <div className="text-center space-y-2">
+                  <h2 className="text-3xl font-bold text-white">{t("dashboard.preparation.title")}</h2>
+                  <p className="text-gray-400">{t("dashboard.preparation.subtitle")}</p>
+                </div>
 
-        {/* STEP 3: Live Draw Stage - Show only when locked and in live mode */}
-        {sessionLocked && isLiveMode && !showWinnerModal && (
-          <>
-            <LiveBackground visible={true} participantCount={data.length} />
-            <div className="relative z-10 space-y-6">
-              {isLiveDrawMode ? (
-                <LiveDrawStage
-                  participantCount={data.length}
-                  winnerCount={winnerCount}
-                  onComplete={handleLiveDrawComplete}
-                  disabled={false}
-                />
-              ) : (
-                <>
-                  {/* Pre-Draw Status */}
-                  <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 rounded-2xl p-6 text-center space-y-2">
-                    <p className="text-xs text-gray-500 font-mono">SYSTEM_STATUS</p>
-                    <p className="text-2xl font-bold text-cyan-300">{t("liveDraw.subtitle")}</p>
-                    <p className="text-sm text-gray-400">
-                      {data.length.toLocaleString()} {t("liveDraw.totalParticipants")} • {winnerCount} {t("liveDraw.winnersToSelect")}
-                    </p>
-                  </div>
+                {/* Winner Count Input */}
+                <div className="flex items-center gap-4">
+                  <label className="text-white font-semibold">How many winners?</label>
+                  <select
+                    value={winnerCount}
+                    onChange={(e) => setWinnerCount(Math.max(1, Math.min(Math.floor(data.length / 2), parseInt(e.target.value))))}
+                    className="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white font-bold text-xl focus:outline-none focus:border-purple-400"
+                  >
+                    {Array.from({ length: Math.min(10, Math.floor(data.length / 2)) }, (_, i) => i + 1).map((num) => (
+                      <option key={num} value={num} className="bg-slate-900">
+                        {num}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                  {/* Start Live Draw Button */}
-                  <div className="flex justify-center">
-                    <Button
-                      onClick={() => setIsLiveDrawMode(true)}
-                      className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-8 px-12 text-2xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
-                    >
-                      {t("liveDraw.startBtn")}
-                    </Button>
-                  </div>
-                </>
-              )}
+                {/* Start Button */}
+                <Button
+                  onClick={handleLockSession}
+                  disabled={data.length === 0}
+                  className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold py-6 px-12 text-xl shadow-2xl shadow-cyan-600/50 hover:shadow-cyan-600/70 transition-all"
+                >
+                  Start Drawing
+                </Button>
+              </div>
             </div>
           </>
         )}
 
-        {/* STEP 4: Winner Reveal Modal - Show only at the end */}
+        {/* STEP 3: Spinner Wheel Draw - Show only when locked and in live mode */}
+        {sessionLocked && isLiveMode && !showWinnerModal && (
+          <div className="relative z-10">
+            <LiveBackground visible={true} participantCount={data.length} />
+            <SpinnerWheel
+              participants={data.map(row => row[0])}
+              winnerCount={winnerCount}
+              onComplete={handleLiveDrawComplete}
+            />
+          </div>
+        )}
+
+        {/* STEP 4: Winner Results Page - Show only at the end */}
         {showWinnerModal && sessionLocked && isLiveMode && (
-          <WinnerRevealModal
-            winners={calculatedWinners}
-            onClose={() => {
-              setShowWinnerModal(false)
-              setIsLiveDrawMode(false)
-              setIsLiveMode(false)
-              setSessionLocked(false)
-              setData([])
-              setCalculatedWinners([])
-              setWinnerCount(1)
-            }}
-            onExportExcel={handleExportExcel}
-            onExportJSON={handleExportJSON}
-            onNewDraw={() => {
-              setShowWinnerModal(false)
-              setIsLiveDrawMode(false)
-              setIsLiveMode(false)
-              setSessionLocked(false)
-              setData([])
-              setCalculatedWinners([])
-              setWinnerCount(1)
-            }}
-          />
+          <div className="relative z-10">
+            <WinnerResultsPage
+              winners={calculatedWinners.map(w => ({
+                rank: w.rank,
+                index: w.index,
+                name: w.row[0] || `Participant #${w.index + 1}`,
+                data: w.row,
+              }))}
+              onExportExcel={handleExportExcel}
+              onExportJSON={handleExportJSON}
+              onNewDraw={() => {
+                setShowWinnerModal(false)
+                setIsLiveDrawMode(false)
+                setIsLiveMode(false)
+                setSessionLocked(false)
+                setData([])
+                setCalculatedWinners([])
+                setWinnerCount(1)
+              }}
+            />
+          </div>
         )}
 
         {/* Data Table - Show only in STEP 2 (Preparation) */}
