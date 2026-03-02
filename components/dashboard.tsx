@@ -110,12 +110,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
         setData(normalized)
         setColumnCount(maxCols)
         setFileName(file.name)
-        
-        // Show success feedback
-        console.log(`[v0] Loaded ${normalized.length} rows with ${maxCols} columns`)
       }
     } catch (err) {
-      console.error("[v0] File parse error:", err)
       alert("Failed to parse file. Please ensure it's a valid Excel or CSV file.")
     } finally {
       setProcessing(false)
@@ -169,8 +165,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
       setSessionLocked(true)
       setInPreparation(false)
       setIsLiveMode(true)
-
-      console.log(`[v0] Session locked with ${selectedWinnerCount} winner(s) selected`)
     },
     [data, dedupCount]
   )
@@ -198,8 +192,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
       setTimeout(() => {
         setShowWinnerModal(true)
       }, 500)
-
-      console.log(`[v0] Live draw complete. Winners: ${winnerIndices.join(', ')}`)
     },
     [data]
   )

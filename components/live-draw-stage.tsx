@@ -58,13 +58,10 @@ export function LiveDrawStage({
     setIsAnimating(false)
   }
 
-  if (!drawState) {
-    drawState = engine?.getState() || null
-  }
-
-  const progress = drawState?.animationProgress || 0
-  const currentCandidate = drawState?.currentCandidate || 0
-  const elapsedSeconds = drawState?.elapsedSeconds || 0
+  const displayState = drawState || (engine ? engine.getState() : null)
+  const progress = displayState?.animationProgress || 0
+  const currentCandidate = displayState?.currentCandidate || 0
+  const elapsedSeconds = displayState?.elapsedSeconds || 0
 
   return (
     <div className="space-y-6">
@@ -156,11 +153,11 @@ export function LiveDrawStage({
         </div>
 
         {/* Selected Winners Preview (if animation complete) */}
-        {drawState?.finalWinners.length > 0 && progress >= 100 && (
+        {displayState?.finalWinners.length > 0 && progress >= 100 && (
           <div className="pt-4 border-t border-white/10 space-y-3">
             <p className="text-xs text-gray-500 font-mono">SELECTED_WINNERS</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-              {drawState.finalWinners.map((winnerIndex, rank) => (
+              {displayState.finalWinners.map((winnerIndex, rank) => (
                 <div
                   key={rank}
                   className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-400/30 rounded-lg p-3 text-center animate-pulse"
