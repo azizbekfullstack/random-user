@@ -1,0 +1,195 @@
+{
+  "nav": {
+    "technology": "Texnologiya",
+    "benefits": "Afzalliklar",
+    "contact": "Aloqa",
+    "start": "Tizimni ishga tushirish"
+  },
+  "hero": {
+    "title": "Xavfsiz g'olib tanlash tizimi",
+    "subtitle": "Kriptografik xavfsiz tasodifiy g'olib tanlash mexanizmi, Telegram OTP tekshiruvi, Excel ma'lumotlarini qayta ishlash va kinematografik 60 soniyalik animatsiya.",
+    "startBtn": "Tizimni ishga tushirish",
+    "learnMore": "Batafsil",
+    "badge1": "Kripto-random",
+    "badge2": "Telegram OTP himoyasi"
+  },
+  "problem": {
+    "title": "Hali ham g'oliblarni qo'lda tanlayapsizmi?",
+    "items": [
+      "Qo'lda o'tkaziladigan qur'alar noxolis va shaffof emas",
+      "Tasodifiylikning kriptografik isboti yo'q",
+      "Audit izi va tekshirish tizimi mavjud emas",
+      "Inson xatosi va manipulyatsiya xavfi"
+    ],
+    "solutionTitle": "Kriptografik xavfsiz tanlash",
+    "solutions": [
+      "Haqiqiy tasodifiylik uchun Crypto.getRandomValues()",
+      "Telegram OTP ikki faktorli autentifikatsiya",
+      "1M+ ishtirokchi qatorli Excel/CSV fayllarini qayta ishlash",
+      "60 soniyalik kinematografik g'olib tanlash animatsiyasi"
+    ]
+  },
+  "services": {
+    "title": "Texnologik stek",
+    "subtitle": "G'olib tanlash tizimini quvvatlovchi korporativ darajadagi texnologiyalar",
+    "items": {
+      "crypto": {
+        "name": "Kripto-random mexanizm",
+        "description": "Kriptografik xavfsiz tasodifiy sonlar generatsiyasi uchun Web Crypto API (crypto.getRandomValues) ishlatiladi. Math.random() umuman ishlatilmaydi."
+      },
+      "excel": {
+        "name": "Excel qayta ishlash",
+        "description": "1M+ ishtirokchi ma'lumotlarini o'z ichiga olgan Excel va CSV fayllarini blokirovkasiz qayta ishlash uchun Web Workers bilan SheetJS parseri."
+      },
+      "auth": {
+        "name": "Telegram OTP autentifikatsiya",
+        "description": "Ikki darajali autentifikatsiya: kunlik dinamik kirish kodi + bcrypt xeshlash bilan Telegram Bot API OTP tekshiruvi."
+      },
+      "animation": {
+        "name": "Kinematografik animatsiya",
+        "description": "Matrix yomg'iri, skanerlash bosqichlari, tsiklik ajratib ko'rsatish va proektor effekti bilan 60 soniyalik dramatik g'olib ko'rsatish."
+      },
+      "security": {
+        "name": "Backend'siz xavfsizlik",
+        "description": "Barcha qayta ishlash mijoz tomonida amalga oshiriladi. Server saqlashi yo'q, ma'lumotlar bazasi yo'q. Sahifani yangilash hammasini tozalaydi."
+      }
+    }
+  },
+  "benefits": {
+    "title": "Tizim spetsifikatsiyalari",
+    "subtitle": "Shaffoflik, xavfsizlik va miqyos uchun yaratilgan",
+    "items": {
+      "rows": { "value": "1M+", "label": "Qo'llab-quvvatlanadigan ishtirokchi qatorlari" },
+      "random": { "value": "Kripto", "label": "Xavfsiz random mexanizm" },
+      "backend": { "value": "Nol", "label": "Backend yoki ma'lumotlar bazasi" },
+      "animation": { "value": "60s", "label": "Kinematografik ko'rsatish" }
+    }
+  },
+  "process": {
+    "title": "Qanday ishlaydi",
+    "subtitle": "Shaffof g'olib tanlash uchun uchta oddiy qadam",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Kirish kodini kiriting",
+        "description": "Autentifikatsiya jarayonini boshlash uchun kunlik dinamik kirish kodini kiriting (format: adminKKOOYYYY)"
+      },
+      {
+        "number": "2",
+        "title": "Telegram orqali tasdiqlang",
+        "description": "Belgilangan Telegram kanalida 6 raqamli OTP kodni oling va shaxsingizni tasdiqlang"
+      },
+      {
+        "number": "3",
+        "title": "Yuklang va tanlang",
+        "description": "Ishtirokchi ma'lumotlari bilan Excel/CSV faylni yuklang, kerak bo'lsa dublikatlarni olib tashlang va kriptografik tasodifiy g'olibni tanlang"
+      }
+    ]
+  },
+  "cta": {
+    "title": "G'olibni tanlashga tayyormisiz?",
+    "startBtn": "Tizimni ishga tushirish",
+    "learnMore": "Hujjatlarni ko'rish"
+  },
+  "footer": {
+    "brand": "G'olib tanlash tizimi",
+    "description": "Korporativ tadbirlar va tanlovlar uchun kriptografik xavfsiz, shaffof va tekshiriladigan g'olib tanlash tizimi.",
+    "technology": "Texnologiya",
+    "techLinks": [
+      "Kripto-random mexanizm",
+      "Excel qayta ishlash",
+      "Telegram OTP",
+      "Kinematografik animatsiya",
+      "Backend'siz xavfsizlik"
+    ],
+    "info": "Ma'lumot",
+    "infoLinks": [
+      { "name": "Qanday ishlaydi", "href": "#process" },
+      { "name": "Texnologiya", "href": "#technology" },
+      { "name": "Afzalliklar", "href": "#benefits" },
+      { "name": "Aloqa", "href": "#contact" }
+    ],
+    "contact": "Aloqa",
+    "email": "info@winnersystem.uz",
+    "telegram": "Telegram kanal",
+    "corporate": "Korporativ hamkorlik",
+    "copyright": "G'olib tanlash tizimi. Barcha huquqlar himoyalangan.",
+    "privacy": "Maxfiylik siyosati",
+    "terms": "Foydalanish shartlari"
+  },
+  "auth": {
+    "accessCode": {
+      "title": "Kirish kodini kiriting",
+      "subtitle": "Davom etish uchun kunlik dinamik kirish kodini kiriting",
+      "placeholder": "adminKKOOYYYY",
+      "submit": "Kodni tekshirish",
+      "error": "Noto'g'ri kirish kodi. Format: adminKKOOYYYY",
+      "hint": "Format: admin + bugungi sana (KKOOYYYYY)"
+    },
+    "telegram": {
+      "title": "Telegram OTP tekshiruvi",
+      "subtitle": "Telegram OTP orqali shaxsingizni tasdiqlang",
+      "botTokenLabel": "Telegram bot tokeni",
+      "botTokenPlaceholder": "Bot tokenini kiriting",
+      "generateBtn": "OTP kodni yuborish",
+      "otpLabel": "OTP kodni kiriting",
+      "otpPlaceholder": "6 raqamli kod",
+      "verifyBtn": "Tasdiqlash",
+      "sending": "OTP yuborilmoqda...",
+      "sent": "OTP Telegram kanalga yuborildi",
+      "verifying": "Tekshirilmoqda...",
+      "error": "Noto'g'ri OTP kod. Qaytadan urinib ko'ring.",
+      "sendError": "OTP yuborib bo'lmadi. Bot tokenini tekshiring.",
+      "back": "Orqaga"
+    }
+  },
+  "dashboard": {
+    "title": "G'olib tanlash paneli",
+    "logout": "Chiqish",
+    "upload": {
+      "title": "Ishtirokchi ma'lumotlarini yuklash",
+      "subtitle": "Excel (.xlsx) yoki CSV fayllarni tortib tashlang yoki bosing",
+      "formats": "Qo'llab-quvvatlanadi: .xlsx, .csv",
+      "processing": "Fayl qayta ishlanmoqda...",
+      "rows": "qator yuklandi",
+      "columns": "ustun aniqlandi"
+    },
+    "table": {
+      "title": "Ishtirokchi ma'lumotlari",
+      "column": "Ustun",
+      "index": "#",
+      "noData": "Ma'lumot yuklanmagan. Boshlash uchun fayl yuklang.",
+      "showing": "Ko'rsatilmoqda",
+      "of": "dan",
+      "total": "jami qatorlar"
+    },
+    "dedup": {
+      "title": "Dublikatlarni olib tashlash",
+      "selectColumn": "Dublikatlarni olib tashlash uchun ustunni tanlang",
+      "removeBtn": "Dublikatlarni olib tashlash",
+      "removed": "dublikat olib tashlandi",
+      "remaining": "qator qoldi"
+    },
+    "winner": {
+      "title": "G'olib tanlash",
+      "selectBtn": "G'olibni tanlash",
+      "selecting": "Tanlanmoqda...",
+      "result": "G'olib",
+      "row": "Qator",
+      "noData": "G'olibni tanlash uchun avval ma'lumot yuklang"
+    },
+    "export": {
+      "title": "Eksport",
+      "excel": "Excel formatida eksport",
+      "json": "JSON formatida eksport"
+    }
+  },
+  "animation": {
+    "scanning": "Ishtirokchilarni skanerlash...",
+    "counting": "Kriptografik tahlil",
+    "analyzing": "Randomlikni tahlil qilish",
+    "winner": "🎯 G'OLIB TANLANDI",
+    "victoryMessage": "G'ALABA!",
+    "selectedWinner": "Kriptografik tarzda tanlangan g'olib"
+  }
+}

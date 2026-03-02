@@ -1,0 +1,195 @@
+{
+  "nav": {
+    "technology": "Technology",
+    "benefits": "Benefits",
+    "contact": "Contact",
+    "start": "Start System"
+  },
+  "hero": {
+    "title": "Secure Winner Selection System",
+    "subtitle": "Cryptographically secure random winner engine with Telegram OTP verification, Excel data processing, and cinematic 60-second reveal animation.",
+    "startBtn": "Start System",
+    "learnMore": "Learn More",
+    "badge1": "Crypto Random",
+    "badge2": "Telegram OTP Protected"
+  },
+  "problem": {
+    "title": "Still Selecting Winners Manually?",
+    "items": [
+      "Manual draws are biased and lack transparency",
+      "No cryptographic proof of randomness",
+      "No audit trail or verification system",
+      "Human error and manipulation risk"
+    ],
+    "solutionTitle": "Cryptographically Secure Selection",
+    "solutions": [
+      "Crypto.getRandomValues() for true randomness",
+      "Telegram OTP two-factor authentication",
+      "Excel/CSV processing for 1M+ participant rows",
+      "60-second cinematic winner reveal animation"
+    ]
+  },
+  "services": {
+    "title": "Technology Stack",
+    "subtitle": "Enterprise-grade technologies powering the winner selection engine",
+    "items": {
+      "crypto": {
+        "name": "Crypto Random Engine",
+        "description": "Uses Web Crypto API (crypto.getRandomValues) for cryptographically secure random number generation. No Math.random() anywhere."
+      },
+      "excel": {
+        "name": "Excel Processing",
+        "description": "SheetJS-powered parsing with Web Workers for non-blocking processing of Excel and CSV files containing 1M+ rows of participant data."
+      },
+      "auth": {
+        "name": "Telegram OTP Auth",
+        "description": "Two-layer authentication: daily dynamic access code + Telegram Bot API OTP verification with bcrypt hashing."
+      },
+      "animation": {
+        "name": "Cinematic Animation",
+        "description": "60-second dramatic winner reveal with Matrix rain, scanning phases, highlight cycling, and spotlight reveal."
+      },
+      "security": {
+        "name": "Zero-Backend Security",
+        "description": "All processing happens client-side. No server storage, no database. Refresh clears everything for maximum security."
+      }
+    }
+  },
+  "benefits": {
+    "title": "System Specifications",
+    "subtitle": "Built for transparency, security, and scale",
+    "items": {
+      "rows": { "value": "1M+", "label": "Participant Rows Supported" },
+      "random": { "value": "Crypto", "label": "Secure Random Engine" },
+      "backend": { "value": "Zero", "label": "Backend or Database" },
+      "animation": { "value": "60s", "label": "Cinematic Reveal" }
+    }
+  },
+  "process": {
+    "title": "How It Works",
+    "subtitle": "Three simple steps to a transparent winner selection",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Enter Access Code",
+        "description": "Enter the daily dynamic access code (format: adminDDMMYYYY) to begin the authentication process"
+      },
+      {
+        "number": "2",
+        "title": "Verify via Telegram",
+        "description": "Receive a 6-digit OTP code in the designated Telegram channel and verify your identity"
+      },
+      {
+        "number": "3",
+        "title": "Upload & Select",
+        "description": "Upload your Excel/CSV file with participant data, deduplicate if needed, and select a cryptographically random winner"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Select a Winner?",
+    "startBtn": "Start System",
+    "learnMore": "View Documentation"
+  },
+  "footer": {
+    "brand": "Winner Selection System",
+    "description": "Cryptographically secure, transparent, and verifiable winner selection system for corporate events and competitions.",
+    "technology": "Technology",
+    "techLinks": [
+      "Crypto Random Engine",
+      "Excel Processing",
+      "Telegram OTP",
+      "Cinematic Animation",
+      "Zero-Backend Security"
+    ],
+    "info": "Information",
+    "infoLinks": [
+      { "name": "How It Works", "href": "#process" },
+      { "name": "Technology", "href": "#technology" },
+      { "name": "Benefits", "href": "#benefits" },
+      { "name": "Contact", "href": "#contact" }
+    ],
+    "contact": "Contact",
+    "email": "info@winnersystem.uz",
+    "telegram": "Telegram Channel",
+    "corporate": "Corporate Collaboration",
+    "copyright": "Winner Selection System. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "auth": {
+    "accessCode": {
+      "title": "Enter Access Code",
+      "subtitle": "Enter the daily dynamic access code to proceed",
+      "placeholder": "adminDDMMYYYY",
+      "submit": "Verify Code",
+      "error": "Invalid access code. Format: adminDDMMYYYY",
+      "hint": "Format: admin + today's date (DDMMYYYY)"
+    },
+    "telegram": {
+      "title": "Telegram OTP Verification",
+      "subtitle": "Verify your identity via Telegram OTP",
+      "botTokenLabel": "Telegram Bot Token",
+      "botTokenPlaceholder": "Enter your bot token",
+      "generateBtn": "Send OTP Code",
+      "otpLabel": "Enter OTP Code",
+      "otpPlaceholder": "6-digit code",
+      "verifyBtn": "Verify",
+      "sending": "Sending OTP...",
+      "sent": "OTP sent to Telegram channel",
+      "verifying": "Verifying...",
+      "error": "Invalid OTP code. Please try again.",
+      "sendError": "Failed to send OTP. Check your bot token.",
+      "back": "Back"
+    }
+  },
+  "dashboard": {
+    "title": "Winner Selection Dashboard",
+    "logout": "Exit",
+    "upload": {
+      "title": "Upload Participant Data",
+      "subtitle": "Drag & drop or click to upload Excel (.xlsx) or CSV files",
+      "formats": "Supported: .xlsx, .csv",
+      "processing": "Processing file...",
+      "rows": "rows loaded",
+      "columns": "columns detected"
+    },
+    "table": {
+      "title": "Participant Data",
+      "column": "Column",
+      "index": "#",
+      "noData": "No data loaded. Upload a file to begin.",
+      "showing": "Showing",
+      "of": "of",
+      "total": "total rows"
+    },
+    "dedup": {
+      "title": "Deduplication",
+      "selectColumn": "Select column for deduplication",
+      "removeBtn": "Remove Duplicates",
+      "removed": "duplicates removed",
+      "remaining": "rows remaining"
+    },
+    "winner": {
+      "title": "Winner Selection",
+      "selectBtn": "Select Winner",
+      "selecting": "Selecting...",
+      "result": "Winner",
+      "row": "Row",
+      "noData": "Upload data first to select a winner"
+    },
+    "export": {
+      "title": "Export",
+      "excel": "Export as Excel",
+      "json": "Export as JSON"
+    }
+  },
+  "animation": {
+    "scanning": "Scanning Participants...",
+    "counting": "Cryptographic Analysis",
+    "analyzing": "Analyzing Randomness",
+    "winner": "🎯 WINNER SELECTED",
+    "victoryMessage": "VICTORY!",
+    "selectedWinner": "Cryptographically Selected Winner"
+  }
+}
