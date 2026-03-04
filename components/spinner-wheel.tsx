@@ -151,10 +151,10 @@ export function SpinnerWheel({ participants, winnerCount, onComplete }: SpinnerW
         <div className="bg-white/5 border border-white/10 rounded-lg p-4 space-y-2">
           <p className="text-sm text-gray-400 font-mono">{t('liveDraw.selectedWinners')}</p>
           <div className="flex flex-wrap gap-2">
-            {selectedWinners.map((idx, rank) => (
-              <div key={idx} className="bg-purple-500/30 border border-purple-400/50 rounded-lg px-3 py-1">
+            {selectedWinners.map((idx) => (
+              <div key={`winner-${idx}`} className="bg-purple-500/30 border border-purple-400/50 rounded-lg px-3 py-1">
                 <p className="text-sm font-bold text-purple-300">
-                  {rank + 1}. {participants[idx]}
+                  #{selectedWinners.indexOf(idx) + 1}. {participants[idx]}
                 </p>
               </div>
             ))}

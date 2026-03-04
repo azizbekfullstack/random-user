@@ -214,5 +214,10 @@
     "spinningMessage": "Вращается...",
     "doneButton": "Готово",
     "spinButton": "ВРАЩАТЬ"
+  },
+  "export": {
+    "title": "Экспортировать результаты",
+    "excel": "Экспортировать в Excel",
+    "json": "Экспортировать в JSON"
   }
 }

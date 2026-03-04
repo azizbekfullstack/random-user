@@ -50,14 +50,14 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [calculatedWinners, setCalculatedWinners] = useState<Array<{ index: number; row: string[]; rank: number }>>([])
   const [showWinnerModal, setShowWinnerModal] = useState(false)
   const [isLiveDrawMode, setIsLiveDrawMode] = useState(false)
+  const [isLiveMode, setIsLiveMode] = useState(false)
+  const [sessionLocked, setSessionLocked] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
-  const [dragOver, setDragOver] = useState(false)
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
   const parseFile = useCallback(async (file: File) => {
     setProcessing(true)
-    setWinner(null)
     setDedupCount(0)
     setDedupColumn(-1)
 
@@ -178,7 +178,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
         rank: rank + 1,
       }))
 
-      setLiveDrawWinners(winnerIndices)
       setCalculatedWinners(winners)
       setIsLiveDrawMode(false)
       

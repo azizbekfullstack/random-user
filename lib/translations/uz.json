@@ -214,5 +214,10 @@
     "spinningMessage": "Aylanmoqda...",
     "doneButton": "Tayyor",
     "spinButton": "AYLANTIR"
+  },
+  "export": {
+    "title": "Eksport",
+    "excel": "Excel formatida eksport",
+    "json": "JSON formatida eksport"
   }
 }

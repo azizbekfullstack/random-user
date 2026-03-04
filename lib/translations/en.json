@@ -214,5 +214,10 @@
     "spinningMessage": "Spinning...",
     "doneButton": "Done",
     "spinButton": "SPIN"
+  },
+  "export": {
+    "title": "Export Results",
+    "excel": "Export to Excel",
+    "json": "Export to JSON"
   }
 }

@@ -121,13 +121,13 @@ export function WinnerResultsPage({
           <div className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-400/30 rounded-2xl p-6 space-y-4">
             <h3 className="text-xl font-bold text-white">{t('dashboard.table.title')}</h3>
             <div className="space-y-2">
-              {winners.map((winner, idx) => (
+              {winners.map((winner) => (
                 <div
-                  key={idx}
+                  key={`winner-${winner.rank}-${winner.index}`}
                   className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-lg p-3 hover:bg-white/10 transition-all"
                 >
                   <div className="text-2xl font-bold text-center w-8">
-                    {['🥇', '🥈', '🥉', ...Array(winners.length - 3).fill('🎖️')][idx]}
+                    {['🥇', '🥈', '🥉', ...Array(winners.length - 3).fill('🎖️')][winner.rank - 1]}
                   </div>
                   <div className="flex-1">
                     <p className="font-bold text-white">{winner.name}</p>
@@ -144,21 +144,21 @@ export function WinnerResultsPage({
       {/* Export Section */}
       <div className="container mx-auto px-4 max-w-2xl">
         <div className="bg-gradient-to-br from-cyan-900/50 to-blue-900/50 border border-cyan-400/30 rounded-2xl p-6 space-y-4">
-          <h3 className="text-xl font-bold text-white">{t('dashboard.export.title')}</h3>
+          <h3 className="text-xl font-bold text-white">{t('export.title')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <Button
               onClick={() => handleExport('excel')}
               className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 shadow-lg"
             >
               <Download className="h-5 w-5" />
-              {t('dashboard.export.excel')}
+              {t('export.excel')}
             </Button>
             <Button
               onClick={() => handleExport('json')}
               className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 shadow-lg"
             >
               <Download className="h-5 w-5" />
-              {t('dashboard.export.json')}
+              {t('export.json')}
             </Button>
           </div>
           {exported && (
@@ -176,7 +176,7 @@ export function WinnerResultsPage({
           className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-6 px-8 text-lg rounded-lg flex items-center gap-2 shadow-lg"
         >
           <RotateCcw className="h-5 w-5" />
-          {t('cta.startBtn')}
+          {t('liveDraw.startBtn')}
         </Button>
       </div>
     </div>
