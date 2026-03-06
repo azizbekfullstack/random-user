@@ -2,7 +2,6 @@
 
 import { useTranslation, type Locale } from "@/lib/i18n"
 import { LotteryContainer } from "@/components/lottery"
-import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
 
 const LOCALES: { code: Locale; label: string }[] = [
@@ -19,27 +18,23 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const { locale, setLocale } = useTranslation()
 
   return (
-    <div className="relative min-h-screen">
-      {/* Simple Header with Logout and Language Switcher */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-blue-50 via-purple-50 to-transparent backdrop-blur-sm border-b border-purple-200">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Lottery System
-            </h1>
-          </div>
+    <div className="relative min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+        <div className="container mx-auto px-6 py-3 flex items-center justify-between">
+          <h1 className="text-lg font-bold">Lottery System</h1>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Language Switcher */}
-            <div className="flex items-center gap-1">
+            <div className="flex gap-1">
               {LOCALES.map((loc) => (
                 <button
                   key={loc.code}
                   onClick={() => setLocale(loc.code)}
-                  className={`px-2 py-1 text-xs rounded-md transition-colors ${
+                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
                     locale === loc.code
-                      ? "bg-purple-500/20 text-purple-600 border border-purple-500/30"
-                      : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   }`}
                 >
                   {loc.label}
@@ -48,21 +43,19 @@ export function Dashboard({ onLogout }: DashboardProps) {
             </div>
 
             {/* Logout Button */}
-            <Button
+            <button
               onClick={onLogout}
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2 border-purple-300 text-purple-700 hover:bg-purple-50"
+              className="inline-flex items-center gap-2 px-3 py-1 text-xs font-medium rounded-md bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="w-4 h-4" />
               Logout
-            </Button>
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Main Content - LotteryContainer */}
-      <main className="pt-24">
+      {/* Content */}
+      <main className="pt-16">
         <LotteryContainer />
       </main>
     </div>
