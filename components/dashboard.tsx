@@ -52,6 +52,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [isLiveDrawMode, setIsLiveDrawMode] = useState(false)
   const [isLiveMode, setIsLiveMode] = useState(false)
   const [sessionLocked, setSessionLocked] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
+  const [soundEnabledLocal, setSoundEnabledLocal] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const tableContainerRef = useRef<HTMLDivElement>(null)
