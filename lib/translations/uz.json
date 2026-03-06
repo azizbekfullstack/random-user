@@ -213,4 +213,20 @@
       "selectedWinner": "Kriptografik tarzda tanlangan g'olib"
     },
     "liveDraw": {
+      "title": "Jonli tanlash bosqichi",
+      "subtitle": "60 soniyalik kriptografik g'olib tanlash - g'oliblar tranzaksiya paytida aniqlangan",
+      "startBtn": "60 soniyalik tanlashni boshlash",
+      "stopBtn": "To'xtatish",
+      "totalParticipants": "JAMI_ISHTIROKCHILAR",
+      "winnersToSelect": "TANLASH_UCHUN_G'OLIBLAR",
+      "scanningParticipants": "ISHTIROKCHILARNI_SKANERLASH",
+      "randomizationProgress": "RANDOMIZATSIYA_PROGRESSI",
+      "selectedWinners": "TANLANGAN_G'OLIBLAR",
+      "drawConfiguration": "Tanlash konfiguratsiyasi",
+      "timerLabel": "/ 60 sek",
+      "spinningMessage": "Aylanmoqda...",
+      "doneButton": "Tayyor",
+      "spinButton": "AYLANTIR"
+    }
+  }
 }

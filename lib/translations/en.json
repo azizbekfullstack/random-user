@@ -213,24 +213,20 @@
       "selectedWinner": "Cryptographically Selected Winner"
     },
     "liveDraw": {
-    "title": "Live Draw Stage",
-    "subtitle": "60-second cryptographic winner selection - Winners determined during broadcast",
-    "startBtn": "Start 60-Second Draw",
-    "stopBtn": "Stop",
-    "totalParticipants": "TOTAL_PARTICIPANTS",
-    "winnersToSelect": "WINNERS_TO_SELECT",
-    "scanningParticipants": "SCANNING_PARTICIPANTS",
-    "randomizationProgress": "RANDOMIZATION_PROGRESS",
-    "selectedWinners": "SELECTED_WINNERS",
-    "drawConfiguration": "Draw Configuration",
-    "timerLabel": "/ 60 sec",
-    "spinningMessage": "Spinning...",
-    "doneButton": "Done",
-    "spinButton": "SPIN"
-  },
-  "export": {
-    "title": "Export Results",
-    "excel": "Export to Excel",
-    "json": "Export to JSON"
+      "title": "Live Draw Stage",
+      "subtitle": "60-second cryptographic winner selection - Winners determined during broadcast",
+      "startBtn": "Start 60-Second Draw",
+      "stopBtn": "Stop",
+      "totalParticipants": "TOTAL_PARTICIPANTS",
+      "winnersToSelect": "WINNERS_TO_SELECT",
+      "scanningParticipants": "SCANNING_PARTICIPANTS",
+      "randomizationProgress": "RANDOMIZATION_PROGRESS",
+      "selectedWinners": "SELECTED_WINNERS",
+      "drawConfiguration": "Draw Configuration",
+      "timerLabel": "/ 60 sec",
+      "spinningMessage": "Spinning...",
+      "doneButton": "Done",
+      "spinButton": "SPIN"
+    }
   }
 }
