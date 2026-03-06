@@ -1,5 +1,9 @@
 import { motion } from 'motion/react';
-import { ArrowLeft, Sparkles, Users, Trophy, Play, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Users, Trophy, CheckCircle2, Play } from 'lucide-react';
+import { useTranslation } from '@/lib/i18n';
+import { Button } from '@/components/ui/button';
+import AnimatedGradientBackground from '@/components/ui/animated-gradient-background';
+import { SparklesCore } from '@/components/ui/sparkles';
 
 interface Step4ReadyProps {
   participantCount: number;
@@ -16,170 +20,167 @@ export default function Step4Ready({
   onStart,
   onBack,
 }: Step4ReadyProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="w-full max-w-5xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors text-lg"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Orqaga qaytish
-        </button>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="bg-white rounded-3xl shadow-2xl p-12"
-      >
-        {/* Header */}
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-            className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 mb-8 relative shadow-2xl"
-          >
-            <Sparkles className="w-16 h-16 text-white" />
+    <div className="w-full min-h-screen flex flex-col items-center justify-center">
+      {/* CTA Section with Animated Gradient */}
+      <section className="relative w-full py-12 overflow-hidden">
+        <AnimatedGradientBackground
+          Breathing={true}
+          gradientColors={['#0A0A0A', '#2979FF', '#00E5FF', '#1DE9B6', '#0A0A0A', '#2979FF', '#00B8D4']}
+          gradientStops={[35, 50, 60, 70, 80, 90, 100]}
+        />
+        
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Header with Sparkles */}
             <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.5, 0, 0.5],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-              className="absolute inset-0 rounded-full bg-green-400"
-            />
-          </motion.div>
-          <h1 className="text-6xl mb-4">Tayyormisiz?</h1>
-          <p className="text-2xl text-gray-600">
-            G'olibni aniqlash uchun barcha ma'lumotlarni tekshiring
-          </p>
-        </div>
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative h-24 w-full flex flex-col items-center justify-center mb-8"
+            >
+              <div className="w-full absolute inset-0">
+                <SparklesCore
+                  id="step4-particles"
+                  background="transparent"
+                  minSize={0.6}
+                  maxSize={1.4}
+                  particleDensity={80}
+                  className="w-full h-full"
+                  particleColor="#FFFFFF"
+                  speed={0.8}
+                />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 relative z-20 text-balance">
+                {t('lottery.review.title')}
+              </h2>
+            </motion.div>
 
-        {/* Stats Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="grid md:grid-cols-3 gap-6 mb-12"
-        >
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 text-center border-2 border-blue-200 shadow-lg">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-500 mb-6 shadow-xl">
-              <Users className="w-10 h-10 text-white" />
-            </div>
-            <p className="text-gray-600 mb-2 text-lg">Ishtirokchilar</p>
-            <p className="text-5xl font-bold text-blue-600">{participantCount}</p>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-8 text-center border-2 border-purple-200 shadow-lg">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-500 mb-6 shadow-xl">
-              <Trophy className="w-10 h-10 text-white" />
-            </div>
-            <p className="text-gray-600 mb-2 text-lg">G'oliblar</p>
-            <p className="text-5xl font-bold text-purple-600">{winnerCount}</p>
-          </div>
-
-          <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-3xl p-8 text-center border-2 border-amber-200 shadow-lg">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-500 mb-6 shadow-xl">
-              <CheckCircle2 className="w-10 h-10 text-white" />
-            </div>
-            <p className="text-gray-600 mb-2 text-lg">Ustunlar</p>
-            <p className="text-5xl font-bold text-amber-600">{selectedColumns.length}</p>
-          </div>
-        </motion.div>
-
-        {/* Selected Columns */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 mb-12 border-2 border-gray-200"
-        >
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-3">
-            <CheckCircle2 className="w-7 h-7 text-green-600" />
-            Tanlangan ustunlar:
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {selectedColumns.map((column, index) => (
-              <motion.span
-                key={column}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 + index * 0.05 }}
-                className="px-6 py-3 bg-white rounded-xl text-gray-700 shadow-md border-2 border-gray-200 font-semibold text-lg"
+            {/* Stats Grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="grid md:grid-cols-3 gap-4 mb-8"
+            >
+              {/* Participants Card */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center shadow-lg"
               >
-                {column}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-500/20 mb-4">
+                  <Users className="w-7 h-7 text-blue-300" />
+                </div>
+                <p className="text-gray-300 text-sm mb-1">{t('lottery.review.participants')}</p>
+                <p className="text-3xl font-bold text-white">{participantCount}</p>
+              </motion.div>
 
-        {/* Summary */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 mb-10"
-        >
-          <p className="text-center text-blue-900 text-xl">
-            <strong>{participantCount}</strong> ishtirokchi orasidan{' '}
-            <strong className="text-purple-600">{winnerCount}</strong> ta g'olib tanlanadi
-          </p>
-        </motion.div>
+              {/* Winners Card */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center shadow-lg"
+              >
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-purple-500/20 mb-4">
+                  <Trophy className="w-7 h-7 text-purple-300" />
+                </div>
+                <p className="text-gray-300 text-sm mb-1">{t('lottery.review.winners')}</p>
+                <p className="text-3xl font-bold text-white">{winnerCount}</p>
+              </motion.div>
 
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="flex justify-between items-center gap-4"
-        >
-          <button
-            onClick={onBack}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gray-200 text-gray-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-lg font-semibold"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Orqaga
-          </button>
+              {/* Columns Card */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center shadow-lg"
+              >
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500/20 mb-4">
+                  <CheckCircle2 className="w-7 h-7 text-emerald-300" />
+                </div>
+                <p className="text-gray-300 text-sm mb-1">{t('lottery.review.columns')}</p>
+                <p className="text-3xl font-bold text-white">{selectedColumns.length}</p>
+              </motion.div>
+            </motion.div>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onStart}
-            className="flex-1 max-w-md py-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-2xl rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center gap-4 relative overflow-hidden group"
-          >
+            {/* Selected Columns */}
+            {selectedColumns.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-6 mb-8"
+              >
+                <h3 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                  {t('lottery.review.selectedColumns')}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedColumns.map((column, index) => (
+                    <motion.span
+                      key={column}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.4 + index * 0.05 }}
+                      className="px-3 py-1 bg-white/10 border border-white/20 rounded-lg text-white text-sm font-medium"
+                    >
+                      {column}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Summary */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500"
-              initial={{ x: '-100%' }}
-              whileHover={{ x: '100%' }}
-              transition={{ duration: 0.6 }}
-            />
-            <Play className="w-8 h-8 relative z-10" />
-            <span className="relative z-10 font-bold">BOSHLASH!</span>
-          </motion.button>
-        </motion.div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-center mb-8"
+            >
+              <p className="text-gray-200 text-lg">
+                <strong className="text-white">{participantCount}</strong> {t('lottery.review.summary').split(' ')[0]} <strong className="text-emerald-300">{winnerCount}</strong> {t('lottery.review.summary').split(' ')[1]}
+              </p>
+            </motion.div>
 
-        {/* Live Info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1 }}
-          className="mt-8 text-center"
-        >
-          <p className="text-gray-500 text-lg">
-            ⚡ Loterеya jarayoni live rejimda boshlanadi
-          </p>
-        </motion.div>
-      </motion.div>
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
+              <Button
+                onClick={onBack}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg transition-all duration-300 font-semibold"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {t('lottery.review.back')}
+              </Button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onStart}
+                className="flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-white to-gray-100 text-black rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-bold"
+              >
+                <Play className="w-5 h-5" />
+                {t('lottery.review.start')}
+              </motion.button>
+            </motion.div>
+
+            {/* Live Info */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-8 text-center"
+            >
+              <p className="text-gray-300 text-sm">
+                ⚡ {t('lottery.review.liveInfo')}
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

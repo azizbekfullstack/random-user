@@ -219,5 +219,19 @@
     "title": "Eksport",
     "excel": "Excel formatida eksport",
     "json": "JSON formatida eksport"
+  },
+  "lottery": {
+    "review": {
+      "title": "G'olibni tanlashga tayyormisiz?",
+      "subtitle": "G'olibni aniqlash uchun barcha ma'lumotlarni tekshiring",
+      "participants": "Ishtirokchilar",
+      "winners": "G'oliblar",
+      "columns": "Ustunlar",
+      "selectedColumns": "Tanlangan ustunlar:",
+      "summary": "ta ishtirokchi orasidan ta g'olib tanlanadi",
+      "back": "Orqaga",
+      "start": "BOSHLASH!",
+      "liveInfo": "Loterеya jarayoni live rejimda boshlanadi"
+    }
   }
 }

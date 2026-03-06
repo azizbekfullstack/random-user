@@ -185,11 +185,26 @@
       "row": "Row",
       "noData": "Load data first to select a winner"
     },
-    "export": {
-      "title": "Export",
-      "excel": "Export as Excel",
-      "json": "Export as JSON"
+  "export": {
+    "title": "Export",
+    "excel": "Export as Excel",
+    "json": "Export as JSON"
+  },
+  "lottery": {
+    "review": {
+      "title": "Ready to Select a Winner?",
+      "subtitle": "Review all details before selecting the winner",
+      "participants": "Participants",
+      "winners": "Winners",
+      "columns": "Columns",
+      "selectedColumns": "Selected columns:",
+      "summary": "participants will have winners selected",
+      "back": "Back",
+      "start": "START!",
+      "liveInfo": "The lottery process will begin in live mode"
     }
+  }
+}
   },
   "animation": {
     "scanning": "Scanning Participants...",
