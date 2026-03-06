@@ -21,8 +21,26 @@ export default function Step5Lottery({
   const [displayedParticipants, setDisplayedParticipants] = useState<Participant[]>([]);
   const [progress, setProgress] = useState(0);
   const [countdown, setCountdown] = useState(5);
+  const [stars, setStars] = useState<Array<{ id: number; left: number; top: number; duration: number; delay: number }>>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize client-side only elements
+  useEffect(() => {
+    setIsClient(true);
+    // Generate random stars only on client
+    const newStars = [...Array(30)].map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 2 + Math.random() * 2,
+      delay: Math.random() * 2,
+    }));
+    setStars(newStars);
+  }, []);
 
   useEffect(() => {
+    if (!isClient) return;
+
     const countdownInterval = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -59,7 +77,7 @@ export default function Step5Lottery({
       clearInterval(interval);
       clearInterval(countdownInterval);
     };
-  }, [participants, winnerCount, onComplete]);
+  }, [participants, winnerCount, onComplete, isClient]);
 
   const getDisplayValue = (participant: Participant) => {
     const firstColumn = selectedColumns[0];
@@ -71,33 +89,38 @@ export default function Step5Lottery({
     return value.charAt(0).toUpperCase();
   };
 
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+        <div className="text-white text-lg">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6 relative overflow-hidden">
       {/* Animated Stars Background */}
       <div className="absolute inset-0">
-        {[...Array(30)].map((_, i) => (
+        {stars.map((star) => (
           <motion.div
-            key={i}
+            key={star.id}
             className="absolute w-2 h-2 bg-white rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${star.left}%`,
+              top: `${star.top}%`,
             }}
             animate={{
               opacity: [0.2, 1, 0.2],
               scale: [0.5, 1.5, 0.5],
             }}
             transition={{
-              duration: 2 + Math.random() * 2,
+              duration: star.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: star.delay,
             }}
           />
         ))}
       </div>
-
-      {/* Falling Particles */}
-      <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}

@@ -17,10 +17,18 @@ export default function Step6Winner({
   onRestart,
 }: Step6WinnerProps) {
   const [confetti, setConfetti] = useState<
-    Array<{ id: number; x: number; color: string; delay: number }>
+    Array<{ id: number; x: number; color: string; delay: number; offsetX: number; duration: number }>
   >([]);
+  const [fireworks, setFireworks] = useState<
+    Array<{ id: number; left: number; top: number }>
+  >([]);
+  const [windowHeight, setWindowHeight] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+    setWindowHeight(typeof window !== 'undefined' ? window.innerHeight : 1000);
+    
     const confettiArray = Array.from({ length: 100 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
@@ -28,8 +36,17 @@ export default function Step6Winner({
         Math.floor(Math.random() * 6)
       ],
       delay: Math.random() * 1,
+      offsetX: Math.random() * 300 - 150,
+      duration: 4 + Math.random() * 2,
     }));
     setConfetti(confettiArray);
+
+    const fireworksArray = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+    }));
+    setFireworks(fireworksArray);
   }, []);
 
   const handleExport = () => {
@@ -59,6 +76,14 @@ export default function Step6Winner({
     return '🏆';
   };
 
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 flex items-center justify-center">
+        <div className="text-white text-lg">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 flex items-center justify-center p-6 relative overflow-hidden">
       {/* Confetti Animation */}
@@ -72,12 +97,12 @@ export default function Step6Winner({
             top: -20,
           }}
           animate={{
-            y: window.innerHeight + 50,
+            y: windowHeight + 50,
             rotate: 360 * 5,
-            x: [0, Math.random() * 300 - 150, Math.random() * 300 - 150],
+            x: [0, item.offsetX, item.offsetX * 0.7],
           }}
           transition={{
-            duration: 4 + Math.random() * 2,
+            duration: item.duration,
             delay: item.delay,
             repeat: Infinity,
             ease: 'linear',
@@ -87,13 +112,13 @@ export default function Step6Winner({
 
       {/* Fireworks effect */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(10)].map((_, i) => (
+        {fireworks.map((item) => (
           <motion.div
-            key={i}
+            key={item.id}
             className="absolute"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${item.left}%`,
+              top: `${item.top}%`,
             }}
             animate={{
               scale: [0, 2, 0],
@@ -102,7 +127,7 @@ export default function Step6Winner({
             transition={{
               duration: 2,
               repeat: Infinity,
-              delay: i * 0.3,
+              delay: item.id * 0.3,
             }}
           >
             <div className="w-2 h-2 bg-white rounded-full" />
