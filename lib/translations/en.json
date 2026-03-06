@@ -203,8 +203,6 @@
       "start": "START!",
       "liveInfo": "The lottery process will begin in live mode"
     }
-  }
-}
   },
   "animation": {
     "scanning": "Scanning Participants...",
