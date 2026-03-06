@@ -189,49 +189,28 @@
       "title": "Eksport",
       "excel": "Excel formatida eksport",
       "json": "JSON formatida eksport"
-    }
-  },
-  "animation": {
-    "scanning": "Ishtirokchilarni skanerlash...",
-    "counting": "Kriptografik tahlil",
-    "analyzing": "Randomlikni tahlil qilish",
-    "winner": "🎯 G'OLIB TANLANDI",
-    "victoryMessage": "G'ALABA!",
-    "selectedWinner": "Kriptografik tarzda tanlangan g'olib"
-  },
-  "liveDraw": {
-    "title": "Jonli Tanlash Bosqichi",
-    "subtitle": "60 soniyalik kriptografik g'olib tanlash - g'oliblar tranzaksiya paytida aniqlangan",
-    "startBtn": "60 soniyalik tanlashni boshlash",
-    "stopBtn": "To'xtatish",
-    "totalParticipants": "JAMI_ISHTIROKCHILAR",
-    "winnersToSelect": "TANLASH_UCHUN_G'OLIBLAR",
-    "scanningParticipants": "ISHTIROKCHILARNI_SKANERLASH",
-    "randomizationProgress": "RANDOMIZATSIYA_PROGRESSI",
-    "selectedWinners": "TANLANGAN_G'OLIBLAR",
-    "drawConfiguration": "Tanlash konfiguratsiyasi",
-    "timerLabel": "/ 60 sek",
-    "spinningMessage": "Aylanmoqda...",
-    "doneButton": "Tayyor",
-    "spinButton": "AYLANTIR"
-  },
-  "export": {
-    "title": "Eksport",
-    "excel": "Excel formatida eksport",
-    "json": "JSON formatida eksport"
-  },
-  "lottery": {
-    "review": {
-      "title": "G'olibni tanlashga tayyormisiz?",
-      "subtitle": "G'olibni aniqlash uchun barcha ma'lumotlarni tekshiring",
-      "participants": "Ishtirokchilar",
-      "winners": "G'oliblar",
-      "columns": "Ustunlar",
-      "selectedColumns": "Tanlangan ustunlar:",
-      "summary": "{participants} ta ishtirokchi orasidan {winners} ta g'olib tanlanadi",
-      "back": "Orqaga",
-      "start": "BOSHLASH!",
-      "liveInfo": "Loterеya jarayoni live rejimda boshlanadi"
-    }
-  }
+    },
+    "lottery": {
+      "review": {
+        "title": "G'olibni tanlashga tayyormisiz?",
+        "subtitle": "G'olibni aniqlash uchun barcha ma'lumotlarni tekshiring",
+        "participants": "Ishtirokchilar",
+        "winners": "G'oliblar",
+        "columns": "Ustunlar",
+        "selectedColumns": "Tanlangan ustunlar:",
+        "summary": "{participants} ta ishtirokchi orasidan {winners} ta g'olib tanlanadi",
+        "back": "Orqaga",
+        "start": "BOSHLASH!",
+        "liveInfo": "Loterеya jarayoni live rejimda boshlanadi"
+      }
+    },
+    "animation": {
+      "scanning": "Ishtirokchilarni skanerlash...",
+      "counting": "Kriptografik tahlil",
+      "analyzing": "Randomlikni tahlil qilish",
+      "winner": "🎯 G'OLIB TANLANDI",
+      "victoryMessage": "G'ALABA!",
+      "selectedWinner": "Kriptografik tarzda tanlangan g'olib"
+    },
+    "liveDraw": {
 }

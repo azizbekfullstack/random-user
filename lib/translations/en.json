@@ -185,34 +185,34 @@
       "row": "Row",
       "noData": "Load data first to select a winner"
     },
-  "export": {
-    "title": "Export",
-    "excel": "Export as Excel",
-    "json": "Export as JSON"
-  },
-  "lottery": {
-    "review": {
-      "title": "Ready to Select a Winner?",
-      "subtitle": "Review all details before selecting the winner",
-      "participants": "Participants",
-      "winners": "Winners",
-      "columns": "Columns",
-      "selectedColumns": "Selected columns:",
-      "summary": "From {participants} participants, {winners} winners will be selected",
-      "back": "Back",
-      "start": "START!",
-      "liveInfo": "The lottery process will begin in live mode"
-    }
-  },
-  "animation": {
-    "scanning": "Scanning Participants...",
-    "counting": "Cryptographic Analysis",
-    "analyzing": "Analyzing Randomness",
-    "winner": "🎯 WINNER SELECTED",
-    "victoryMessage": "VICTORY!",
-    "selectedWinner": "Cryptographically Selected Winner"
-  },
-  "liveDraw": {
+    "export": {
+      "title": "Export",
+      "excel": "Export as Excel",
+      "json": "Export as JSON"
+    },
+    "lottery": {
+      "review": {
+        "title": "Ready to Select a Winner?",
+        "subtitle": "Review all details before selecting the winner",
+        "participants": "Participants",
+        "winners": "Winners",
+        "columns": "Columns",
+        "selectedColumns": "Selected columns:",
+        "summary": "From {participants} participants, {winners} winners will be selected",
+        "back": "Back",
+        "start": "START!",
+        "liveInfo": "The lottery process will begin in live mode"
+      }
+    },
+    "animation": {
+      "scanning": "Scanning Participants...",
+      "counting": "Cryptographic Analysis",
+      "analyzing": "Analyzing Randomness",
+      "winner": "🎯 WINNER SELECTED",
+      "victoryMessage": "VICTORY!",
+      "selectedWinner": "Cryptographically Selected Winner"
+    },
+    "liveDraw": {
     "title": "Live Draw Stage",
     "subtitle": "60-second cryptographic winner selection - Winners determined during broadcast",
     "startBtn": "Start 60-Second Draw",
