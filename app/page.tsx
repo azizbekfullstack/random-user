@@ -138,7 +138,7 @@ function LandingContent() {
               </h2>
               <div className="space-y-4 text-gray-300">
                 {(t("problem.items") as unknown as string[]).map((item: string, i: number) => (
-                  <p key={i} className="flex items-start gap-3">
+                  <p key={`problem-item-${i}`} className="flex items-start gap-3">
                     <span className="text-red-500 mt-1">{"✗"}</span>
                     {item}
                   </p>
@@ -150,7 +150,7 @@ function LandingContent() {
               <h3 className="text-2xl font-bold text-white">{t("problem.solutionTitle")}</h3>
               <div className="space-y-4 text-gray-300">
                 {(t("problem.solutions") as unknown as string[]).map((item: string, i: number) => (
-                  <p key={i} className="flex items-start gap-3">
+                  <p key={`solution-item-${i}`} className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                     {item}
                   </p>
@@ -373,8 +373,8 @@ function LandingContent() {
             <div className="space-y-6">
               <h4 className="text-lg font-semibold text-white">{t("footer.technology")}</h4>
               <ul className="space-y-3">
-                {(t("footer.techLinks") as unknown as string[]).map((tech: string) => (
-                  <li key={tech}>
+                {(t("footer.techLinks") as unknown as string[]).map((tech: string, idx: number) => (
+                  <li key={`tech-${idx}`}>
                     <a
                       href="#technology"
                       className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group"
@@ -392,8 +392,8 @@ function LandingContent() {
               <h4 className="text-lg font-semibold text-white">{t("footer.info")}</h4>
               <ul className="space-y-3">
                 {(t("footer.infoLinks") as unknown as { name: string; href: string }[]).map(
-                  (item: { name: string; href: string }) => (
-                    <li key={item.name}>
+                  (item: { name: string; href: string }, idx: number) => (
+                    <li key={`info-${idx}`}>
                       <a
                         href={item.href}
                         className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group"
