@@ -198,7 +198,7 @@
       "winners": "Winners",
       "columns": "Columns",
       "selectedColumns": "Selected columns:",
-      "summary": "participants will have winners selected",
+      "summary": "From {participants} participants, {winners} winners will be selected",
       "back": "Back",
       "start": "START!",
       "liveInfo": "The lottery process will begin in live mode"

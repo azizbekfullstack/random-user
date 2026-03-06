@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import { ArrowLeft, Users, Trophy, CheckCircle2, Play } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
-import { Button } from '@/components/ui/button';
 import AnimatedGradientBackground from '@/components/ui/animated-gradient-background';
 import { SparklesCore } from '@/components/ui/sparkles';
 
@@ -21,6 +20,13 @@ export default function Step4Ready({
   onBack,
 }: Step4ReadyProps) {
   const { t } = useTranslation();
+
+  const getSummaryText = () => {
+    const template = t('lottery.review.summary');
+    return template
+      .replace('{participants}', `${participantCount}`)
+      .replace('{winners}', `${winnerCount}`);
+  };
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
@@ -137,7 +143,7 @@ export default function Step4Ready({
               className="text-center mb-8"
             >
               <p className="text-gray-200 text-lg">
-                <strong className="text-white">{participantCount}</strong> {t('lottery.review.summary').split(' ')[0]} <strong className="text-emerald-300">{winnerCount}</strong> {t('lottery.review.summary').split(' ')[1]}
+                {getSummaryText()}
               </p>
             </motion.div>
 
@@ -148,13 +154,13 @@ export default function Step4Ready({
               transition={{ delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Button
+              <button
                 onClick={onBack}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg transition-all duration-300 font-semibold"
               >
                 <ArrowLeft className="w-4 h-4" />
                 {t('lottery.review.back')}
-              </Button>
+              </button>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}

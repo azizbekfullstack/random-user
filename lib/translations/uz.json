@@ -228,7 +228,7 @@
       "winners": "G'oliblar",
       "columns": "Ustunlar",
       "selectedColumns": "Tanlangan ustunlar:",
-      "summary": "ta ishtirokchi orasidan ta g'olib tanlanadi",
+      "summary": "{participants} ta ishtirokchi orasidan {winners} ta g'olib tanlanadi",
       "back": "Orqaga",
       "start": "BOSHLASH!",
       "liveInfo": "Loterеya jarayoni live rejimda boshlanadi"
