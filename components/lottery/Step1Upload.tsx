@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Upload, FileSpreadsheet, AlertCircle } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import * as XLSX from 'xlsx';
 import { Participant } from '@/lib/lottery-types';
 

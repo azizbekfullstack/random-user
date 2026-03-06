@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Trophy, Users, Minus, Plus } from 'lucide-react';
 
 interface Step3WinnerCountProps {

@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { ArrowLeft, Users, Trophy, CheckCircle2, Play } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import AnimatedGradientBackground from '@/components/ui/animated-gradient-background';

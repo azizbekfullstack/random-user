@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Trophy, Sparkles, RotateCcw, Download, Share2 } from 'lucide-react';
 import { Participant } from '@/lib/lottery-types';
 
