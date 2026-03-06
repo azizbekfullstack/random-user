@@ -27,8 +27,8 @@ export default function Step4Ready({
   };
 
   return (
-    <div className="w-full flex flex-col bg-black/90">
-      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 min-h-screen">
+    <div className="w-full">
+      <div className="flex flex-col items-center justify-center px-4 py-12">
         <div className="w-full max-w-2xl">
           {/* Header */}
           <motion.div
@@ -36,7 +36,7 @@ export default function Step4Ready({
             animate={{ opacity: 1, y: 0 }}
             className="relative mb-6"
           >
-            <h2 className="text-2xl font-bold text-center text-white">
+            <h2 className="text-2xl font-bold text-center text-gray-900">
               {t('lottery.review.title')}
             </h2>
           </motion.div>
@@ -49,24 +49,24 @@ export default function Step4Ready({
             className="grid grid-cols-3 gap-2 mb-4"
           >
             {/* Participants */}
-            <motion.div whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3">
-              <Users className="w-4 h-4 text-blue-300 mx-auto mb-1" />
-              <p className="text-gray-300 text-xs text-center">{t('lottery.review.participants')}</p>
-              <p className="text-2xl font-bold text-white text-center">{participantCount}</p>
+            <motion.div whileHover={{ scale: 1.02 }} className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <Users className="w-4 h-4 text-blue-600 mx-auto mb-1" />
+              <p className="text-gray-600 text-xs text-center">{t('lottery.review.participants')}</p>
+              <p className="text-2xl font-bold text-gray-900 text-center">{participantCount}</p>
             </motion.div>
 
             {/* Winners */}
-            <motion.div whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3">
-              <Trophy className="w-4 h-4 text-purple-300 mx-auto mb-1" />
-              <p className="text-gray-300 text-xs text-center">{t('lottery.review.winners')}</p>
-              <p className="text-2xl font-bold text-white text-center">{winnerCount}</p>
+            <motion.div whileHover={{ scale: 1.02 }} className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+              <Trophy className="w-4 h-4 text-purple-600 mx-auto mb-1" />
+              <p className="text-gray-600 text-xs text-center">{t('lottery.review.winners')}</p>
+              <p className="text-2xl font-bold text-gray-900 text-center">{winnerCount}</p>
             </motion.div>
 
             {/* Columns */}
-            <motion.div whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3">
-              <CheckCircle2 className="w-4 h-4 text-emerald-300 mx-auto mb-1" />
-              <p className="text-gray-300 text-xs text-center">{t('lottery.review.columns')}</p>
-              <p className="text-2xl font-bold text-white text-center">{selectedColumns.length}</p>
+            <motion.div whileHover={{ scale: 1.02 }} className="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
+              <p className="text-gray-600 text-xs text-center">{t('lottery.review.columns')}</p>
+              <p className="text-2xl font-bold text-gray-900 text-center">{selectedColumns.length}</p>
             </motion.div>
           </motion.div>
 
@@ -76,12 +76,12 @@ export default function Step4Ready({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-lg p-3 mb-3"
+              className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-3"
             >
-              <p className="text-gray-300 text-xs mb-2">{t('lottery.review.selectedColumns')}</p>
+              <p className="text-gray-700 text-xs mb-2">{t('lottery.review.selectedColumns')}</p>
               <div className="flex flex-wrap gap-1">
                 {selectedColumns.map((col) => (
-                  <span key={col} className="px-2 py-0.5 bg-white/10 border border-white/20 rounded text-white text-xs">
+                  <span key={col} className="px-2 py-0.5 bg-white border border-gray-300 rounded text-gray-700 text-xs">
                     {col}
                   </span>
                 ))}
@@ -96,7 +96,7 @@ export default function Step4Ready({
             transition={{ delay: 0.3 }}
             className="text-center mb-4"
           >
-            <p className="text-gray-200 text-sm">{getSummaryText()}</p>
+            <p className="text-gray-700 text-sm">{getSummaryText()}</p>
           </motion.div>
 
           {/* Buttons */}
@@ -108,7 +108,7 @@ export default function Step4Ready({
           >
             <button
               onClick={onBack}
-              className="inline-flex items-center gap-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg transition-all text-sm font-medium"
+              className="inline-flex items-center gap-1 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 border border-gray-300 rounded-lg transition-all text-sm font-medium"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               {t('lottery.review.back')}
@@ -118,7 +118,7 @@ export default function Step4Ready({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onStart}
-              className="inline-flex items-center gap-1 px-6 py-2 bg-gradient-to-r from-white to-gray-100 text-black rounded-lg shadow-lg hover:shadow-xl transition-all font-bold text-sm"
+              className="inline-flex items-center gap-1 px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all font-bold text-sm"
             >
               <Play className="w-3.5 h-3.5" />
               {t('lottery.review.start')}
