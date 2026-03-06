@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Sparkles, RotateCcw, Download, Share2 } from 'lucide-react';
@@ -70,7 +72,7 @@ export default function Step6Winner({
             top: -20,
           }}
           animate={{
-            y: typeof window !== 'undefined' ? window.innerHeight + 50 : 1000,
+            y: window.innerHeight + 50,
             rotate: 360 * 5,
             x: [0, Math.random() * 300 - 150, Math.random() * 300 - 150],
           }}

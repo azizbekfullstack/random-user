@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { ArrowLeft, Users, Trophy, CheckCircle2, Play } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';

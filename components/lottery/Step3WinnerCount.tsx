@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Trophy, Users, Minus, Plus } from 'lucide-react';
 

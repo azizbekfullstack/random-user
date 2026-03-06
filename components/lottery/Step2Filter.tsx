@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, ArrowRight, ArrowLeft, Filter } from 'lucide-react';
 import { Participant } from '@/lib/lottery-types';
