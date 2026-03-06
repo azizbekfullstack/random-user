@@ -54,6 +54,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [sessionLocked, setSessionLocked] = useState(false)
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [soundEnabledLocal, setSoundEnabledLocal] = useState(true)
+  const [showAnimation, setShowAnimation] = useState(false)
+  const [winner, setWinner] = useState<{ index: number; row: string[] } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const tableContainerRef = useRef<HTMLDivElement>(null)
