@@ -29,164 +29,128 @@ export default function Step4Ready({
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center">
-      {/* CTA Section with Animated Gradient */}
-      <section className="relative w-full py-12 overflow-hidden">
-        <AnimatedGradientBackground
-          Breathing={true}
-          gradientColors={['#0A0A0A', '#2979FF', '#00E5FF', '#1DE9B6', '#0A0A0A', '#2979FF', '#00B8D4']}
-          gradientStops={[35, 50, 60, 70, 80, 90, 100]}
-        />
-        
-        <div className="relative z-10 container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Header with Sparkles */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="relative h-24 w-full flex flex-col items-center justify-center mb-8"
-            >
-              <div className="w-full absolute inset-0">
-                <SparklesCore
-                  id="step4-particles"
-                  background="transparent"
-                  minSize={0.6}
-                  maxSize={1.4}
-                  particleDensity={80}
-                  className="w-full h-full"
-                  particleColor="#FFFFFF"
-                  speed={0.8}
-                />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 relative z-20 text-balance">
-                {t('lottery.review.title')}
-              </h2>
-            </motion.div>
-
-            {/* Stats Grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="grid md:grid-cols-3 gap-4 mb-8"
-            >
-              {/* Participants Card */}
+    <div className="w-full h-screen flex flex-col bg-gradient-to-b from-background to-background/50">
+      {/* Content Container - Compact */}
+      <div className="flex-1 flex flex-col overflow-y-auto">
+        <div className="relative w-full flex-1 overflow-hidden">
+          <AnimatedGradientBackground
+            Breathing={true}
+            gradientColors={['#0A0A0A', '#2979FF', '#00E5FF', '#1DE9B6', '#0A0A0A', '#2979FF', '#00B8D4']}
+            gradientStops={[35, 50, 60, 70, 80, 90, 100]}
+          />
+          
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4">
+            <div className="w-full max-w-2xl">
+              {/* Header */}
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center shadow-lg"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="relative mb-4"
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-500/20 mb-4">
-                  <Users className="w-7 h-7 text-blue-300" />
+                <div className="w-full h-12 relative flex items-center justify-center">
+                  <SparklesCore
+                    id="step4-particles"
+                    background="transparent"
+                    minSize={0.4}
+                    maxSize={0.8}
+                    particleDensity={60}
+                    className="w-full h-full"
+                    particleColor="#FFFFFF"
+                    speed={0.8}
+                  />
                 </div>
-                <p className="text-gray-300 text-sm mb-1">{t('lottery.review.participants')}</p>
-                <p className="text-3xl font-bold text-white">{participantCount}</p>
+                <h2 className="text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 relative z-20 mt-2">
+                  {t('lottery.review.title')}
+                </h2>
               </motion.div>
 
-              {/* Winners Card */}
+              {/* Stats Grid - Compact */}
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center shadow-lg"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="grid grid-cols-3 gap-2 mb-4"
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-purple-500/20 mb-4">
-                  <Trophy className="w-7 h-7 text-purple-300" />
-                </div>
-                <p className="text-gray-300 text-sm mb-1">{t('lottery.review.winners')}</p>
-                <p className="text-3xl font-bold text-white">{winnerCount}</p>
+                {/* Participants */}
+                <motion.div whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3">
+                  <Users className="w-4 h-4 text-blue-300 mx-auto mb-1" />
+                  <p className="text-gray-300 text-xs text-center">{t('lottery.review.participants')}</p>
+                  <p className="text-2xl font-bold text-white text-center">{participantCount}</p>
+                </motion.div>
+
+                {/* Winners */}
+                <motion.div whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3">
+                  <Trophy className="w-4 h-4 text-purple-300 mx-auto mb-1" />
+                  <p className="text-gray-300 text-xs text-center">{t('lottery.review.winners')}</p>
+                  <p className="text-2xl font-bold text-white text-center">{winnerCount}</p>
+                </motion.div>
+
+                {/* Columns */}
+                <motion.div whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300 mx-auto mb-1" />
+                  <p className="text-gray-300 text-xs text-center">{t('lottery.review.columns')}</p>
+                  <p className="text-2xl font-bold text-white text-center">{selectedColumns.length}</p>
+                </motion.div>
               </motion.div>
 
-              {/* Columns Card */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center shadow-lg"
-              >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500/20 mb-4">
-                  <CheckCircle2 className="w-7 h-7 text-emerald-300" />
-                </div>
-                <p className="text-gray-300 text-sm mb-1">{t('lottery.review.columns')}</p>
-                <p className="text-3xl font-bold text-white">{selectedColumns.length}</p>
-              </motion.div>
-            </motion.div>
+              {/* Columns List - Compact */}
+              {selectedColumns.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-lg p-3 mb-3"
+                >
+                  <p className="text-gray-300 text-xs mb-2">{t('lottery.review.selectedColumns')}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {selectedColumns.map((col, i) => (
+                      <span key={col} className="px-2 py-0.5 bg-white/10 border border-white/20 rounded text-white text-xs">
+                        {col}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-            {/* Selected Columns */}
-            {selectedColumns.length > 0 && (
+              {/* Summary */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-6 mb-8"
+                className="text-center mb-4"
               >
-                <h3 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                  {t('lottery.review.selectedColumns')}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedColumns.map((column, index) => (
-                    <motion.span
-                      key={column}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.4 + index * 0.05 }}
-                      className="px-3 py-1 bg-white/10 border border-white/20 rounded-lg text-white text-sm font-medium"
-                    >
-                      {column}
-                    </motion.span>
-                  ))}
-                </div>
+                <p className="text-gray-200 text-sm">{getSummaryText()}</p>
               </motion.div>
-            )}
 
-            {/* Summary */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-center mb-8"
-            >
-              <p className="text-gray-200 text-lg">
-                {getSummaryText()}
-              </p>
-            </motion.div>
-
-            {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <button
-                onClick={onBack}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg transition-all duration-300 font-semibold"
+              {/* Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="flex gap-2 justify-center"
               >
-                <ArrowLeft className="w-4 h-4" />
-                {t('lottery.review.back')}
-              </button>
+                <button
+                  onClick={onBack}
+                  className="inline-flex items-center gap-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg transition-all text-sm font-medium"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  {t('lottery.review.back')}
+                </button>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onStart}
-                className="flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-white to-gray-100 text-black rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-bold"
-              >
-                <Play className="w-5 h-5" />
-                {t('lottery.review.start')}
-              </motion.button>
-            </motion.div>
-
-            {/* Live Info */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-8 text-center"
-            >
-              <p className="text-gray-300 text-sm">
-                ⚡ {t('lottery.review.liveInfo')}
-              </p>
-            </motion.div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onStart}
+                  className="inline-flex items-center gap-1 px-6 py-2 bg-gradient-to-r from-white to-gray-100 text-black rounded-lg shadow-lg hover:shadow-xl transition-all font-bold text-sm"
+                >
+                  <Play className="w-3.5 h-3.5" />
+                  {t('lottery.review.start')}
+                </motion.button>
+              </motion.div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
