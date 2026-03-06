@@ -121,6 +121,9 @@ export default function Step5Lottery({
           />
         ))}
       </div>
+
+      {/* Falling Particles */}
+      <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
