@@ -13,7 +13,7 @@ import { WinnerResultsPage } from "@/components/winner-results-page"
 import { WinnerRevealModal } from "@/components/winner-reveal-modal"
 import { LiveBackground } from "@/components/live-background"
 import { Button } from "@/components/ui/button"
-import { setSoundEnabled } from "@/lib/sound-manager"
+import { setSoundEnabled, playVictory } from "@/lib/sound-manager"
 import {
   Upload,
   FileSpreadsheet,
@@ -52,7 +52,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [isLiveDrawMode, setIsLiveDrawMode] = useState(false)
   const [isLiveMode, setIsLiveMode] = useState(false)
   const [sessionLocked, setSessionLocked] = useState(false)
-  const [soundEnabled, setSoundEnabled] = useState(true)
   const [soundEnabledLocal, setSoundEnabledLocal] = useState(true)
   const [showAnimation, setShowAnimation] = useState(false)
   const [winner, setWinner] = useState<{ index: number; row: string[] } | null>(null)
@@ -260,7 +259,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
       <OperatorPanel
         isLiveMode={isLiveMode}
         setLiveMode={setIsLiveMode}
-        soundEnabled={soundEnabled}
+        soundEnabled={soundEnabledLocal}
         setSoundEnabled={(enabled) => {
           setSoundEnabledLocal(enabled)
           setSoundEnabled(enabled)
