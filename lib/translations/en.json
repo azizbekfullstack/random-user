@@ -327,9 +327,9 @@
       "tooltip": "Hover to see details"
     },
     "tabs": {
-      "results": "Results",
+      "results": "Positions",
       "settings": "Settings",
-      "next": "Next Winner"
+      "next": "Next Position"
     },
     "errors": {
       "noFile": "Please upload a file first",
@@ -349,15 +349,15 @@
       "fileLoaded": "File loaded successfully",
       "participantsLoaded": "{count} participants loaded",
       "columnsDetected": "{count} columns detected",
-      "winnerSelected": "Winner #{number} selected",
-      "allWinnersSelected": "All {count} winners selected",
+      "positionSelected": "Position #{number} selected",
+      "allPositionsSelected": "All {count} positions selected",
       "selectionStarting": "Starting selection in 3 seconds...",
       "selectionComplete": "Selection complete!"
     },
     "confirmations": {
       "restart": "Are you sure? This will clear all selections.",
-      "confirm": "Confirm",
-      "cancel": "Cancel"
+      "confirm": "Confirm Position",
+      "cancel": "Try Again"
     }
   }
 }

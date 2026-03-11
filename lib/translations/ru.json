@@ -123,7 +123,7 @@
       "subtitle": "Введите ежедневный динамический код доступа для продолжения",
       "placeholder": "adminДДММГГГГ",
       "submit": "Проверить код",
-      "error": "Нев��рный код доступа. Формат: adminДДММГГГГ",
+      "error": "Нев����рный код доступа. Формат: adminДДММГГГГ",
       "hint": "Формат: admin + сегодняшняя дата (ДДММГГГГ)"
     },
     "telegram": {
@@ -327,9 +327,9 @@
       "tooltip": "Наведите для подробностей"
     },
     "tabs": {
-      "results": "Результаты",
+      "results": "Места",
       "settings": "Настройки",
-      "next": "Следующий победитель"
+      "next": "Следующее место"
     },
     "errors": {
       "noFile": "Пожалуйста, сначала загрузите файл",
@@ -349,15 +349,15 @@
       "fileLoaded": "Файл успешно загружен",
       "participantsLoaded": "Загружено {count} участников",
       "columnsDetected": "Обнаружено {count} колонок",
-      "winnerSelected": "Выбран победитель #{number}",
-      "allWinnersSelected": "Все {count} победители выбраны",
+      "positionSelected": "Место #{number} выбрано",
+      "allPositionsSelected": "Все {count} мест выбраны",
       "selectionStarting": "Отбор начнётся через 3 секунды...",
-      "selectionComplete": "Отбор завершен!"
+      "selectionComplete": "Отбор завершён!"
     },
     "confirmations": {
       "restart": "Вы уверены? Это очистит все выборы.",
-      "confirm": "Подтвердить",
-      "cancel": "Отмена"
+      "confirm": "Подтвердить место",
+      "cancel": "Повторить"
     }
   }
 }

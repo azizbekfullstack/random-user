@@ -14,9 +14,16 @@ import ExcelUploadManager from '@/components/ExcelUploadManager';
 import VerticalSlotMachineSpinner from '@/components/VerticalSlotMachineSpinner';
 import ResultsPanel from '@/components/ResultsPanel';
 import SettingsPanel from '@/components/SettingsPanel';
-import { RotateCcw } from 'lucide-react';
+import CelebrationEffect from '@/components/CelebrationEffect';
+import { RotateCcw, Check } from 'lucide-react';
 
 type TabType = 'results' | 'settings' | 'next';
+
+interface PendingPosition {
+  participant: Participant;
+  position: number;
+  showCelebration: boolean;
+}
 
 export default function WinnerSelectionApp() {
   const { t } = useTranslation();
@@ -30,6 +37,8 @@ export default function WinnerSelectionApp() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('results');
   const [spinDuration] = useState(30);
+  const [pendingPosition, setPendingPosition] = useState<PendingPosition | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   // Event Handlers
   const handleFileLoad = (newParticipants: Participant[], columns: string[]) => {
@@ -53,9 +62,41 @@ export default function WinnerSelectionApp() {
 
     // Get next winner from available participants
     const selection = selectNextWinner(selectionState.availableParticipants);
-    const updatedState = updateSelectionState(selectionState, selection);
-    setSelectionState(updatedState);
+    
+    // Show pending position for confirmation
+    setPendingPosition({
+      participant: selection.winner,
+      position: selectionState.selectedWinners.length + 1,
+      showCelebration: false,
+    });
+    
     setIsSpinning(false);
+  };
+
+  const handleConfirmPosition = () => {
+    if (!pendingPosition || !selectionState) return;
+
+    // Update selection state with confirmed position
+    const selection = selectNextWinner(selectionState.availableParticipants);
+    const updatedState = updateSelectionState(selectionState, selection);
+    
+    setSelectionState(updatedState);
+    
+    // Show celebration effect
+    setShowCelebration(true);
+    setPendingPosition({
+      ...pendingPosition,
+      showCelebration: true,
+    });
+    
+    setTimeout(() => {
+      setShowCelebration(false);
+      setPendingPosition(null);
+    }, 2000);
+  };
+
+  const handleRejectPosition = () => {
+    setPendingPosition(null);
   };
 
   const handleConfigChange = (newConfigs: ColumnConfig[]) => {
@@ -68,9 +109,11 @@ export default function WinnerSelectionApp() {
     setSelectionState(null);
     setIsSpinning(false);
     setActiveTab('results');
+    setPendingPosition(null);
+    setShowCelebration(false);
   };
 
-  const remainingWinners =
+  const remainingPositions =
     selectionState && selectionState.availableParticipants.length > 0;
 
   return (
@@ -84,7 +127,7 @@ export default function WinnerSelectionApp() {
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
               {participants.length > 0
-                ? `${participants.length} participants`
+                ? `${participants.length} ${t('system.of')} ${selectionState?.selectedWinners.length || 0} positions`
                 : 'Upload a file to start'}
             </p>
           </div>
@@ -118,7 +161,9 @@ export default function WinnerSelectionApp() {
             </div>
 
             {/* Center: Spinner */}
-            <div className="flex-1 flex items-center justify-center py-4">
+            <div className="flex-1 flex items-center justify-center py-4 relative">
+              {showCelebration && <CelebrationEffect />}
+              
               {selectionState && (
                 <VerticalSlotMachineSpinner
                   virtualParticipants={selectionState.currentSelection?.virtualParticipants || selectionState.availableParticipants.slice(0, 100)}
@@ -131,80 +176,113 @@ export default function WinnerSelectionApp() {
               )}
             </div>
 
+            {/* Pending Position Confirmation */}
+            {pendingPosition && (
+              <div className="border-t border-accent/50 pt-4 bg-accent/5 rounded-lg p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground font-semibold mb-1">
+                      Position #{pendingPosition.position}
+                    </p>
+                    <p className="text-sm font-bold text-foreground">
+                      {pendingPosition.participant[columnConfigs[0]?.name] || 'Unknown'}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleConfirmPosition}
+                      className="px-4 py-2 rounded-lg bg-accent text-accent-foreground font-semibold text-xs hover:opacity-90 transition-opacity flex items-center gap-2"
+                    >
+                      <Check className="w-3.5 h-3.5" />
+                      {t('winnerSelection.confirmations.confirm')}
+                    </button>
+                    <button
+                      onClick={handleRejectPosition}
+                      className="px-4 py-2 rounded-lg border border-border text-muted-foreground font-semibold text-xs hover:text-foreground transition-colors"
+                    >
+                      {t('winnerSelection.confirmations.cancel')}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Bottom: Tabs and Controls */}
-            <div className="border-t border-border/30 pt-4 space-y-3">
-              {/* Tab Navigation */}
-              <div className="flex gap-2 border-b border-border/30">
-                <button
-                  onClick={() => setActiveTab('results')}
-                  className={`px-3 py-2 text-xs font-semibold transition-colors ${
-                    activeTab === 'results'
-                      ? 'text-accent border-b-2 border-accent'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {t('winnerSelection.tabs.results')}
-                </button>
-                <button
-                  onClick={() => setActiveTab('settings')}
-                  className={`px-3 py-2 text-xs font-semibold transition-colors ${
-                    activeTab === 'settings'
-                      ? 'text-accent border-b-2 border-accent'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {t('winnerSelection.tabs.settings')}
-                </button>
-                {remainingWinners && (
+            {!pendingPosition && (
+              <div className="border-t border-border/30 pt-4 space-y-3">
+                {/* Tab Navigation */}
+                <div className="flex gap-2 border-b border-border/30">
                   <button
-                    onClick={() => setActiveTab('next')}
+                    onClick={() => setActiveTab('results')}
                     className={`px-3 py-2 text-xs font-semibold transition-colors ${
-                      activeTab === 'next'
+                      activeTab === 'results'
                         ? 'text-accent border-b-2 border-accent'
                         : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    {t('winnerSelection.tabs.next')}
+                    {t('winnerSelection.tabs.results')} ({selectionState?.selectedWinners.length || 0})
                   </button>
-                )}
-              </div>
+                  <button
+                    onClick={() => setActiveTab('settings')}
+                    className={`px-3 py-2 text-xs font-semibold transition-colors ${
+                      activeTab === 'settings'
+                        ? 'text-accent border-b-2 border-accent'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {t('winnerSelection.tabs.settings')}
+                  </button>
+                  {remainingPositions && (
+                    <button
+                      onClick={() => setActiveTab('next')}
+                      className={`px-3 py-2 text-xs font-semibold transition-colors ${
+                        activeTab === 'next'
+                          ? 'text-accent border-b-2 border-accent'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {t('winnerSelection.tabs.next')}
+                    </button>
+                  )}
+                </div>
 
-              {/* Tab Content */}
-              <div className="min-h-64 pb-4">
-                {activeTab === 'results' && (
-                  <ResultsPanel
-                    winners={selectionState?.selectedWinners || []}
-                    columnConfigs={columnConfigs}
-                  />
-                )}
+                {/* Tab Content */}
+                <div className="min-h-64 pb-4">
+                  {activeTab === 'results' && (
+                    <ResultsPanel
+                      positions={selectionState?.selectedWinners || []}
+                      columnConfigs={columnConfigs}
+                    />
+                  )}
 
-                {activeTab === 'settings' && (
-                  <SettingsPanel
-                    columnConfigs={columnConfigs}
-                    onConfigChange={handleConfigChange}
-                  />
-                )}
+                  {activeTab === 'settings' && (
+                    <SettingsPanel
+                      columnConfigs={columnConfigs}
+                      onConfigChange={handleConfigChange}
+                    />
+                  )}
 
-                {activeTab === 'next' && (
-                  <div className="flex flex-col items-center justify-center gap-4 py-8">
-                    <div className="text-center">
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {selectionState?.availableParticipants.length || 0} participants remaining
-                      </p>
-                      <button
-                        onClick={handleStartSpin}
-                        disabled={isSpinning || !remainingWinners}
-                        className="px-6 py-2 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-opacity"
-                      >
-                        {isSpinning
-                          ? t('winnerSelection.spinner.spinning')
-                          : t('winnerSelection.spinner.selectNextBtn')}
-                      </button>
+                  {activeTab === 'next' && (
+                    <div className="flex flex-col items-center justify-center gap-4 py-8">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground mb-4">
+                          {selectionState?.availableParticipants.length || 0} participants remaining
+                        </p>
+                        <button
+                          onClick={handleStartSpin}
+                          disabled={isSpinning || !remainingPositions}
+                          className="px-6 py-3 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-opacity"
+                        >
+                          {isSpinning
+                            ? t('winnerSelection.spinner.spinning')
+                            : `Select Position #${(selectionState?.selectedWinners.length || 0) + 1}`}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </main>

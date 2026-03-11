@@ -327,9 +327,9 @@
       "tooltip": "Tafsilotlar uchun ustiga o'tkazing"
     },
     "tabs": {
-      "results": "Natijalar",
+      "results": "O'rinlar",
       "settings": "Sozlamalar",
-      "next": "Keyingi g'olib"
+      "next": "Keyingi o'rin"
     },
     "errors": {
       "noFile": "Iltimos, birinchi raqamda faylni yuklang",
@@ -349,15 +349,15 @@
       "fileLoaded": "Fayl muvaffaqiyatli yuklandi",
       "participantsLoaded": "{count} ta ishtirokchi yuklandi",
       "columnsDetected": "{count} ta ustun aniqlandi",
-      "winnerSelected": "G'olib #{number} tanlandi",
-      "allWinnersSelected": "Barcha {count} ta g'oliblar tanlandi",
+      "positionSelected": "O'rin #{number} tanlandi",
+      "allPositionsSelected": "Barcha {count} ta o'rinlar tanlandi",
       "selectionStarting": "Tanlash 3 soniyada boshlanadi...",
       "selectionComplete": "Tanlash tugadi!"
     },
     "confirmations": {
       "restart": "Ishonchingiz komilmi? Bu barcha tanlovlarni o'chirib tashlaydi.",
-      "confirm": "Tasdiqlash",
-      "cancel": "Bekor qilish"
+      "confirm": "O'rinni tasdiqlash",
+      "cancel": "Qayta urinish"
     }
   }
 }
