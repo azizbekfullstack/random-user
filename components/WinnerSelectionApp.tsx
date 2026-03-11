@@ -40,6 +40,7 @@ export default function WinnerSelectionApp() {
   const [spinDuration] = useState(30);
   const [pendingPosition, setPendingPosition] = useState<PendingPosition | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [showContinuationDialog, setShowContinuationDialog] = useState(false);
 
   // Event Handlers
   const handleFileLoad = (newParticipants: Participant[], columns: string[], selectedColumn?: string) => {
@@ -91,10 +92,32 @@ export default function WinnerSelectionApp() {
       showCelebration: true,
     });
     
+    // After celebration, show continuation dialog or finish
     setTimeout(() => {
       setShowCelebration(false);
-      setPendingPosition(null);
+      
+      // Check if there are more positions to draw
+      if (updatedState.availableParticipants.length > 0) {
+        // Show "Ready for next position?" dialog
+        setShowContinuationDialog(true);
+      } else {
+        // All positions drawn, show results
+        setPendingPosition(null);
+        setActiveTab('results');
+      }
     }, 2000);
+  };
+
+  const handleContinueToNextPosition = () => {
+    setShowContinuationDialog(false);
+    setPendingPosition(null);
+    setActiveTab('next');
+  };
+
+  const handleStopDrawing = () => {
+    setShowContinuationDialog(false);
+    setPendingPosition(null);
+    setActiveTab('results');
   };
 
   const handleRejectPosition = () => {
@@ -113,6 +136,7 @@ export default function WinnerSelectionApp() {
     setActiveTab('results');
     setPendingPosition(null);
     setShowCelebration(false);
+    setShowContinuationDialog(false);
   };
 
   const remainingPositions =
@@ -244,6 +268,47 @@ export default function WinnerSelectionApp() {
                     >
                       <Check className="w-4 h-4" />
                       Tasdiqlash
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Continuation Dialog - Ask to continue or finish */}
+            {showContinuationDialog && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-background border border-accent/30 rounded-lg shadow-2xl p-8 max-w-md mx-4 space-y-6">
+                  <div className="text-center space-y-2">
+                    <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">
+                      Keyingi o'rin
+                    </p>
+                    <p className="text-4xl font-bold text-accent">
+                      {(selectionState?.selectedWinners.length || 0) + 1}-o'rin
+                    </p>
+                  </div>
+
+                  <div className="text-center py-4 bg-secondary/30 rounded-lg border border-border/30">
+                    <p className="text-sm font-semibold text-foreground">
+                      {selectionState?.availableParticipants.length || 0} ta ishtirokchi qoldi
+                    </p>
+                  </div>
+
+                  <p className="text-center text-sm text-muted-foreground">
+                    {`${(selectionState?.selectedWinners.length || 0) + 1}`}-o'rini tanlashga tayyormisiz?
+                  </p>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleStopDrawing}
+                      className="flex-1 px-4 py-3 rounded-lg border border-border text-muted-foreground font-semibold hover:text-foreground transition-colors"
+                    >
+                      Tugatish
+                    </button>
+                    <button
+                      onClick={handleContinueToNextPosition}
+                      className="flex-1 px-4 py-3 rounded-lg bg-accent text-accent-foreground font-semibold hover:opacity-90 transition-opacity"
+                    >
+                      Ha, davom qilish
                     </button>
                   </div>
                 </div>
