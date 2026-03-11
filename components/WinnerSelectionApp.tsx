@@ -41,7 +41,7 @@ export default function WinnerSelectionApp() {
   const [showCelebration, setShowCelebration] = useState(false);
 
   // Event Handlers
-  const handleFileLoad = (newParticipants: Participant[], columns: string[]) => {
+  const handleFileLoad = (newParticipants: Participant[], columns: string[], selectedColumn?: string) => {
     setParticipants(newParticipants);
     const configs = autoConfigureColumns(columns);
     setColumnConfigs(configs);
@@ -241,7 +241,7 @@ export default function WinnerSelectionApp() {
                           : 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
-                      {t('winnerSelection.tabs.next')}
+                      {`${(selectionState?.selectedWinners.length || 0) + 1}-o'rin`}
                     </button>
                   )}
                 </div>
@@ -275,7 +275,7 @@ export default function WinnerSelectionApp() {
                         >
                           {isSpinning
                             ? t('winnerSelection.spinner.spinning')
-                            : `Select Position #${(selectionState?.selectedWinners.length || 0) + 1}`}
+                            : `${(selectionState?.selectedWinners.length || 0) + 1}-o'ranni aniqlash`}
                         </button>
                       </div>
                     </div>
