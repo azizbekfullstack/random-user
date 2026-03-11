@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Trophy, Users, Minus, Plus } from 'lucide-react';
+import { useTranslation } from '@/lib/i18n';
 
 interface Step3WinnerCountProps {
   participantCount: number;
@@ -18,6 +19,7 @@ export default function Step3WinnerCount({
   onNext,
   onBack,
 }: Step3WinnerCountProps) {
+  const { t } = useTranslation();
   const presetCounts = [1, 3, 5, 10, 20];
 
   const increment = () => {
@@ -32,80 +34,63 @@ export default function Step3WinnerCount({
     }
   };
 
-  return (
-    <div className="w-full max-w-4xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors text-lg"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Orqaga qaytish
-        </button>
-      </motion.div>
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter') {
+      onNext();
+    }
+  };
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2 }}
-        className="bg-white rounded-3xl shadow-2xl p-12"
-      >
+  return (
+    <div className="w-full min-h-screen flex flex-col px-4 py-8 bg-background overflow-y-auto">
+      <div className="w-full max-w-2xl mx-auto flex flex-col gap-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-3"
+        >
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-            className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 mb-6 shadow-2xl"
+            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent mb-3"
           >
-            <Trophy className="w-14 h-14 text-white" />
+            <Trophy className="w-6 h-6 text-accent-foreground" />
           </motion.div>
-          <h1 className="text-5xl mb-4">G'oliblar soni</h1>
-          <p className="text-xl text-gray-600">Nechta g'olib tanlansin?</p>
-        </div>
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+            {t('draw.winner_count')}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {t('draw.draw_name')}
+          </p>
+        </motion.div>
 
-        {/* Counter */}
+        {/* Counter Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-12"
+          transition={{ delay: 0.2 }}
+          className="bg-card border border-border rounded-lg p-6 mb-4"
         >
-          <div className="flex items-center justify-center gap-6 mb-10">
+          {/* Increment/Decrement Buttons */}
+          <div className="flex items-center justify-center gap-4 mb-6">
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={decrement}
               disabled={winnerCount <= 1}
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-pink-600 text-white flex items-center justify-center shadow-xl hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-12 h-12 rounded-lg bg-destructive/20 text-destructive flex items-center justify-center hover:bg-destructive/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Minus className="w-8 h-8" />
+              <Minus className="w-6 h-6" />
             </motion.button>
 
             <motion.div
               key={winnerCount}
               initial={{ scale: 1.3, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="relative"
+              className="w-24 h-24 rounded-lg bg-accent/10 border-2 border-accent flex items-center justify-center"
             >
-              <div className="w-40 h-40 rounded-3xl bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 flex items-center justify-center shadow-2xl">
-                <span className="text-7xl font-bold text-white">{winnerCount}</span>
-              </div>
-              <motion.div
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.5, 0.2, 0.5],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
-                className="absolute inset-0 rounded-3xl bg-blue-400 -z-10"
-              />
+              <span className="text-4xl font-bold text-accent">{winnerCount}</span>
             </motion.div>
 
             <motion.button
@@ -113,85 +98,84 @@ export default function Step3WinnerCount({
               whileTap={{ scale: 0.9 }}
               onClick={increment}
               disabled={winnerCount >= participantCount}
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center shadow-xl hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-12 h-12 rounded-lg bg-accent text-accent-foreground flex items-center justify-center hover:shadow-lg hover:shadow-accent/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Plus className="w-8 h-8" />
+              <Plus className="w-6 h-6" />
             </motion.button>
           </div>
 
           {/* Preset Buttons */}
-          <div className="flex flex-wrap gap-3 justify-center mb-10">
+          <div className="flex flex-wrap gap-2 justify-center">
             {presetCounts
               .filter((count) => count <= participantCount)
               .map((preset, index) => (
                 <motion.button
                   key={preset}
-                  initial={{ opacity: 0, scale: 0.5 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  transition={{ delay: 0.3 + index * 0.05 }}
                   onClick={() => onWinnerCountChange(preset)}
-                  className={`px-8 py-4 rounded-xl transition-all duration-300 font-semibold text-lg ${
+                  className={`px-4 py-2 rounded-lg transition-all duration-200 text-sm font-semibold ${
                     winnerCount === preset
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl scale-110'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-md'
+                      ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/30'
+                      : 'bg-secondary text-foreground border border-border hover:border-accent/50'
                   }`}
                 >
                   {preset}
                 </motion.button>
               ))}
           </div>
+        </motion.div>
 
-          {/* Info Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 flex items-center gap-4 border-2 border-blue-100"
-          >
-            <div className="flex-shrink-0">
-              <div className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center shadow-lg">
-                <Users className="w-8 h-8 text-white" />
-              </div>
-            </div>
-            <div className="flex-1">
-              <p className="text-gray-600 text-lg mb-1">Jami ishtirokchilar</p>
-              <p className="text-4xl font-bold text-gray-900">{participantCount}</p>
-            </div>
-            <div className="flex-1 text-right">
-              <p className="text-gray-600 text-lg mb-1">G'oliblar foizi</p>
-              <p className="text-4xl font-bold text-blue-600">
-                {((winnerCount / participantCount) * 100).toFixed(1)}%
-              </p>
-            </div>
-          </motion.div>
+        {/* Info Card - Compact */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-accent/10 border border-accent rounded-lg p-4 flex items-center gap-3"
+        >
+          <Users className="w-5 h-5 text-accent flex-shrink-0" />
+          <div className="flex-1">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('dashboard.lottery.review.participants')}</p>
+            <p className="text-lg font-bold text-foreground">{participantCount}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('winner.selected')}</p>
+            <p className="text-lg font-bold text-accent">
+              {((winnerCount / participantCount) * 100).toFixed(1)}%
+            </p>
+          </div>
         </motion.div>
 
         {/* Navigation Buttons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="flex justify-between items-center gap-4"
+          transition={{ delay: 0.4 }}
+          className="flex gap-2 justify-center mt-auto"
         >
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={onBack}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gray-200 text-gray-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-lg font-semibold"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-secondary text-foreground border border-border rounded-lg hover:bg-secondary/80 transition-all font-semibold text-sm"
           >
-            <ArrowLeft className="w-5 h-5" />
-            Orqaga
-          </button>
+            <ArrowLeft className="w-4 h-4" />
+            {t('dashboard.lottery.review.back')}
+          </motion.button>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(34, 197, 94, 0.3)' }}
+            whileTap={{ scale: 0.95 }}
             onClick={onNext}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-lg font-semibold"
+            onKeyDown={handleKeyDown}
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-accent text-accent-foreground rounded-lg font-bold hover:shadow-lg transition-all text-sm"
           >
-            Keyingisi
-            <ArrowRight className="w-5 h-5" />
-          </button>
+            {t('system.continue')}
+            <ArrowRight className="w-4 h-4" />
+          </motion.button>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Participant, Step } from '@/lib/lottery-types';
+import { useTranslation } from '@/lib/i18n';
 import ProgressBar from './ProgressBar';
 import Step1Upload from './Step1Upload';
 import Step2Filter from './Step2Filter';
@@ -11,6 +12,7 @@ import Step5Lottery from './Step5Lottery';
 import Step6Winner from './Step6Winner';
 
 export default function LotteryContainer() {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<Step>(Step.UPLOAD);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
@@ -19,12 +21,12 @@ export default function LotteryContainer() {
   const [winners, setWinners] = useState<Participant[]>([]);
 
   const stepNames = [
-    'Yuklash',
-    'Filterlash',
-    'Soni',
-    'Tasdiqlash',
-    'Loterеya',
-    'Natija',
+    t('dashboard.upload.title'),
+    t('dashboard.dedup.title'),
+    t('draw.winner_count'),
+    t('dashboard.lottery.review.title'),
+    t('dashboard.animation.title'),
+    t('result.title'),
   ];
 
   const handleUploadComplete = (newParticipants: Participant[], newColumns: string[]) => {
@@ -61,16 +63,18 @@ export default function LotteryContainer() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Progress Bar - Faqat 1-4 bosqichlarda ko'rsatiladi */}
+    <div className="min-h-screen bg-background">
+      {/* Progress Bar - Only shown in steps 1-4 */}
       {currentStep <= Step.READY && (
-        <div className="container mx-auto px-6 py-8">
-          <ProgressBar currentStep={currentStep} steps={stepNames} />
+        <div className="border-b border-border">
+          <div className="max-w-5xl mx-auto px-4 py-6">
+            <ProgressBar currentStep={currentStep} steps={stepNames} />
+          </div>
         </div>
       )}
 
       {/* Step Content */}
-      <div className="container mx-auto px-6 py-8">
+      <div className="max-w-5xl mx-auto px-4">
         {/* STEP 1: Upload Excel */}
         {currentStep === Step.UPLOAD && (
           <Step1Upload onNext={handleUploadComplete} />
