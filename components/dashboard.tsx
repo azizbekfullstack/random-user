@@ -564,7 +564,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
                 {t("dashboard.winner.title")}
               </h3>
               <Button
-                onClick={handleSelectWinner}
+                onClick={handleSelectWinners}
                 disabled={data.length === 0 || selecting}
                 className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold hover:from-yellow-600 hover:to-orange-600 disabled:opacity-50"
                 size="lg"
