@@ -148,14 +148,14 @@ export default function Step2Filter({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-card border border-border rounded-lg p-4 mb-4 overflow-x-auto"
+            className="bg-card border border-border rounded-lg p-4 mb-4 flex flex-col"
           >
             <p className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">
               {t('dashboard.table.title')}
             </p>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-64 overflow-y-auto border border-border/50 rounded">
               <table className="w-full text-xs">
-                <thead>
+                <thead className="sticky top-0 bg-secondary">
                   <tr className="border-b border-border">
                     <th className="px-2 py-2 text-left text-muted-foreground font-semibold">#</th>
                     {selectedColumns.map((col) => (
@@ -166,8 +166,8 @@ export default function Step2Filter({
                   </tr>
                 </thead>
                 <tbody>
-                  {participants.slice(0, 3).map((participant, idx) => (
-                    <tr key={idx} className="border-b border-border/50 hover:bg-secondary/50">
+                  {participants.slice(0, 10).map((participant, idx) => (
+                    <tr key={idx} className="border-b border-border/50 hover:bg-secondary/50 transition-colors">
                       <td className="px-2 py-2 text-muted-foreground">{idx + 1}</td>
                       {selectedColumns.map((col) => (
                         <td key={col} className="px-2 py-2 text-foreground truncate">
@@ -179,6 +179,11 @@ export default function Step2Filter({
                 </tbody>
               </table>
             </div>
+            {participants.length > 10 && (
+              <p className="text-xs text-muted-foreground mt-2 text-center">
+                {t('dashboard.table.showing')} 10 {t('system.of')} {participants.length}
+              </p>
+            )}
           </motion.div>
         )}
 

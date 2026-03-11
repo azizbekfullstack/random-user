@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Download, RotateCcw } from 'lucide-react';
+import { Trophy, Download, RotateCcw, Copy, Check } from 'lucide-react';
 import { Participant } from '@/lib/lottery-types';
 import { useTranslation } from '@/lib/i18n';
 
@@ -19,10 +19,22 @@ export default function Step6Winner({
 }: Step6WinnerProps) {
   const { t } = useTranslation();
   const [isClient, setIsClient] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  // Generate verification data
+  const drawId = `DRAW-${Date.now().toString(36).toUpperCase()}`;
+  const randomSeed = Math.random().toString(36).substring(2, 10).toUpperCase();
+  const verificationCode = `${randomSeed}-${winners.length}-${selectedColumns.length}`.toUpperCase();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(id);
+    setTimeout(() => setCopied(null), 2000);
+  };
 
   const handleExport = () => {
     const data = winners.map((winner, index) => ({
@@ -137,6 +149,80 @@ export default function Step6Winner({
               </div>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Verification & Transparency Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="bg-card border border-border rounded-lg p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-3"
+        >
+          {/* Draw ID */}
+          <div className="bg-secondary rounded p-3">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">
+              Draw ID
+            </p>
+            <div className="flex items-center gap-2">
+              <code className="text-xs font-mono text-accent font-bold truncate flex-1">
+                {drawId}
+              </code>
+              <button
+                onClick={() => handleCopy(drawId, 'drawId')}
+                className="text-muted-foreground hover:text-accent transition-colors"
+              >
+                {copied === 'drawId' ? (
+                  <Check className="w-3.5 h-3.5" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Random Seed */}
+          <div className="bg-secondary rounded p-3">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">
+              Random Seed
+            </p>
+            <div className="flex items-center gap-2">
+              <code className="text-xs font-mono text-accent font-bold truncate flex-1">
+                {randomSeed}
+              </code>
+              <button
+                onClick={() => handleCopy(randomSeed, 'seed')}
+                className="text-muted-foreground hover:text-accent transition-colors"
+              >
+                {copied === 'seed' ? (
+                  <Check className="w-3.5 h-3.5" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Verification Code */}
+          <div className="bg-secondary rounded p-3">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">
+              Verification Code
+            </p>
+            <div className="flex items-center gap-2">
+              <code className="text-xs font-mono text-accent font-bold truncate flex-1">
+                {verificationCode}
+              </code>
+              <button
+                onClick={() => handleCopy(verificationCode, 'verify')}
+                className="text-muted-foreground hover:text-accent transition-colors"
+              >
+                {copied === 'verify' ? (
+                  <Check className="w-3.5 h-3.5" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
+          </div>
         </motion.div>
 
         {/* Action Buttons */}
