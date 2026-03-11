@@ -49,6 +49,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [winnerCount, setWinnerCount] = useState(1)
   const [calculatedWinners, setCalculatedWinners] = useState<Array<{ index: number; row: string[]; rank: number }>>([])
   const [showWinnerModal, setShowWinnerModal] = useState(false)
+  const [enabledColumns, setEnabledColumns] = useState<boolean[]>([])
   const [isLiveDrawMode, setIsLiveDrawMode] = useState(false)
   const [isLiveMode, setIsLiveMode] = useState(false)
   const [sessionLocked, setSessionLocked] = useState(false)
@@ -109,6 +110,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
         setData(normalized)
         setColumnCount(maxCols)
         setFileName(file.name)
+        setEnabledColumns(Array(maxCols).fill(true))
       }
     } catch (err) {
       alert("Failed to parse file. Please ensure it's a valid Excel or CSV file.")
@@ -482,6 +484,35 @@ export function Dashboard({ onLogout }: DashboardProps) {
           </div>
         )}
 
+        {/* Column Filter - Show only in STEP 2 */}
+        {data.length > 0 && !sessionLocked && !isLiveMode && (
+          <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4">
+            <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <Filter className="h-4 w-4 text-cyan-400" />
+              Ustunlarni ko'rsatish
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: columnCount }, (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    const newEnabled = [...enabledColumns]
+                    newEnabled[i] = !newEnabled[i]
+                    setEnabledColumns(newEnabled)
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    enabledColumns[i]
+                      ? 'bg-cyan-600/80 text-white border border-cyan-400/50'
+                      : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10'
+                  }`}
+                >
+                  {t("dashboard.table.column")} {i + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Data Table - Show only in STEP 2 (Preparation) */}
         {data.length > 0 && !sessionLocked && !isLiveMode && (
           <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
@@ -498,18 +529,15 @@ export function Dashboard({ onLogout }: DashboardProps) {
                     <th className="px-2 md:px-3 py-2 text-left text-gray-400 font-medium border-b border-white/5 w-12 md:w-16">
                       {t("dashboard.table.index")}
                     </th>
-                    {Array.from({ length: Math.min(columnCount, 10) }, (_, i) => (
-                      <th
-                        key={i}
-                        className="px-2 md:px-3 py-2 text-left text-gray-400 font-medium border-b border-white/5 text-xs"
-                      >
-                        {t("dashboard.table.column")} {i + 1}
-                      </th>
-                    ))}
-                    {columnCount > 10 && (
-                      <th className="px-2 md:px-3 py-2 text-left text-gray-500 font-medium border-b border-white/5 text-xs">
-                        +{columnCount - 10} more
-                      </th>
+                    {Array.from({ length: columnCount }, (_, i) => 
+                      enabledColumns[i] && (
+                        <th
+                          key={i}
+                          className="px-2 md:px-3 py-2 text-left text-gray-400 font-medium border-b border-white/5 text-xs"
+                        >
+                          {t("dashboard.table.column")} {i + 1}
+                        </th>
+                      )
                     )}
                   </tr>
                 </thead>
@@ -524,15 +552,12 @@ export function Dashboard({ onLogout }: DashboardProps) {
                       }`}
                     >
                       <td className="px-2 md:px-3 py-2 text-gray-500 font-mono text-xs sticky left-0 bg-black/50">{idx + 1}</td>
-                      {row.slice(0, 10).map((cell, ci) => (
-                        <td key={ci} className="px-2 md:px-3 py-2 truncate max-w-[100px] md:max-w-[150px]">
-                          {cell}
-                        </td>
-                      ))}
-                      {columnCount > 10 && (
-                        <td className="px-2 md:px-3 py-2 text-gray-500 text-xs">
-                          ...
-                        </td>
+                      {row.map((cell, ci) => 
+                        enabledColumns[ci] && (
+                          <td key={ci} className="px-2 md:px-3 py-2 truncate max-w-[100px] md:max-w-[150px]">
+                            {cell}
+                          </td>
+                        )
                       )}
                     </tr>
                   ))}
