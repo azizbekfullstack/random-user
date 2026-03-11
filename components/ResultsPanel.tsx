@@ -103,17 +103,20 @@ export default function ResultsPanel({ positions, columnConfigs, selectedNameCol
   return (
     <div className="space-y-4">
       {/* Title */}
-      <div className="pb-2 border-b border-border/30">
-        <h3 className="text-sm font-bold text-foreground">G'oliblar</h3>
+      <div className="pb-2 border-b border-border/30 flex items-center justify-between">
+        <h3 className="text-sm font-bold text-foreground">G'oliblar ({positions.length})</h3>
+        <p className="text-xs text-muted-foreground">
+          {new Date().toLocaleString('uz-UZ')}
+        </p>
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <button
           onClick={() => setShowMasked(!showMasked)}
           className="text-xs px-3 py-1.5 rounded border border-accent/30 text-accent hover:bg-accent/10 transition-colors font-medium"
         >
-          {showMasked ? t('winnerSelection.results.showFull') : t('winnerSelection.results.showMasked')}
+          {showMasked ? 'Tolyqini ko\'rsatish' : 'Maskiran ko\'rsatish'}
         </button>
 
         <button
@@ -121,8 +124,16 @@ export default function ResultsPanel({ positions, columnConfigs, selectedNameCol
           className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded border border-border/50 text-muted-foreground hover:text-foreground transition-colors"
         >
           <Download className="w-3.5 h-3.5" />
-          CSV
+          CSV Yuklab olish
         </button>
+      </div>
+
+      {/* Audit Trail Info */}
+      <div className="text-xs text-muted-foreground px-3 py-2 rounded bg-secondary/30 border border-border/20">
+        <p className="flex items-center gap-2">
+          <span>✓</span>
+          Bugungi sana {new Date().toLocaleDateString('uz-UZ')} da {positions.length} ta o'rin aniqlandi
+        </p>
       </div>
 
       {/* Position Cards */}

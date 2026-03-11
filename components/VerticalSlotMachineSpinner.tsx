@@ -118,20 +118,27 @@ export default function VerticalSlotMachineSpinner({
         </motion.div>
       )}
 
-      {/* Spinner Container - Vertical Scrolling List */}
+      {/* Spinner Container - Professional Broadcast Frame */}
       <div
-        className="relative border-2 border-accent/30 rounded-lg overflow-hidden bg-secondary/20"
-        style={{ height: `${containerHeight}px`, width: '100%', maxWidth: '400px' }}
+        className="relative rounded-lg overflow-hidden bg-gradient-to-b from-background/50 to-background/80 border border-accent/30 shadow-lg"
+        style={{ height: `${containerHeight}px`, width: '100%', maxWidth: '500px' }}
       >
+        {/* Broadcast-style frame decoration */}
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent pointer-events-none" />
+        
+        {/* Top border glow */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+        <div className="absolute top-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+        
         {/* Fade overlay on top */}
-        <div className="absolute top-0 left-0 right-0 z-10 h-8 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 z-10 h-12 bg-gradient-to-b from-background to-transparent pointer-events-none" />
 
         {/* Fade overlay on bottom */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 z-10 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
 
-        {/* Center highlight bar */}
+        {/* Center highlight bar - Winner Position */}
         <div
-          className="absolute left-0 right-0 z-20 border-2 border-accent/50 bg-accent/10"
+          className="absolute left-0 right-0 z-20 border-t-2 border-b-2 border-accent bg-gradient-to-r from-accent/20 via-accent/30 to-accent/20 shadow-lg shadow-accent/20"
           style={{
             top: `${centerOffset * ROW_HEIGHT}px`,
             height: `${ROW_HEIGHT}px`,
@@ -152,18 +159,18 @@ export default function VerticalSlotMachineSpinner({
             return (
               <div
                 key={index}
-                className="flex items-center justify-center flex-shrink-0 border-b border-border/30 bg-card/50 hover:bg-card/80 transition-colors"
+                className="flex items-center justify-center flex-shrink-0 border-b border-border/20 bg-gradient-to-r from-background/50 via-background/70 to-background/50 hover:bg-accent/10 transition-all duration-100"
                 style={{
                   height: `${ROW_HEIGHT}px`,
                   opacity,
                 }}
               >
-                <div className="text-center px-4">
-                  <p className="text-sm font-semibold text-foreground truncate">
+                <div className="text-center px-4 py-2">
+                  <p className="text-lg font-bold text-foreground truncate">
                     {getDisplayValue(participant)}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    #{index + 1}
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    #{String(index + 1).padStart(3, '0')}
                   </p>
                 </div>
               </div>

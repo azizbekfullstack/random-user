@@ -157,13 +157,14 @@ export default function ExcelUploadManager({ onFileLoad }: ExcelUploadManagerPro
             />
 
             {loading ? (
-              <div className="space-y-2">
-                <div className="animate-pulse">
-                  <Upload className="w-8 h-8 mx-auto text-accent/50" />
+              <div className="space-y-3">
+                <div className="flex justify-center">
+                  <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('winnerSelection.upload.loading')}
-                </p>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Faylni tahlil qilmoqda...</p>
+                  <p className="text-xs text-muted-foreground mt-1">Iltimos kutib turing</p>
+                </div>
               </div>
             ) : (
               <div className="space-y-2">
