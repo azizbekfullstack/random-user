@@ -218,13 +218,13 @@ export default function ExcelUploadManager({ onFileLoad }: ExcelUploadManagerPro
           {/* Column Selector */}
           <div className="space-y-2">
             <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              Select Participant Name Column
+              Ishtirokchi nomi ustuni
             </label>
             <div className="relative">
               <select
                 value={selectedColumn || ''}
                 onChange={(e) => setSelectedColumn(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-secondary text-foreground appearance-none cursor-pointer hover:border-accent/50 transition-colors focus:outline-none focus:border-accent"
+                className="w-full px-2 py-1.5 text-sm rounded border border-border/50 bg-secondary text-foreground appearance-none cursor-pointer hover:border-accent/50 transition-colors focus:outline-none focus:border-accent"
               >
                 {columns.map((col) => (
                   <option key={col} value={col}>
@@ -232,58 +232,44 @@ export default function ExcelUploadManager({ onFileLoad }: ExcelUploadManagerPro
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-muted-foreground" />
+              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-muted-foreground" />
             </div>
           </div>
 
-          {/* Data Preview Table */}
+          {/* Data Preview Table - Shows ALL participants with internal scrolling */}
           <div className="space-y-2">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              Data Preview
+              Ishtirokchilar ({participants.length})
             </p>
-            <div className="max-h-48 overflow-y-auto rounded-lg border border-border/30 bg-secondary/10">
+            <div className="h-80 overflow-y-auto rounded border border-border/30 bg-secondary/10">
               <table className="w-full text-xs">
-                <thead className="sticky top-0 bg-secondary/30 border-b border-border/30">
+                <thead className="sticky top-0 bg-secondary/40 border-b border-border/20">
                   <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-muted-foreground">#</th>
-                    {columns.slice(0, 3).map((col) => (
-                      <th
-                        key={col}
-                        className="px-3 py-2 text-left font-semibold text-muted-foreground"
-                      >
+                    <th className="px-2 py-1 text-left font-semibold text-muted-foreground">#</th>
+                    {columns.map((col) => (
+                      <th key={col} className="px-2 py-1 text-left font-semibold text-muted-foreground">
                         {col}
                       </th>
                     ))}
-                    {columns.length > 3 && (
-                      <th className="px-3 py-2 text-left font-semibold text-muted-foreground">
-                        +{columns.length - 3}
-                      </th>
-                    )}
                   </tr>
                 </thead>
                 <tbody>
-                  {participants.slice(0, 8).map((participant, idx) => (
+                  {participants.map((participant, idx) => (
                     <tr
                       key={participant._id}
-                      className="border-b border-border/20 hover:bg-secondary/20 transition-colors"
+                      className="border-b border-border/10 hover:bg-secondary/20 transition-colors"
                     >
-                      <td className="px-3 py-2 text-muted-foreground">{idx + 1}</td>
-                      {columns.slice(0, 3).map((col) => (
-                        <td key={col} className="px-3 py-2 truncate text-foreground">
-                          {participant[col] ? String(participant[col]).substring(0, 20) : '—'}
+                      <td className="px-2 py-1 text-muted-foreground whitespace-nowrap">{idx + 1}</td>
+                      {columns.map((col) => (
+                        <td key={col} className="px-2 py-1 truncate text-foreground">
+                          {participant[col] ? String(participant[col]).substring(0, 30) : '—'}
                         </td>
                       ))}
-                      {columns.length > 3 && <td className="px-3 py-2 text-muted-foreground">-</td>}
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            {participants.length > 8 && (
-              <p className="text-xs text-muted-foreground text-center">
-                +{participants.length - 8} more participants
-              </p>
-            )}
           </div>
 
           {/* Action Buttons */}

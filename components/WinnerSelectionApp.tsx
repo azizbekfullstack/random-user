@@ -127,8 +127,8 @@ export default function WinnerSelectionApp() {
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
               {participants.length > 0
-                ? `${participants.length} ${t('system.of')} ${selectionState?.selectedWinners.length || 0} positions`
-                : 'Upload a file to start'}
+                ? `${participants.length} ishtirokchi | ${selectionState?.selectedWinners.length || 0} ta o'rin aniqlandi`
+                : 'Fayl yuklang'}
             </p>
           </div>
           {participants.length > 0 && (
@@ -182,7 +182,7 @@ export default function WinnerSelectionApp() {
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground font-semibold mb-1">
-                      Position #{pendingPosition.position}
+                      {pendingPosition.position}-o'rin
                     </p>
                     <p className="text-sm font-bold text-foreground">
                       {pendingPosition.participant[columnConfigs[0]?.name] || 'Unknown'}
