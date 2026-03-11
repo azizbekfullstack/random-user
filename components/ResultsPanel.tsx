@@ -10,6 +10,7 @@ import { Copy, Check, Download, Medal } from 'lucide-react';
 interface ResultsPanelProps {
   positions: Participant[];
   columnConfigs: ColumnConfig[];
+  selectedNameColumn?: string;
 }
 
 const getMedalColor = (index: number): string => {
@@ -38,7 +39,7 @@ const getMedalEmoji = (index: number): string => {
   }
 };
 
-export default function ResultsPanel({ positions, columnConfigs }: ResultsPanelProps) {
+export default function ResultsPanel({ positions, columnConfigs, selectedNameColumn }: ResultsPanelProps) {
   const { t } = useTranslation();
   const [showMasked, setShowMasked] = useState(true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -156,24 +157,16 @@ export default function ResultsPanel({ positions, columnConfigs }: ResultsPanelP
 
             {/* Position data */}
             <div className="space-y-2.5 mb-3">
-              {visibleColumns.slice(0, 2).map((col) => {
-                const displayValue = formatParticipantForDisplay(
-                  { [col.name]: position[col.name] },
-                  [col],
-                  showMasked
-                )[col.name];
-
-                return (
-                  <div key={col.name}>
-                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
-                      {col.name}
-                    </p>
-                    <p className="text-sm font-bold text-foreground truncate">
-                      {displayValue || '—'}
-                    </p>
-                  </div>
-                );
-              })}
+              {selectedNameColumn && (
+                <div>
+                  <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+                    {selectedNameColumn}
+                  </p>
+                  <p className="text-sm font-bold text-foreground truncate">
+                    {position[selectedNameColumn] || '—'}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Action button */}

@@ -32,6 +32,7 @@ export default function WinnerSelectionApp() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [columnConfigs, setColumnConfigs] = useState<ColumnConfig[]>([]);
   const [selectionState, setSelectionState] = useState<WinnerSelectionState | null>(null);
+  const [selectedNameColumn, setSelectedNameColumn] = useState<string>('');
 
   // UI state
   const [isSpinning, setIsSpinning] = useState(false);
@@ -46,6 +47,7 @@ export default function WinnerSelectionApp() {
     const configs = autoConfigureColumns(columns);
     setColumnConfigs(configs);
     setSelectionState(initializeSelectionState(newParticipants));
+    setSelectedNameColumn(selectedColumn || columns[0] || '');
   };
 
   const handleStartSpin = () => {
@@ -171,7 +173,7 @@ export default function WinnerSelectionApp() {
                   isSpinning={isSpinning}
                   duration={spinDuration}
                   onSpinComplete={handleSpinComplete}
-                  columnName={columnConfigs[0]?.name}
+                  columnName={selectedNameColumn}
                 />
               )}
             </div>
@@ -185,7 +187,7 @@ export default function WinnerSelectionApp() {
                       {pendingPosition.position}-o'rin
                     </p>
                     <p className="text-sm font-bold text-foreground">
-                      {pendingPosition.participant[columnConfigs[0]?.name] || 'Unknown'}
+                      {pendingPosition.participant[selectedNameColumn] || 'Unknown'}
                     </p>
                   </div>
                   <div className="flex gap-2">
@@ -252,6 +254,7 @@ export default function WinnerSelectionApp() {
                     <ResultsPanel
                       positions={selectionState?.selectedWinners || []}
                       columnConfigs={columnConfigs}
+                      selectedNameColumn={selectedNameColumn}
                     />
                   )}
 
