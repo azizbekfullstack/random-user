@@ -227,6 +227,19 @@
       "spinningMessage": "Aylanmoqda...",
       "doneButton": "Tayyor",
       "spinButton": "AYLANTIR"
+    },
+    "spinner": {
+      "searching": "Ishtirokchlarni qidirilmoqda...",
+      "analyzing": "Tasodifiylikni tahlil qilish...",
+      "finalizing": "Natijalar aniqlang...",
+      "revealed": "G'OLIB ANIQLANDI!"
+    },
+    "results": {
+      "inline": "Tanlangan g'oliblar",
+      "masked": "Himoyalangan ma'lumot",
+      "fullData": "To'liq ma'lumot",
+      "viewDetails": "Tafsilotlarni ko'rish",
+      "copyWinner": "Nusxalash"
     }
   },
   "system": {

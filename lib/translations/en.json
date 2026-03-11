@@ -227,6 +227,19 @@
       "spinningMessage": "Spinning...",
       "doneButton": "Done",
       "spinButton": "SPIN"
+    },
+    "spinner": {
+      "searching": "Searching for participants...",
+      "analyzing": "Analyzing randomness...",
+      "finalizing": "Finalizing results...",
+      "revealed": "WINNER REVEALED!"
+    },
+    "results": {
+      "inline": "Selected Winners",
+      "masked": "Protected Data",
+      "fullData": "Full Details",
+      "viewDetails": "View Details",
+      "copyWinner": "Copy"
     }
   },
   "system": {

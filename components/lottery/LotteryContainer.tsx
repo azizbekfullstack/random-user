@@ -8,7 +8,7 @@ import Step1Upload from './Step1Upload';
 import Step2Filter from './Step2Filter';
 import Step3WinnerCount from './Step3WinnerCount';
 import Step4Ready from './Step4Ready';
-import Step5Lottery from './Step5Lottery';
+import LiveDrawStage from './LiveDrawStage';
 import Step6Winner from './Step6Winner';
 
 export default function LotteryContainer() {
@@ -25,7 +25,7 @@ export default function LotteryContainer() {
     t('dashboard.dedup.title'),
     t('draw.winner_count'),
     t('dashboard.lottery.review.title'),
-    t('dashboard.animation.title'),
+    t('dashboard.liveDraw.title'),
     t('result.title'),
   ];
 
@@ -44,7 +44,7 @@ export default function LotteryContainer() {
     setWinnerCount(count);
   };
 
-  const handleLotteryComplete = (newWinners: Participant[]) => {
+  const handleLiveDrawComplete = (newWinners: Participant[]) => {
     setWinners(newWinners);
     setCurrentStep(Step.WINNER);
   };
@@ -114,13 +114,15 @@ export default function LotteryContainer() {
           />
         )}
 
-        {/* STEP 5: Lottery Animation */}
+        {/* STEP 5: Live Draw Stage */}
         {currentStep === Step.LOTTERY && (
-          <Step5Lottery
+          <LiveDrawStage
             participants={participants}
             winnerCount={winnerCount}
             selectedColumns={selectedColumns}
-            onComplete={handleLotteryComplete}
+            onComplete={handleLiveDrawComplete}
+            onRestart={() => goToStep(Step.UPLOAD)}
+            spinDuration={30}
           />
         )}
 
