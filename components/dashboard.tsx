@@ -55,6 +55,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const [soundEnabledLocal, setSoundEnabledLocal] = useState(true)
   const [showAnimation, setShowAnimation] = useState(false)
   const [winner, setWinner] = useState<{ index: number; row: string[] } | null>(null)
+  const [selecting, setSelecting] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const tableContainerRef = useRef<HTMLDivElement>(null)
@@ -167,10 +168,34 @@ export function Dashboard({ onLogout }: DashboardProps) {
   )
 
   const handleSelectWinners = useCallback(() => {
-    if (calculatedWinners.length > 0) {
+    if (data.length === 0) return
+    
+    setSelecting(true)
+    
+    // Simulate selection process
+    setTimeout(() => {
+      // Generate random winners
+      const indices: number[] = []
+      const winnerIndices = new Set<number>()
+      
+      while (winnerIndices.size < Math.min(winnerCount, data.length)) {
+        winnerIndices.add(Math.floor(Math.random() * data.length))
+      }
+      
+      indices.push(...winnerIndices)
+      
+      // Create winner objects with data
+      const winners: Array<{ index: number; row: string[]; rank: number }> = indices.map((idx, rank) => ({
+        index: idx,
+        row: data[idx],
+        rank: rank + 1,
+      }))
+      
+      setCalculatedWinners(winners)
+      setSelecting(false)
       setShowWinnerModal(true)
-    }
-  }, [calculatedWinners])
+    }, 1000)
+  }, [data, winnerCount])
 
   const handleLiveDrawComplete = useCallback(
     (winnerIndices: number[]) => {
