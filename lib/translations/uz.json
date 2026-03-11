@@ -276,5 +276,88 @@
     "title": "Natijalar",
     "export": "Natijalarni eksport qilish",
     "restart": "Yangi tanlashni boshlash"
+  },
+  "winnerSelection": {
+    "title": "Tasodifiy G'olib Tanlash Tizimi",
+    "upload": {
+      "title": "Ishtirokchilar ro'yxatini yuklash",
+      "subtitle": "Ishtirokchilar ma'lumotlarini o'z ichiga olgan Excel yoki CSV faylini yuklang",
+      "button": "Faylni tanlash",
+      "dragDrop": "yoki tortib tashlang",
+      "formats": "Qo'llab-quvvatlanadigan: .xlsx, .csv",
+      "loading": "Fayl qayta tayyorlanmoqda..."
+    },
+    "settings": {
+      "title": "Ustun konfiguratsiyasi",
+      "subtitle": "Har bir ustuning ko'rsatilish usulini konfiguratsiya qilish",
+      "columnName": "Ustun",
+      "displayMode": "Ko'rsatilish rejimi",
+      "displayLabel": "Ko'rsatish",
+      "maskedLabel": "Berkitilgan",
+      "hiddenLabel": "Ko'rsatmaslik",
+      "maskType": "Berkitish turi",
+      "save": "Konfiguratsiyani saqlash",
+      "preview": "Oldindan ko'rish"
+    },
+    "spinner": {
+      "title": "G'olib tanlagich",
+      "startBtn": "30 soniyalik tanlashni boshlash",
+      "stopBtn": "To'xtatish",
+      "timer": "soniya qoldi",
+      "spinning": "Aylanmoqda...",
+      "completed": "Tanlash tugadi",
+      "selectNextBtn": "Keyingi g'olibni tanlash",
+      "selectedWinners": "Tanlangan g'oliblar"
+    },
+    "results": {
+      "title": "Natijalar",
+      "tabName": "Natijalar",
+      "noWinners": "G'oliblar hali tanlanmagan",
+      "winner": "G'olib",
+      "position": "#",
+      "toggleMask": "Ma'lumot ko'rsatilishini almashtirish",
+      "showMasked": "Berkitilgan ko'rsatish",
+      "showFull": "To'liq ma'lumot",
+      "copy": "Nusxalash",
+      "copied": "Nusxalandi!",
+      "exportBtn": "G'oliblarni eksport qilish",
+      "exportCsv": "CSV sifatida eksport qilish",
+      "exportJson": "JSON sifatida eksport qilish",
+      "restartBtn": "Yangi tanlashni boshlash",
+      "tooltip": "Tafsilotlar uchun ustiga o'tkazing"
+    },
+    "tabs": {
+      "results": "Natijalar",
+      "settings": "Sozlamalar",
+      "next": "Keyingi g'olib"
+    },
+    "errors": {
+      "noFile": "Iltimos, birinchi raqamda faylni yuklang",
+      "emptyFile": "Fayl bo'sh",
+      "invalidFormat": "Noto'g'ri fayl formati",
+      "parseError": "Faylni tahlil qilishda xato",
+      "noParticipants": "Faylda ishtirokchilar topilmadi",
+      "selectColumns": "Iltimos, ko'rsatilish uchun kamida bitta ustunizon tanlang"
+    },
+    "tooltips": {
+      "displayMode": "Bu ustun qanday ko'rsatiladi",
+      "masking": "Nozik ma'lumotlarga avtomatik berkitishni qo'llaydi",
+      "fullData": "To'liq ma'lumotni ko'rish uchun bosing",
+      "hidden": "Bu ustun ko'rsatilmaydi"
+    },
+    "messages": {
+      "fileLoaded": "Fayl muvaffaqiyatli yuklandi",
+      "participantsLoaded": "{count} ta ishtirokchi yuklandi",
+      "columnsDetected": "{count} ta ustun aniqlandi",
+      "winnerSelected": "G'olib #{number} tanlandi",
+      "allWinnersSelected": "Barcha {count} ta g'oliblar tanlandi",
+      "selectionStarting": "Tanlash 3 soniyada boshlanadi...",
+      "selectionComplete": "Tanlash tugadi!"
+    },
+    "confirmations": {
+      "restart": "Ishonchingiz komilmi? Bu barcha tanlovlarni o'chirib tashlaydi.",
+      "confirm": "Tasdiqlash",
+      "cancel": "Bekor qilish"
+    }
   }
 }

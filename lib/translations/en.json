@@ -276,5 +276,88 @@
     "title": "Results",
     "export": "Export Results",
     "restart": "Start New Draw"
+  },
+  "winnerSelection": {
+    "title": "Random Winner Selection System",
+    "upload": {
+      "title": "Upload Participant List",
+      "subtitle": "Upload an Excel or CSV file with participant data",
+      "button": "Choose File",
+      "dragDrop": "or drag and drop",
+      "formats": "Supported: .xlsx, .csv",
+      "loading": "Processing file..."
+    },
+    "settings": {
+      "title": "Column Configuration",
+      "subtitle": "Configure how each column is displayed",
+      "columnName": "Column",
+      "displayMode": "Display Mode",
+      "displayLabel": "Display",
+      "maskedLabel": "Masked",
+      "hiddenLabel": "Hidden",
+      "maskType": "Mask Type",
+      "save": "Save Configuration",
+      "preview": "Preview"
+    },
+    "spinner": {
+      "title": "Winner Selector",
+      "startBtn": "Start 30-Second Selection",
+      "stopBtn": "Stop",
+      "timer": "seconds remaining",
+      "spinning": "Spinning...",
+      "completed": "Selection Complete",
+      "selectNextBtn": "Select Next Winner",
+      "selectedWinners": "Selected Winners"
+    },
+    "results": {
+      "title": "Results",
+      "tabName": "Results",
+      "noWinners": "No winners selected yet",
+      "winner": "Winner",
+      "position": "#",
+      "toggleMask": "Toggle Data Display",
+      "showMasked": "Show Masked",
+      "showFull": "Show Full",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "exportBtn": "Export Winners",
+      "exportCsv": "Export as CSV",
+      "exportJson": "Export as JSON",
+      "restartBtn": "Start New Selection",
+      "tooltip": "Hover to see details"
+    },
+    "tabs": {
+      "results": "Results",
+      "settings": "Settings",
+      "next": "Next Winner"
+    },
+    "errors": {
+      "noFile": "Please upload a file first",
+      "emptyFile": "File is empty",
+      "invalidFormat": "Invalid file format",
+      "parseError": "Error parsing file",
+      "noParticipants": "No participants found in file",
+      "selectColumns": "Please select at least one column to display"
+    },
+    "tooltips": {
+      "displayMode": "How this column will be shown",
+      "masking": "Applies automatic masking to sensitive data",
+      "fullData": "Click to see unmasked data",
+      "hidden": "This column will not be shown"
+    },
+    "messages": {
+      "fileLoaded": "File loaded successfully",
+      "participantsLoaded": "{count} participants loaded",
+      "columnsDetected": "{count} columns detected",
+      "winnerSelected": "Winner #{number} selected",
+      "allWinnersSelected": "All {count} winners selected",
+      "selectionStarting": "Starting selection in 3 seconds...",
+      "selectionComplete": "Selection complete!"
+    },
+    "confirmations": {
+      "restart": "Are you sure? This will clear all selections.",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
   }
 }

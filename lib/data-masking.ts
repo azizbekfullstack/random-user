@@ -1,136 +1,146 @@
-// Data masking utilities for privacy protection
-// Supports different masking strategies for sensitive data fields
+'use client';
 
-export type MaskType = 'phone' | 'email' | 'name' | 'default';
+export type MaskType = 'phone' | 'name' | 'email' | 'custom' | 'display';
 
-export interface MaskConfig {
-  [columnName: string]: MaskType;
+export interface ColumnConfig {
+  name: string;
+  displayMode: 'display' | 'masked' | 'hidden';
+  maskType?: MaskType;
 }
 
 /**
- * Masks a phone number (shows last 4 digits)
- * Example: +998 91 123 45 67 -> +998 91 *** ** 67
+ * Phone masking: +998 93 873 ** **
+ * Shows: country code (998) + area code (2 digits) + exchange (3 digits) + hide last 4
  */
-export function maskPhone(phone: string): string {
-  if (!phone || typeof phone !== 'string') return '***';
-  const cleaned = phone.replace(/\D/g, '');
-  if (cleaned.length < 4) return '***';
-  const last4 = cleaned.slice(-4);
-  return `*** *** ${last4}`;
+function maskPhone(value: string): string {
+  if (!value) return '';
+  // Remove spaces and special chars temporarily
+  const cleaned = value.replace(/\D/g, '');
+  if (cleaned.length < 8) return value;
+  // Format: +998 93 873 ** **
+  const countryCode = cleaned.slice(0, 3);
+  const areaCode = cleaned.slice(3, 5);
+  const exchange = cleaned.slice(5, 8);
+  return `+${countryCode} ${areaCode} ${exchange} ** **`;
 }
 
 /**
- * Masks an email address (shows domain only)
- * Example: john.doe@example.com -> ***@example.com
+ * Name masking: Az****** (first 2 chars + asterisks)
  */
-export function maskEmail(email: string): string {
-  if (!email || typeof email !== 'string') return '***@***.***';
-  const parts = email.split('@');
-  if (parts.length !== 2) return '***@***.***';
-  return `***@${parts[1]}`;
+function maskName(value: string): string {
+  if (!value || value.length < 3) return value;
+  const firstTwo = value.slice(0, 2);
+  const asterisks = '*'.repeat(Math.max(4, value.length - 2));
+  return firstTwo + asterisks;
 }
 
 /**
- * Masks a name (shows first letter and last letter)
- * Example: John Doe -> J*** D***
+ * Email masking: u***@example.com (first char + asterisks + domain)
  */
-export function maskName(name: string): string {
-  if (!name || typeof name !== 'string') return '***';
-  const parts = name.trim().split(/\s+/);
-  return parts
-    .map((part) => {
-      if (part.length <= 1) return part;
-      return part[0] + '*'.repeat(part.length - 1);
-    })
-    .join(' ');
+function maskEmail(value: string): string {
+  if (!value || !value.includes('@')) return value;
+  const [localPart, domain] = value.split('@');
+  if (localPart.length < 1) return value;
+  const firstChar = localPart[0];
+  const asterisks = '*'.repeat(Math.max(3, localPart.length - 1));
+  return `${firstChar}${asterisks}@${domain}`;
 }
 
 /**
- * Generic default masking (shows partial data)
- * Example: 123456789 -> 1234****
+ * Generic masking fallback: show first char + asterisks
  */
-export function maskDefault(value: string): string {
-  if (!value || typeof value !== 'string') return '***';
-  if (value.length <= 4) return '*'.repeat(value.length);
-  const showChars = Math.ceil(value.length / 2);
-  return value.substring(0, showChars) + '*'.repeat(value.length - showChars);
+function maskCustom(value: string): string {
+  if (!value || value.length < 2) return value;
+  const firstChar = value[0];
+  const asterisks = '*'.repeat(Math.max(3, value.length - 1));
+  return firstChar + asterisks;
 }
 
 /**
- * Apply masking to a value based on mask type
+ * Apply masking based on type
  */
-export function applyMask(value: any, maskType: MaskType): string {
-  const stringValue = String(value || '');
+export function maskValue(value: string | number, maskType: MaskType): string {
+  if (value === null || value === undefined) return '';
+  const stringValue = String(value).trim();
 
   switch (maskType) {
     case 'phone':
       return maskPhone(stringValue);
-    case 'email':
-      return maskEmail(stringValue);
     case 'name':
       return maskName(stringValue);
-    case 'default':
+    case 'email':
+      return maskEmail(stringValue);
+    case 'custom':
+      return maskCustom(stringValue);
+    case 'display':
     default:
-      return maskDefault(stringValue);
+      return stringValue;
   }
 }
 
 /**
- * Mask participant data based on configuration
+ * Format participant data for display based on column config
  */
-export function maskParticipant(
+export function formatParticipantForDisplay(
   participant: Record<string, any>,
-  maskConfig: MaskConfig
-): Record<string, any> {
-  const masked: Record<string, any> = {};
+  columnConfigs: ColumnConfig[],
+  showMasked: boolean = true
+): Record<string, string> {
+  const formatted: Record<string, string> = {};
 
-  for (const [key, value] of Object.entries(participant)) {
-    const maskType = maskConfig[key] || 'default';
-    masked[key] = applyMask(value, maskType as MaskType);
+  for (const config of columnConfigs) {
+    const value = participant[config.name];
+
+    if (config.displayMode === 'hidden') {
+      continue; // Skip hidden columns
+    }
+
+    if (config.displayMode === 'masked' && showMasked) {
+      // Apply masking
+      formatted[config.name] = maskValue(value, config.maskType || 'custom');
+    } else {
+      // Show full value
+      formatted[config.name] = value !== null && value !== undefined ? String(value) : '';
+    }
   }
 
-  return masked;
+  return formatted;
 }
 
 /**
- * Detect common field types and suggest masking strategy
+ * Get all visible column names
+ */
+export function getVisibleColumns(columnConfigs: ColumnConfig[]): string[] {
+  return columnConfigs
+    .filter((c) => c.displayMode !== 'hidden')
+    .map((c) => c.name);
+}
+
+/**
+ * Detect mask type from column name
  */
 export function detectMaskType(columnName: string): MaskType {
-  const lowerName = columnName.toLowerCase();
-
-  if (
-    lowerName.includes('phone') ||
-    lowerName.includes('tel') ||
-    lowerName.includes('mobile')
-  ) {
+  const lower = columnName.toLowerCase();
+  if (lower.includes('phone') || lower.includes('tel') || lower.includes('mobile')) {
     return 'phone';
   }
-
-  if (lowerName.includes('email') || lowerName.includes('mail')) {
-    return 'email';
-  }
-
-  if (
-    lowerName.includes('name') ||
-    lowerName.includes('surname') ||
-    lowerName.includes('firstname') ||
-    lowerName.includes('lastname')
-  ) {
+  if (lower.includes('name') || lower.includes('participant') || lower.includes('person')) {
     return 'name';
   }
-
-  return 'default';
+  if (lower.includes('email') || lower.includes('mail') || lower.includes('@')) {
+    return 'email';
+  }
+  return 'custom';
 }
 
 /**
- * Generate mask configuration automatically from columns
+ * Auto-configure columns with smart detection
  */
-export function generateMaskConfig(columns: string[]): MaskConfig {
-  const config: MaskConfig = {};
-
-  for (const column of columns) {
-    config[column] = detectMaskType(column);
-  }
-
-  return config;
+export function autoConfigureColumns(columnNames: string[]): ColumnConfig[] {
+  return columnNames.map((name) => ({
+    name,
+    displayMode: 'display' as const,
+    maskType: detectMaskType(name),
+  }));
 }
+
