@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { Participant } from '@/lib/lottery-types';
+import { useTranslation } from '@/lib/i18n';
 
 interface Step5LotteryProps {
   participants: Participant[];
@@ -18,66 +19,74 @@ export default function Step5Lottery({
   selectedColumns,
   onComplete,
 }: Step5LotteryProps) {
+  const { t } = useTranslation();
   const [displayedParticipants, setDisplayedParticipants] = useState<Participant[]>([]);
   const [progress, setProgress] = useState(0);
-  const [countdown, setCountdown] = useState(5);
-  const [stars, setStars] = useState<Array<{ id: number; left: number; top: number; duration: number; delay: number }>>([]);
+  const [currentWinner, setCurrentWinner] = useState(0);
+  const [animationPhase, setAnimationPhase] = useState<'scanning' | 'analyzing' | 'revealing' | 'complete'>('scanning');
   const [isClient, setIsClient] = useState(false);
 
-  // Initialize client-side only elements
   useEffect(() => {
     setIsClient(true);
-    // Generate random stars only on client
-    const newStars = [...Array(30)].map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      duration: 2 + Math.random() * 2,
-      delay: Math.random() * 2,
-    }));
-    setStars(newStars);
   }, []);
 
   useEffect(() => {
     if (!isClient) return;
 
-    const countdownInterval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(countdownInterval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
+    const timePerWinner = (currentWinner === 0 ? 30 : 10) * 1000;
     let frameCount = 0;
-    const totalFrames = 150;
+    
+    // Determine total frames based on phase
+    const totalFrames = currentWinner === 0 ? 1800 : 600; // 30s @ 60fps or 10s @ 60fps
+    
     const interval = setInterval(() => {
-      const shuffled = [...participants].sort(() => Math.random() - 0.5);
-      const displayed = shuffled.slice(0, Math.min(8, participants.length));
-      setDisplayedParticipants(displayed);
+      // Scanning phase
+      if (frameCount < totalFrames * 0.6) {
+        setAnimationPhase('scanning');
+        const shuffled = [...participants].sort(() => Math.random() - 0.5);
+        const displayed = shuffled.slice(0, Math.min(6, participants.length));
+        setDisplayedParticipants(displayed);
+      }
+      // Analyzing phase
+      else if (frameCount < totalFrames * 0.85) {
+        setAnimationPhase('analyzing');
+      }
+      // Reveal phase
+      else {
+        setAnimationPhase('revealing');
+      }
 
       frameCount++;
       setProgress((frameCount / totalFrames) * 100);
 
       if (frameCount >= totalFrames) {
         clearInterval(interval);
-
+        
+        // Select winner
         const finalShuffled = [...participants].sort(() => Math.random() - 0.5);
-        const winners = finalShuffled.slice(0, winnerCount);
+        const winner = finalShuffled[0];
+        setDisplayedParticipants([winner]);
+        setAnimationPhase('complete');
 
-        setTimeout(() => {
-          onComplete(winners);
-        }, 1000);
+        // Check if more winners needed
+        if (currentWinner + 1 < winnerCount) {
+          setTimeout(() => {
+            setCurrentWinner(currentWinner + 1);
+            setProgress(0);
+            setAnimationPhase('scanning');
+          }, 2000);
+        } else {
+          // All winners selected
+          setTimeout(() => {
+            const allWinners = [winner];
+            onComplete(allWinners);
+          }, 2000);
+        }
       }
-    }, 1000 / 30);
+    }, 1000 / 60);
 
-    return () => {
-      clearInterval(interval);
-      clearInterval(countdownInterval);
-    };
-  }, [participants, winnerCount, onComplete, isClient]);
+    return () => clearInterval(interval);
+  }, [currentWinner, participants, winnerCount, onComplete, isClient]);
 
   const getDisplayValue = (participant: Participant) => {
     const firstColumn = selectedColumns[0];
@@ -91,64 +100,30 @@ export default function Step5Lottery({
 
   if (!isClient) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
-        <div className="text-white text-lg">Loading...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-foreground text-lg">{t('system.loading')}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Animated Stars Background */}
-      <div className="absolute inset-0">
-        {stars.map((star) => (
-          <motion.div
-            key={star.id}
-            className="absolute w-2 h-2 bg-white rounded-full"
-            style={{
-              left: `${star.left}%`,
-              top: `${star.top}%`,
-            }}
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [0.5, 1.5, 0.5],
-            }}
-            transition={{
-              duration: star.duration,
-              repeat: Infinity,
-              delay: star.delay,
-            }}
-          />
-        ))}
-      </div>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Scanning background effect */}
+      {animationPhase === 'scanning' && (
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent"
+          animate={{
+            x: ['-100%', '100%'],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        />
+      )}
 
-      {/* Falling Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute"
-            initial={{
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-              y: -20,
-            }}
-            animate={{
-              y: typeof window !== 'undefined' ? window.innerHeight + 20 : 1000,
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              ease: 'linear',
-              delay: Math.random() * 2,
-            }}
-          >
-            <div className="w-3 h-3 bg-yellow-400 rounded-full opacity-70" />
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="w-full max-w-7xl relative z-10">
+      <div className="w-full max-w-3xl relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -157,89 +132,77 @@ export default function Step5Lottery({
         >
           <motion.div
             animate={{
-              rotate: 360,
+              scale: animationPhase === 'revealing' ? [1, 1.1, 1] : 1,
             }}
             transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: 'linear',
+              duration: 0.5,
+              repeat: animationPhase === 'revealing' ? Infinity : 0,
             }}
-            className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 mb-8 shadow-2xl"
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent mb-6 shadow-lg shadow-accent/30"
           >
-            <Sparkles className="w-14 h-14 text-white" />
+            <Sparkles className="w-10 h-10 text-accent-foreground" />
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-7xl font-bold text-white mb-6 drop-shadow-2xl"
+            className="text-5xl md:text-6xl font-bold text-foreground mb-4"
           >
-            G'olib aniqlanmoqda...
+            {animationPhase === 'scanning' && t('dashboard.animation.scanning')}
+            {animationPhase === 'analyzing' && t('dashboard.animation.analyzing')}
+            {animationPhase === 'revealing' && t('dashboard.animation.winner')}
+            {animationPhase === 'complete' && t('dashboard.animation.victoryMessage')}
           </motion.h1>
 
-          {countdown > 0 && (
-            <motion.div
-              key={countdown}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 2, opacity: 0 }}
-              className="text-9xl font-bold text-yellow-400 mb-4"
-            >
-              {countdown}
-            </motion.div>
-          )}
-
-          <p className="text-3xl text-blue-200">Loterеya aylanmoqda! Kuting...</p>
+          <p className="text-lg text-muted-foreground">
+            {t('winner.first_draw')}: {currentWinner + 1} / {winnerCount}
+          </p>
         </motion.div>
 
-        {/* Lottery Wheel */}
+        {/* Participants Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="relative mb-12"
+          transition={{ delay: 0.3 }}
+          className="mb-8"
         >
-          {/* Spinning Indicator */}
-          <motion.div
-            className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-20"
-            animate={{
-              y: [0, 30, 0],
-            }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-            }}
-          >
-            <div className="text-8xl drop-shadow-2xl">🎰</div>
-          </motion.div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10 shadow-2xl border-2 border-white/20">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <AnimatePresence mode="popLayout">
-                {displayedParticipants.map((participant, index) => (
-                  <motion.div
-                    key={`${index}-${getDisplayValue(participant)}-${Math.random()}`}
-                    initial={{ opacity: 0, scale: 0, rotateY: -180 }}
-                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                    exit={{ opacity: 0, scale: 0, rotateY: 180 }}
-                    transition={{ duration: 0.2 }}
-                    className="bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-3xl p-8 shadow-2xl"
-                  >
-                    <div className="text-center">
-                      <div className="w-20 h-20 rounded-full bg-white/30 backdrop-blur-sm mx-auto mb-4 flex items-center justify-center shadow-lg">
-                        <span className="text-4xl font-bold text-white">
+          <div className="bg-card border border-border rounded-lg p-8">
+            {displayedParticipants.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <AnimatePresence mode="popLayout">
+                  {displayedParticipants.map((participant, index) => (
+                    <motion.div
+                      key={`${index}-${getDisplayValue(participant)}`}
+                      initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
+                      animate={{ 
+                        opacity: 1, 
+                        scale: animationPhase === 'revealing' ? 1.1 : 1, 
+                        rotateY: 0,
+                        boxShadow: animationPhase === 'revealing' 
+                          ? '0 0 40px rgba(34, 197, 94, 0.6)' 
+                          : '0 0 20px rgba(34, 197, 94, 0.1)',
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-secondary border border-border rounded-lg p-6 text-center hover:scale-105 transition-transform"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-accent/20 mx-auto mb-3 flex items-center justify-center">
+                        <span className="text-3xl font-bold text-accent">
                           {getInitial(participant)}
                         </span>
                       </div>
-                      <p className="text-white text-2xl font-bold truncate">
+                      <p className="text-foreground font-semibold truncate">
                         {getDisplayValue(participant)}
                       </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground">
+                {t('dashboard.table.noData')}
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -247,56 +210,51 @@ export default function Step5Lottery({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="relative"
+          transition={{ delay: 0.4 }}
+          className="mb-6"
         >
-          <div className="h-6 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm border-2 border-white/30 shadow-xl">
+          <div className="h-3 bg-secondary rounded-full overflow-hidden border border-border">
             <motion.div
-              className="h-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 relative"
+              className="h-full bg-gradient-to-r from-accent to-accent/60 rounded-full"
               style={{ width: `${progress}%` }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-white/30"
-                animate={{
-                  x: ['-100%', '100%'],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-              />
-            </motion.div>
+              transition={{ ease: 'linear', duration: 0.1 }}
+            />
           </div>
-          <div className="mt-3 text-center">
-            <span className="text-white text-xl font-semibold">
-              {Math.round(progress)}%
+          <div className="text-center mt-2">
+            <span className="text-sm text-muted-foreground">
+              {Math.round(progress)}% - {currentWinner === 0 ? '30' : '10'}{t('dashboard.liveDraw.timerLabel')}
             </span>
           </div>
         </motion.div>
 
-        {/* Live Status */}
+        {/* Timer */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-10 text-center"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
         >
-          <div className="inline-flex items-center gap-3 px-8 py-4 bg-red-500/90 backdrop-blur-sm rounded-full shadow-xl border-2 border-white/30">
+          <motion.div
+            animate={{
+              scale: progress > 90 ? [1, 1.2, 1] : 1,
+            }}
+            transition={{
+              duration: 0.8,
+              repeat: progress > 90 ? Infinity : 0,
+            }}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-accent/10 text-accent border border-accent rounded-lg font-semibold"
+          >
             <motion.div
               animate={{
-                scale: [1, 1.3, 1],
+                scale: [1, 1.2, 1],
               }}
               transition={{
                 duration: 1,
                 repeat: Infinity,
               }}
-              className="w-4 h-4 bg-white rounded-full"
+              className="w-2 h-2 bg-accent rounded-full"
             />
-            <span className="text-white text-xl font-bold uppercase tracking-wider">
-              LIVE ЕФИР
-            </span>
-          </div>
+            {t('dashboard.liveDraw.drawConfiguration')}
+          </motion.div>
         </motion.div>
       </div>
     </div>

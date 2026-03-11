@@ -228,5 +228,40 @@
       "doneButton": "Tayyor",
       "spinButton": "AYLANTIR"
     }
+  },
+  "system": {
+    "start": "Tizimni ishga tushirish",
+    "details": "Tizim ma'lumotlari",
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi",
+    "success": "Muvaffaqiyat",
+    "cancel": "Bekor qilish",
+    "continue": "Davom etish"
+  },
+  "upload": {
+    "title": "Ma'lumotni yuklash",
+    "drag_file": "Faylni shu yerga tortib tashlang",
+    "participant_count": "Ishtirokchilar",
+    "selectFile": "Faylni tanlash",
+    "noFile": "Fayl tanlanmagan"
+  },
+  "draw": {
+    "title": "Tanlash konfiguratsiyasi",
+    "winner_count": "G'oliblar soni",
+    "draw_name": "Tanlash nomi",
+    "configure": "Tanlashni konfiguratsiya qilish"
+  },
+  "winner": {
+    "selecting": "G'olib tanlanmoqda...",
+    "first_draw": "Birinchi tanlash boshlanadi",
+    "next_draw": "Keyingi tanlash",
+    "result": "G'olib natijasi",
+    "time_remaining": "Qolgan vaqt",
+    "selected": "tanlandi"
+  },
+  "result": {
+    "title": "Natijalar",
+    "export": "Natijalarni eksport qilish",
+    "restart": "Yangi tanlashni boshlash"
   }
 }

@@ -228,5 +228,40 @@
       "doneButton": "Done",
       "spinButton": "SPIN"
     }
+  },
+  "system": {
+    "start": "Start System",
+    "details": "System Details",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+  "upload": {
+    "title": "Upload Data",
+    "drag_file": "Drag and drop your file here",
+    "participant_count": "Participants",
+    "selectFile": "Select File",
+    "noFile": "No file selected"
+  },
+  "draw": {
+    "title": "Draw Configuration",
+    "winner_count": "Number of Winners",
+    "draw_name": "Draw Name",
+    "configure": "Configure Draw"
+  },
+  "winner": {
+    "selecting": "Selecting winner...",
+    "first_draw": "First draw starting",
+    "next_draw": "Next selection",
+    "result": "Winner Result",
+    "time_remaining": "Time remaining",
+    "selected": "selected"
+  },
+  "result": {
+    "title": "Results",
+    "export": "Export Results",
+    "restart": "Start New Draw"
   }
 }
