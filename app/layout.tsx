@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Secure Winner Selection System',
   description: 'Cryptographically secure random winner selection engine with Telegram OTP authentication, Excel processing, and cinematic 60-second reveal animation.',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
@@ -36,7 +34,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
         {children}
-        <Analytics />
       </body>
     </html>
   )

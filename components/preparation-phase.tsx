@@ -41,8 +41,8 @@ export function PreparationPhase({
         <div className="flex items-start gap-4">
           <Settings className="h-8 w-8 text-purple-400 mt-1 flex-shrink-0" />
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-white mb-1">Session Preparation</h2>
-            <p className="text-gray-400 text-sm">Configure your live selection parameters before broadcast</p>
+            <h2 className="text-2xl font-bold text-white mb-1">{t("dashboard.preparation.title")}</h2>
+            <p className="text-gray-400 text-sm">{t("dashboard.preparation.subtitle")}</p>
           </div>
         </div>
       </div>

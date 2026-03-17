@@ -161,7 +161,10 @@
       "noData": "No data loaded. Upload a file to begin.",
       "showing": "Showing",
       "of": "of",
-      "total": "total rows"
+      "total": "total rows",
+      "file": "File",
+      "rows": "Rows",
+      "columns": "Columns"
     },
     "dedup": {
       "title": "Deduplication",
@@ -170,26 +173,60 @@
       "removed": "duplicates removed",
       "remaining": "rows remaining"
     },
+    "preparation": {
+      "title": "Session Preparation",
+      "subtitle": "Configure your live selection parameters before broadcast"
+    },
     "winner": {
       "title": "Winner Selection",
       "selectBtn": "Select Winner",
       "selecting": "Selecting...",
       "result": "Winner",
       "row": "Row",
-      "noData": "Upload data first to select a winner"
+      "noData": "Load data first to select a winner"
     },
     "export": {
       "title": "Export",
       "excel": "Export as Excel",
       "json": "Export as JSON"
+    },
+    "lottery": {
+      "review": {
+        "title": "Ready to Select a Winner?",
+        "subtitle": "Review all details before selecting the winner",
+        "participants": "Participants",
+        "winners": "Winners",
+        "columns": "Columns",
+        "selectedColumns": "Selected columns:",
+        "summary": "From {participants} participants, {winners} winners will be selected",
+        "back": "Back",
+        "start": "START!",
+        "liveInfo": "The lottery process will begin in live mode"
+      }
+    },
+    "animation": {
+      "scanning": "Scanning Participants...",
+      "counting": "Cryptographic Analysis",
+      "analyzing": "Analyzing Randomness",
+      "winner": "🎯 WINNER SELECTED",
+      "victoryMessage": "VICTORY!",
+      "selectedWinner": "Cryptographically Selected Winner"
+    },
+    "liveDraw": {
+      "title": "Live Draw Stage",
+      "subtitle": "60-second cryptographic winner selection - Winners determined during broadcast",
+      "startBtn": "Start 60-Second Draw",
+      "stopBtn": "Stop",
+      "totalParticipants": "TOTAL_PARTICIPANTS",
+      "winnersToSelect": "WINNERS_TO_SELECT",
+      "scanningParticipants": "SCANNING_PARTICIPANTS",
+      "randomizationProgress": "RANDOMIZATION_PROGRESS",
+      "selectedWinners": "SELECTED_WINNERS",
+      "drawConfiguration": "Draw Configuration",
+      "timerLabel": "/ 60 sec",
+      "spinningMessage": "Spinning...",
+      "doneButton": "Done",
+      "spinButton": "SPIN"
     }
-  },
-  "animation": {
-    "scanning": "Scanning Participants...",
-    "counting": "Cryptographic Analysis",
-    "analyzing": "Analyzing Randomness",
-    "winner": "🎯 WINNER SELECTED",
-    "victoryMessage": "VICTORY!",
-    "selectedWinner": "Cryptographically Selected Winner"
   }
 }
