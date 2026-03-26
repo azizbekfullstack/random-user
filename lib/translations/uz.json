@@ -219,5 +219,27 @@
     "title": "Eksport",
     "excel": "Excel formatida eksport",
     "json": "JSON formatida eksport"
+  },
+  "masking": {
+    "title": "Ma'lumotlarni yashirish konfiguratsiyasi",
+    "subtitle": "Ko'rsatish vaqtida qaysi ishtirokchi maydonlarini yashirishni sozlang",
+    "phone": "Telefon raqamlarini yashirish",
+    "fio": "To'liq ismni (FIO) yashirish",
+    "id": "ID raqamlarini yashirish",
+    "description": "Yashirilgan maydonlar faqat birinchi bir nechta belgilar va yulduzchalarni ko'rsatadi",
+    "applyBtn": "Yashirish sozlamalarini qo'llash",
+    "preview": "Oldindan ko'rish",
+    "hidden": "Maxfiylik uchun yashirilgan"
+  },
+  "winnerSelection": {
+    "title": "G'oliblarni rangi bo'yicha tanlang",
+    "subtitle": "G'oliblarni bir martalik tanlang",
+    "rank": "Rang",
+    "selectRankBtn": "Rang {{rank}} g'olibini tanlash",
+    "confirmWinner": "G'olibni tasdiqlash",
+    "spinAnimation": "G'olibni tanlash uchun aylanmoqda...",
+    "selectingRank": "Rang {{rank}} tanlanmoqda...",
+    "winnerFound": "G'olib topildi!",
+    "congratulations": "G'olibga tabriklaymiz!"
   }
 }

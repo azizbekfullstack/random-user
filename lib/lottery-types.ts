@@ -1,6 +1,12 @@
 // Barcha tipler bir joyda
 export type Participant = Record<string, any>;
 
+export interface MaskingConfig {
+  phone: boolean;
+  fio: boolean;
+  id: boolean;
+}
+
 export interface LotteryState {
   currentStep: number;
   participants: Participant[];
@@ -8,6 +14,8 @@ export interface LotteryState {
   selectedColumns: string[];
   winnerCount: number;
   winners: Participant[];
+  maskingConfig: MaskingConfig;
+  selectedRank: number;
 }
 
 export enum Step {

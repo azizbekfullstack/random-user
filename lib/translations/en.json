@@ -219,5 +219,27 @@
     "title": "Export Results",
     "excel": "Export to Excel",
     "json": "Export to JSON"
+  },
+  "masking": {
+    "title": "Data Masking Configuration",
+    "subtitle": "Configure which participant fields to mask during display",
+    "phone": "Mask Phone Numbers",
+    "fio": "Mask Full Name (FIO)",
+    "id": "Mask ID Numbers",
+    "description": "Masked fields will show only first few characters followed by asterisks",
+    "applyBtn": "Apply Masking Settings",
+    "preview": "Preview",
+    "hidden": "Masked for privacy"
+  },
+  "winnerSelection": {
+    "title": "Select Winners by Rank",
+    "subtitle": "Choose winners one rank at a time",
+    "rank": "Rank",
+    "selectRankBtn": "Select Rank {{rank}} Winner",
+    "confirmWinner": "Confirm Winner",
+    "spinAnimation": "Spinning to select winner...",
+    "selectingRank": "Selecting Rank {{rank}}...",
+    "winnerFound": "Winner Found!",
+    "congratulations": "Congratulations to the winner!"
   }
 }

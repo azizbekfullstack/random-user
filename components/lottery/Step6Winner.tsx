@@ -1,33 +1,34 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Trophy, Sparkles, RotateCcw, Download, Share2 } from 'lucide-react';
-import { Participant } from '@/lib/lottery-types';
+import { Participant, MaskingConfig } from '@/lib/lottery-types';
+import { applyMasking } from '@/lib/masking-utils';
+import { Confetti } from './Confetti';
 
 interface Step6WinnerProps {
   winners: Participant[];
   selectedColumns: string[];
+  maskingConfig: MaskingConfig;
   onRestart: () => void;
 }
 
 export default function Step6Winner({
   winners,
   selectedColumns,
+  maskingConfig,
   onRestart,
 }: Step6WinnerProps) {
-  const [confetti, setConfetti] = useState<
-    Array<{ id: number; x: number; color: string; delay: number }>
-  >([]);
+  const [confettiActive, setConfettiActive] = useState(true);
+
+  // Apply masking to winners for display
+  const maskedWinners = winners.map((winner) =>
+    applyMasking(winner, maskingConfig)
+  );
 
   useEffect(() => {
-    const confettiArray = Array.from({ length: 100 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      color: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#32CD32', '#9370DB'][
-        Math.floor(Math.random() * 6)
-      ],
-      delay: Math.random() * 1,
-    }));
-    setConfetti(confettiArray);
+    // Confetti plays on mount, turn off after 3 seconds
+    const timer = setTimeout(() => setConfettiActive(false), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleExport = () => {
@@ -59,29 +60,7 @@ export default function Step6Winner({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Confetti Animation */}
-      {confetti.map((item) => (
-        <motion.div
-          key={item.id}
-          className="absolute w-4 h-4 rounded-full"
-          style={{
-            backgroundColor: item.color,
-            left: `${item.x}%`,
-            top: -20,
-          }}
-          animate={{
-            y: typeof window !== 'undefined' ? window.innerHeight + 50 : 1000,
-            rotate: 360 * 5,
-            x: [0, Math.random() * 300 - 150, Math.random() * 300 - 150],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 2,
-            delay: item.delay,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
-      ))}
+      <Confetti active={confettiActive} count={100} />
 
       {/* Fireworks effect */}
       <div className="absolute inset-0 pointer-events-none">
@@ -193,9 +172,32 @@ export default function Step6Winner({
             </div>
           </div>
 
+          {/* Masking Info */}
+          {(maskingConfig.phone || maskingConfig.fio || maskingConfig.id) && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8 rounded-lg"
+            >
+              <p className="text-yellow-800 font-semibold flex items-center gap-2">
+                🔒 Ma'lumotlar yashirildi
+              </p>
+              <p className="text-yellow-700 text-sm mt-2">
+                {[
+                  maskingConfig.phone && 'Telefon raqamlar',
+                  maskingConfig.fio && 'To\'liq ismlar (FIO)',
+                  maskingConfig.id && 'ID raqamlar',
+                ]
+                  .filter(Boolean)
+                  .join(', ')}{' '}
+                maxfiylik uchun yashirilgan.
+              </p>
+            </motion.div>
+          )}
+
           {/* Winners List */}
           <div className="space-y-6">
-            {winners.map((winner, index) => (
+            {maskedWinners.map((winner, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -100 }}
@@ -232,16 +234,34 @@ export default function Step6Winner({
                       </span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                      {selectedColumns.map((column) => (
-                        <div key={column} className="bg-white/50 rounded-xl p-4">
-                          <p className="text-sm text-gray-500 mb-1 font-semibold">
-                            {column}
-                          </p>
-                          <p className="text-xl font-bold text-gray-900 truncate">
-                            {winner[column] || '-'}
-                          </p>
-                        </div>
-                      ))}
+                      {selectedColumns.map((column) => {
+                        const isMasked =
+                          (column === 'phone' && maskingConfig.phone) ||
+                          (column === 'fio' && maskingConfig.fio) ||
+                          (column === 'id' && maskingConfig.id);
+
+                        return (
+                          <div
+                            key={column}
+                            className={`rounded-xl p-4 ${
+                              isMasked ? 'bg-red-100/50' : 'bg-white/50'
+                            }`}
+                          >
+                            <p className="text-sm text-gray-500 mb-1 font-semibold">
+                              {column}{isMasked && ' (Yashirilgan)'}
+                            </p>
+                            <p
+                              className={`text-xl font-bold truncate ${
+                                isMasked
+                                  ? 'text-red-600 font-mono'
+                                  : 'text-gray-900'
+                              }`}
+                            >
+                              {winner[column] || '-'}
+                            </p>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

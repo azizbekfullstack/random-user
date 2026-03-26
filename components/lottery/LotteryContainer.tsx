@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Participant, Step } from '@/lib/lottery-types';
+import { Participant, Step, MaskingConfig } from '@/lib/lottery-types';
 import ProgressBar from './ProgressBar';
 import Step1Upload from './Step1Upload';
 import Step2Filter from './Step2Filter';
@@ -17,6 +17,11 @@ export default function LotteryContainer() {
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
   const [winnerCount, setWinnerCount] = useState(1);
   const [winners, setWinners] = useState<Participant[]>([]);
+  const [maskingConfig, setMaskingConfig] = useState<MaskingConfig>({
+    phone: false,
+    fio: false,
+    id: false,
+  });
 
   const stepNames = [
     'Yuklash',
@@ -40,6 +45,10 @@ export default function LotteryContainer() {
 
   const handleWinnerCountChange = (count: number) => {
     setWinnerCount(count);
+  };
+
+  const handleMaskingChange = (config: MaskingConfig) => {
+    setMaskingConfig(config);
   };
 
   const handleLotteryComplete = (newWinners: Participant[]) => {
@@ -82,7 +91,9 @@ export default function LotteryContainer() {
             participants={participants}
             columns={columns}
             selectedColumns={selectedColumns}
+            maskingConfig={maskingConfig}
             onColumnsChange={handleColumnsChange}
+            onMaskingChange={handleMaskingChange}
             onNext={() => goToStep(Step.WINNER_COUNT)}
             onBack={() => goToStep(Step.UPLOAD)}
           />
@@ -116,6 +127,7 @@ export default function LotteryContainer() {
             participants={participants}
             winnerCount={winnerCount}
             selectedColumns={selectedColumns}
+            maskingConfig={maskingConfig}
             onComplete={handleLotteryComplete}
           />
         )}
@@ -125,6 +137,7 @@ export default function LotteryContainer() {
           <Step6Winner
             winners={winners}
             selectedColumns={selectedColumns}
+            maskingConfig={maskingConfig}
             onRestart={handleRestart}
           />
         )}

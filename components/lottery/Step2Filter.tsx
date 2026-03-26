@@ -1,12 +1,14 @@
 import { motion } from 'motion/react';
-import { Eye, EyeOff, ArrowRight, ArrowLeft, Filter } from 'lucide-react';
-import { Participant } from '@/lib/lottery-types';
+import { Eye, EyeOff, ArrowRight, ArrowLeft, Filter, Lock } from 'lucide-react';
+import { Participant, MaskingConfig } from '@/lib/lottery-types';
 
 interface Step2FilterProps {
   participants: Participant[];
   columns: string[];
   selectedColumns: string[];
+  maskingConfig: MaskingConfig;
   onColumnsChange: (columns: string[]) => void;
+  onMaskingChange: (config: MaskingConfig) => void;
   onNext: () => void;
   onBack: () => void;
 }
@@ -15,7 +17,9 @@ export default function Step2Filter({
   participants,
   columns,
   selectedColumns,
+  maskingConfig,
   onColumnsChange,
+  onMaskingChange,
   onNext,
   onBack,
 }: Step2FilterProps) {
@@ -32,6 +36,13 @@ export default function Step2Filter({
 
   const clearAll = () => {
     onColumnsChange([]);
+  };
+
+  const toggleMasking = (field: 'phone' | 'fio' | 'id') => {
+    onMaskingChange({
+      ...maskingConfig,
+      [field]: !maskingConfig[field],
+    });
   };
 
   return (
@@ -136,7 +147,40 @@ export default function Step2Filter({
           className="border-t-2 border-gray-100 pt-8"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-semibold">Ko'rikma jadval</h3>
+            <h3 className="text-2xl font-semibold">Ma'lumotlarni yashirish</h3>
+          </div>
+
+          {/* Masking Options */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 pb-8 border-b-2 border-gray-100">
+            {[
+              { id: 'phone', label: 'Telefon raqamlarini yashirish', icon: Lock },
+              { id: 'fio', label: 'To\'liq ismni (FIO) yashirish', icon: Lock },
+              { id: 'id', label: 'ID raqamlarini yashirish', icon: Lock },
+            ].map(({ id, label, icon: Icon }) => (
+              <motion.button
+                key={id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => toggleMasking(id as 'phone' | 'fio' | 'id')}
+                className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all duration-300 ${
+                  maskingConfig[id as 'phone' | 'fio' | 'id']
+                    ? 'bg-gradient-to-br from-red-100 to-pink-100 border-pink-400 shadow-md'
+                    : 'bg-gray-50 border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <Icon className={`w-5 h-5 flex-shrink-0 ${
+                  maskingConfig[id as 'phone' | 'fio' | 'id'] ? 'text-red-600' : 'text-gray-400'
+                }`} />
+                <span className={`text-sm font-semibold ${
+                  maskingConfig[id as 'phone' | 'fio' | 'id'] ? 'text-red-700' : 'text-gray-700'
+                }`}>
+                  {label}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Preview Table */}
             <div className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold">
               {participants.length} ishtirokchi
             </div>
