@@ -1,35 +1,31 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Trophy, Sparkles, RotateCcw, Download, Share2 } from 'lucide-react';
-import { Participant, MaskingConfig } from '@/lib/lottery-types';
-import { applyMasking } from '@/lib/masking-utils';
+import { Participant } from '@/lib/lottery-types';
 import { Confetti } from './Confetti';
 
 interface Step6WinnerProps {
   winners: Participant[];
   selectedColumns: string[];
-  maskingConfig: MaskingConfig;
   onRestart: () => void;
 }
 
 export default function Step6Winner({
   winners,
   selectedColumns,
-  maskingConfig,
   onRestart,
 }: Step6WinnerProps) {
   const [confettiActive, setConfettiActive] = useState(true);
 
-  // Apply masking to winners for display
-  const maskedWinners = winners.map((winner) =>
-    applyMasking(winner, maskingConfig)
-  );
-
   useEffect(() => {
-    // Confetti plays on mount, turn off after 3 seconds
     const timer = setTimeout(() => setConfettiActive(false), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  const getMedalEmoji = (index: number) => {
+    const medals = ['🥇', '🥈', '🥉'];
+    return medals[index] || '🎖️';
+  };
 
   const handleExport = () => {
     const data = winners.map((winner, index) => ({
@@ -51,158 +47,97 @@ export default function Step6Winner({
     URL.revokeObjectURL(url);
   };
 
-  const getMedalEmoji = (index: number) => {
-    if (index === 0) return '🥇';
-    if (index === 1) return '🥈';
-    if (index === 2) return '🥉';
-    return '🏆';
+  const handleShare = () => {
+    const text = winners
+      .map((winner, index) => `${index + 1}-o'rin: ${winner[selectedColumns[0]] || 'N/A'}`)
+      .join('\n');
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Loteriya Natijalari',
+        text: text,
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 flex items-center justify-center p-6 relative overflow-hidden">
-      <Confetti active={confettiActive} count={100} />
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      <Confetti active={confettiActive} />
 
-      {/* Fireworks effect */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(10)].map((_, i) => (
+      {/* Animated Background Stars */}
+      <div className="absolute inset-0">
+        {[...Array(40)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute"
+            className="absolute w-2 h-2 bg-white rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              scale: [0, 2, 0],
-              opacity: [1, 1, 0],
+              opacity: [0.2, 1, 0.2],
+              scale: [0.5, 1.5, 0.5],
             }}
             transition={{
-              duration: 2,
+              duration: 3 + Math.random() * 3,
               repeat: Infinity,
-              delay: i * 0.3,
+              delay: Math.random() * 3,
             }}
-          >
-            <div className="w-2 h-2 bg-white rounded-full" />
-          </motion.div>
+          />
         ))}
       </div>
 
-      <div className="w-full max-w-7xl relative z-10">
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-6 py-12">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 100 }}
-          className="text-center mb-12"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center mb-16"
         >
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-            className="inline-block mb-8"
+            animate={{
+              rotate: 360,
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="inline-flex items-center justify-center w-40 h-40 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 mb-8 shadow-2xl"
           >
-            <div className="relative">
-              <div className="w-40 h-40 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-600 flex items-center justify-center shadow-2xl border-4 border-white">
-                <Trophy className="w-20 h-20 text-white" />
-              </div>
-              <motion.div
-                animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [0.7, 0, 0.7],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
-                className="absolute inset-0 rounded-full bg-yellow-300 -z-10"
-              />
-            </div>
+            <Trophy className="w-24 h-24 text-white" />
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, type: 'spring' }}
-            className="text-8xl font-bold text-white mb-6 drop-shadow-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-7xl font-bold text-white mb-4 drop-shadow-2xl"
           >
-            🎉 TABRIKLAYMIZ! 🎉
+            Yakuni Natijalar
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-4xl text-white/95 font-semibold"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl text-blue-200"
           >
-            G'oliblar aniqlandi!
+            Jami {winners.length} ta g'olib tanlandi
           </motion.p>
         </motion.div>
 
-        {/* Winners Container */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white rounded-3xl shadow-2xl p-10 mb-10"
-        >
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-10 pb-6 border-b-2 border-gray-200">
-            <h2 className="text-4xl font-bold flex items-center gap-4">
-              <Sparkles className="w-10 h-10 text-yellow-500" />
-              G'oliblar ro'yxati
-            </h2>
-            <div className="flex gap-3">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleExport}
-                className="flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors shadow-lg font-semibold"
-              >
-                <Download className="w-5 h-5" />
-                CSV yuklash
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors shadow-lg font-semibold"
-              >
-                <Share2 className="w-5 h-5" />
-                Ulashish
-              </motion.button>
-            </div>
-          </div>
-
-          {/* Masking Info */}
-          {(maskingConfig.phone || maskingConfig.fio || maskingConfig.id) && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8 rounded-lg"
-            >
-              <p className="text-yellow-800 font-semibold flex items-center gap-2">
-                🔒 Ma'lumotlar yashirildi
-              </p>
-              <p className="text-yellow-700 text-sm mt-2">
-                {[
-                  maskingConfig.phone && 'Telefon raqamlar',
-                  maskingConfig.fio && 'To\'liq ismlar (FIO)',
-                  maskingConfig.id && 'ID raqamlar',
-                ]
-                  .filter(Boolean)
-                  .join(', ')}{' '}
-                maxfiylik uchun yashirilgan.
-              </p>
-            </motion.div>
-          )}
-
-          {/* Winners List */}
+        {/* Winners List */}
+        <div className="max-w-5xl mx-auto mb-16">
           <div className="space-y-6">
-            {maskedWinners.map((winner, index) => (
+            {winners.map((winner, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + index * 0.15, type: 'spring' }}
+                transition={{ delay: 0.4 + index * 0.12, type: 'spring' }}
                 className={`rounded-3xl p-8 border-4 shadow-xl hover:shadow-2xl transition-all duration-300 ${
                   index === 0
                     ? 'bg-gradient-to-r from-yellow-100 to-yellow-200 border-yellow-400'
@@ -218,7 +153,7 @@ export default function Step6Winner({
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 0.7 + index * 0.15, type: 'spring' }}
+                    transition={{ delay: 0.5 + index * 0.12, type: 'spring' }}
                     className="flex-shrink-0"
                   >
                     <div className="w-28 h-28 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
@@ -228,75 +163,98 @@ export default function Step6Winner({
 
                   {/* Winner Info */}
                   <div className="flex-1">
-                    <div className="mb-4">
-                      <span className="inline-block px-4 py-2 bg-white rounded-lg shadow-md font-bold text-lg text-gray-700">
+                    <div className="mb-6">
+                      <span className="inline-block px-6 py-3 bg-white rounded-lg shadow-md font-bold text-2xl text-gray-700">
                         {index + 1}-o'rin
                       </span>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                      {selectedColumns.map((column) => {
-                        const isMasked =
-                          (column === 'phone' && maskingConfig.phone) ||
-                          (column === 'fio' && maskingConfig.fio) ||
-                          (column === 'id' && maskingConfig.id);
 
-                        return (
-                          <div
-                            key={column}
-                            className={`rounded-xl p-4 ${
-                              isMasked ? 'bg-red-100/50' : 'bg-white/50'
-                            }`}
-                          >
-                            <p className="text-sm text-gray-500 mb-1 font-semibold">
-                              {column}{isMasked && ' (Yashirilgan)'}
-                            </p>
-                            <p
-                              className={`text-xl font-bold truncate ${
-                                isMasked
-                                  ? 'text-red-600 font-mono'
-                                  : 'text-gray-900'
-                              }`}
-                            >
-                              {winner[column] || '-'}
-                            </p>
-                          </div>
-                        );
-                      })}
+                    {/* Winner Details Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {selectedColumns.map((column) => (
+                        <motion.div
+                          key={column}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.6 + index * 0.12 }}
+                          className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border-2 border-white/40"
+                        >
+                          <p className="text-sm font-semibold text-gray-600 mb-2 uppercase tracking-wider">
+                            {column}
+                          </p>
+                          <p className="text-lg font-bold text-gray-900 truncate">
+                            {winner[column] || 'N/A'}
+                          </p>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Bottom Actions */}
+        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="flex flex-col items-center gap-6"
+          className="flex justify-center gap-6 flex-wrap max-w-4xl mx-auto mb-12"
         >
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={onRestart}
-            className="flex items-center gap-4 px-12 py-6 bg-white text-orange-600 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-2xl font-bold"
+            onClick={handleExport}
+            className="inline-flex items-center gap-3 px-8 py-5 bg-gradient-to-r from-green-400 to-emerald-500 text-white text-xl font-bold rounded-full shadow-xl hover:shadow-2xl transition-all uppercase tracking-widest"
           >
-            <RotateCcw className="w-8 h-8" />
-            Yangi loterеya boshlash
+            <Download className="w-6 h-6" />
+            CSV Eksport
           </motion.button>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-xl"
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleShare}
+            className="inline-flex items-center gap-3 px-8 py-5 bg-gradient-to-r from-blue-400 to-cyan-500 text-white text-xl font-bold rounded-full shadow-xl hover:shadow-2xl transition-all uppercase tracking-widest"
           >
-            <p className="text-gray-700 text-center text-lg">
-              ✨ Jami <strong className="text-blue-600">{winners.length}</strong> ta g'olib tanlandi
-            </p>
-          </motion.div>
+            <Share2 className="w-6 h-6" />
+            Ulashish
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onRestart}
+            className="inline-flex items-center gap-3 px-8 py-5 bg-gradient-to-r from-purple-400 to-pink-500 text-white text-xl font-bold rounded-full shadow-xl hover:shadow-2xl transition-all uppercase tracking-widest"
+          >
+            <RotateCcw className="w-6 h-6" />
+            Qayta Boshlash
+          </motion.button>
+        </motion.div>
+
+        {/* Live Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="text-center"
+        >
+          <div className="inline-flex items-center gap-3 px-8 py-4 bg-red-500/90 backdrop-blur-sm rounded-full shadow-xl border-2 border-white/30">
+            <motion.div
+              animate={{
+                scale: [1, 1.3, 1],
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+              }}
+              className="w-4 h-4 bg-white rounded-full"
+            />
+            <span className="text-white text-xl font-bold uppercase tracking-wider">
+              LIVE ЕФИР
+            </span>
+          </div>
         </motion.div>
       </div>
     </div>

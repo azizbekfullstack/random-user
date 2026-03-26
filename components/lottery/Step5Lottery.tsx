@@ -3,14 +3,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Check } from 'lucide-react';
-import { Participant, MaskingConfig } from '@/lib/lottery-types';
+import { Participant } from '@/lib/lottery-types';
 import { Confetti } from './Confetti';
 
 interface Step5LotteryProps {
   participants: Participant[];
   winnerCount: number;
   selectedColumns: string[];
-  maskingConfig: MaskingConfig;
   onComplete: (winners: Participant[]) => void;
 }
 
@@ -24,7 +23,6 @@ export default function Step5Lottery({
   participants,
   winnerCount,
   selectedColumns,
-  maskingConfig,
   onComplete,
 }: Step5LotteryProps) {
   const [rankWinners, setRankWinners] = useState<RankWinner[]>([]);
